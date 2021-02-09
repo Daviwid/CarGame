@@ -72,12 +72,22 @@ public class Car {
 	}
 	
 	//getters
-	public int[] getCarInfo()
+	public int getPositionX()
 	{
-		int[] info = {(int)positionX, (int)positionY, angle, color};
-		return info;
+		return (int)positionX;
 	}
-	
+	public int getPositionY()
+	{
+		return (int)positionY;
+	}
+	public int getAngle()
+	{
+		return angle;
+	}
+	public int getColor()
+	{
+		return color;
+	}
 	
 
 }
