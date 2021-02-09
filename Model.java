@@ -12,6 +12,7 @@ public class Model extends Observable {
 	private boolean pressedRight = false;
 	private boolean pressedLeft = false;
 	private static int TOPSPEED = 20;
+	private static int CARSIZE = 10;
 	private int carNumber = 1;
 	private Track currentTrack;
 	
@@ -24,7 +25,7 @@ public class Model extends Observable {
 	{
 		for(int i = 0; i < carNumber; i++)
 		{
-			carList.add(new Car(1, 0, 0, TOPSPEED));
+			carList.add(new Car(1, 0, 0, TOPSPEED, CARSIZE));
 		}
 	}
 	
