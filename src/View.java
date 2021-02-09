@@ -50,13 +50,13 @@ public class View extends JPanel {
 	    AffineTransform backup = g2d.getTransform();
 	    
 	    
-	    AffineTransform a = AffineTransform.getRotateInstance(car.getAngle() + (3.14/2), car.getXpos - w/2, getYpos - h/2);
+	    AffineTransform a = AffineTransform.getRotateInstance(car.getAngle() + (3.14/2), car.getPositionX(), car.getPositionY());
 	  
 	    //Set our Graphics2D object to the transform
 	    g2d.setTransform(a);
 	    
 	    
-	    g2d.drawImage(redCar, x, y, null);
+	    g2d.drawImage(redCar, car.getPositionX() - car.getCarSize()/2, car.getPositionY() - car.getCarSize()/2 , null);
 	   
 	    //Reset our graphics object so we can draw with it again.
 	    g2d.setTransform(backup);
