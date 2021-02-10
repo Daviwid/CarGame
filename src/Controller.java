@@ -1,4 +1,4 @@
-package src;
+
 
 
 import  java.awt.*; 
@@ -18,6 +18,7 @@ public class Controller extends JFrame implements KeyListener, ActionListener
     {
         m = new Model();    
         v = new View(m);
+        m.addObserver(v);
         
         createFrame(v);					//Skapar frame
         t = new Timer(10,this);      	//
@@ -98,7 +99,7 @@ public class Controller extends JFrame implements KeyListener, ActionListener
     public void actionPerformed(ActionEvent e)
     {   
     	m.updateModel();
-        v.updateView();
+        //v.updateView();
     }
 
 

@@ -1,4 +1,4 @@
-package src;
+
 
 
 import java.awt.*;
@@ -12,7 +12,7 @@ import javax.imageio.*;
 import javax.swing.*;
 
 
-public class View extends JPanel {
+public class View extends JPanel implements Observer<Model> {
 
 	private Model m;
 	private	BufferedImage redCar;
@@ -68,5 +68,8 @@ public class View extends JPanel {
 		
 	}
 
-	
+	@Override
+    public void update(Model observable) {
+        repaint();
+    }
 }

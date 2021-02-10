@@ -1,4 +1,4 @@
-package src;
+
 
 
 import java.awt.Color;
@@ -24,7 +24,7 @@ public class Car {
 		this.yOffset = yOffset;
 		this.topspeed = topspeed;
 		this.carSize = carSize;
-		angle = 0;
+		angle = 181;
 	}
 	
 	private void move()

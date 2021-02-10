@@ -1,9 +1,10 @@
-package src;
-import java.util.LinkedList;
-import java.util.Observable;
-import java.awt.Color;
 
-public class Model extends Observable {
+import java.util.LinkedList;
+import java.util.Collection;
+import java.awt.Color;
+import java.util.HashSet;
+
+public class Model implements Observable<Model> {
 
 	//Instansvariabler:
 	private LinkedList<Car> carList = new LinkedList<Car>();
@@ -17,8 +18,11 @@ public class Model extends Observable {
 	private int carNumber = 1;
 	private Track currentTrack;
 	
+	private final Collection<Observer<Model>> observers;
+	
 	public Model()
 	{
+		this.observers = new HashSet<>();
 		modelInit(carNumber);
 	}
 	
@@ -43,7 +47,8 @@ public class Model extends Observable {
 	{
 		moveCar();
 		
-		//notifyObservers()
+		notifyAll();
+		
 	}
 	
 	//h�mtacolorfr�nconfig()
@@ -100,8 +105,20 @@ public class Model extends Observable {
 		pressedLeft = !pressedLeft;
 	}
 	
+	@Override
+	public void addObserver(Observer<Model> o){
+		this.observers.add(o);
+	}
+
+	@Override
+    public void removeObserver(Observer<Model> o){
+		this.observers.remove(o);
+	}
 	
-	//Observable-metoder
-		//Controller k�r model.addObserver(View)  ??
+	public void updateObservers(){
+		for(Observer<Model> o : this.observers) {
+            o.update(this);
+		}
+	}
 
 }
