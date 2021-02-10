@@ -1,12 +1,9 @@
-
-
-
 import java.awt.Color;
 
 public class Car {
 	
 	//instansvariabler
-	private double positionX; //g�r om till points
+	private double positionX; 
 	private double positionY;
 	private int speed;
 	private int angle;
@@ -27,14 +24,16 @@ public class Car {
 		angle = 181;
 	}
 	
-	private void move()
+	private void move() 	// �ndra position varje frame baserat p� angle och speed
 	{
-		
+		double tmp = Math.toRadians(angle); 	
+		positionX = positionX - (Math.sin(tmp) * speed);
+		positionY = positionY + (Math.cos(tmp) * speed);
 		return;
 	}
 	
 	//getters&setters
-	public void setPosition(Track track) //g�r om till points
+	public void setPosition(Track track) 
 	{
 		positionX = track.getStartPositionX() + xOffset;
 		positionY = track.getStartPositionY() + yOffset;
