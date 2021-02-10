@@ -13,7 +13,7 @@ public class Model implements Observable<Model> {
 	private boolean pressedDown = false;
 	private boolean pressedRight = false;
 	private boolean pressedLeft = false;
-	private static int TOPSPEED = 20;
+	private static int TOPSPEED = 10;
 	private static int CARSIZE = 10;
 	private int carNumber = 1;
 	private Track currentTrack;
@@ -89,22 +89,39 @@ public class Model implements Observable<Model> {
 	}
 	
 	//setters
-	public void setUp()
+	public void setPressedUp()
 	{
-		pressedUp = !pressedUp;
+		pressedUp = true;
 	}
-	public void setDown()
+	public void setPressedDown()
 	{
-		pressedDown = !pressedDown;
+		pressedDown = true;
 	}
-	public void setRight()
+	public void setPressedRight()
 	{
-		pressedRight = !pressedRight;
+		pressedRight = true;
 	}
-	public void setLeft()
+	public void setPressedLeft()
 	{
-		pressedLeft = !pressedLeft;
+		pressedLeft = true;
 	}
+	public void setReleasedUp()
+	{
+		pressedUp = false;
+	}
+	public void setReleasedDown()
+	{
+		pressedDown = false;
+	}
+	public void setReleasedRight()
+	{
+		pressedRight = false;
+	}
+	public void setReleasedLeft()
+	{
+		pressedLeft = false;
+	}
+
 	
 	@Override
 	public void addObserver(Observer<Model> o){

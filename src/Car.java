@@ -6,7 +6,7 @@ public class Car {
 	private double positionX; 
 	private double positionY;
 	private int speed;
-	private int angle;
+	private double angle;
 	private int color;
 	private int xOffset;
 	private int yOffset;
@@ -42,6 +42,65 @@ public class Car {
 	{
 		angle = track.getStartAngle();
 	}
+	
+	
+	public void accelerate()
+	{
+		if(speed <= topspeed)
+		{
+			speed++;	
+		}
+	}
+	public void decelerate()
+	{
+		if(speed >= 0)
+		{
+			speed--;
+		}
+	}
+	public void turnRight()
+	{
+		angle++;
+		if(angle >= 360)
+		{
+			angle = angle - 360;
+		}
+	}
+	public void turnLeft()
+	{
+		angle--;
+		if(angle <= 360)
+		{
+			angle = angle + 360;
+		}
+	}
+	
+	//getters
+	public int getPositionX()
+	{
+		return (int)positionX;
+	}
+	public int getPositionY()
+	{
+		return (int)positionY;
+	}
+	public double getAngle()
+	{
+		return angle;
+	}
+	public double getRadianAngle()
+	{
+		return Math.toRadians(angle);
+	}
+	public int getColor()
+	{
+		return color;
+	}
+	public int getCarSize()
+	{
+		return carSize;
+	}
+
 	
 	
 	public void accelerate()
