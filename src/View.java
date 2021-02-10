@@ -49,11 +49,12 @@ public class View extends JPanel implements Observer<Model> {
 	
 	public void drawCar(Graphics2D g2d, Car car) {
 		
-		Image resultingImage = redCar.getScaledInstance(20, 20, Image.SCALE_DEFAULT);
-        BufferedImage outputImage = new BufferedImage(20, 20, BufferedImage.TYPE_INT_RGB);
+		Image resultingImage = redCar.getScaledInstance(50, 50, Image.SCALE_DEFAULT);
+        BufferedImage outputImage = new BufferedImage(50, 50, BufferedImage.TYPE_INT_RGB);
         outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
 
-		//int radAngle = Math.toRadians(car.getAngle()); 		//converts angle to radians...
+		double radAngle = Math.toRadians(car.getAngle()); 		//converts angle to radians...
+		
 
 
         //Make a backup so that we can reset our graphics object after using it.
