@@ -1,4 +1,4 @@
-package car_game;
+
 
 import  java.awt.*; 
 import  java.awt.event.*;   
@@ -27,8 +27,8 @@ public class Controller extends JFrame implements KeyListener, ActionListener
     {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
         setLocation(50,25);
-    	screenSize = Toolkit.getDefaultToolkit().getScreenSize();		//Hämtar skärmstorlek
-    	v.setPreferredSize(new Dimension((int)screenSize.getWidth()-100,(int)screenSize.getHeight()-100));	//anpassar frame efter skärm
+    	screenSize = Toolkit.getDefaultToolkit().getScreenSize();		//Hï¿½mtar skï¿½rmstorlek
+    	v.setPreferredSize(new Dimension((int)screenSize.getWidth()-100,(int)screenSize.getHeight()-100));	//anpassar frame efter skï¿½rm
         add(v);
         pack();
         v.addKeyListener(this); 
@@ -48,19 +48,19 @@ public class Controller extends JFrame implements KeyListener, ActionListener
        
         if(k == KeyEvent.VK_UP)
         {
-        	m.setUp();	//Första bilen i listan flaggar: Kör framåt
+        	m.setUp();	//Fï¿½rsta bilen i listan flaggar: Kï¿½r framï¿½t
         }
         else if(k == KeyEvent.VK_LEFT)
         {
-        	m.setLeft(); //Första bilen i listan flaggar: Svänger vänster
+        	m.setLeft(); //Fï¿½rsta bilen i listan flaggar: Svï¿½nger vï¿½nster
         }
         else if(k == KeyEvent.VK_RIGHT)
         {
-        	m.setRight();	//Första bilen i listan flaggar: Svänger höger
+        	m.setRight();	//Fï¿½rsta bilen i listan flaggar: Svï¿½nger hï¿½ger
         }
         else if(k == KeyEvent.VK_DOWN)
         {
-        	m.setDown();	//Första bilen i listan flaggar: Kör bakåt
+        	m.setDown();	//Fï¿½rsta bilen i listan flaggar: Kï¿½r bakï¿½t
         }
         else if(k == KeyEvent.VK_ESCAPE)
         {
@@ -78,26 +78,26 @@ public class Controller extends JFrame implements KeyListener, ActionListener
         int k = e.getKeyCode(); 
         if(k == KeyEvent.VK_UP)
         {
-        	m.setUp();	//Sluta accelerera framåt
+        	m.setUp();	//Sluta accelerera framï¿½t
         }
         else if(k == KeyEvent.VK_DOWN)
         {
-        	m.setDown(); //Sluta accelerera bakåt
+        	m.setDown(); //Sluta accelerera bakï¿½t
         }
         else if(k == KeyEvent.VK_LEFT)
         {
-        	m.setLeft(); //Sluta svänga vänster
+        	m.setLeft(); //Sluta svï¿½nga vï¿½nster
         }
         else if(k == KeyEvent.VK_RIGHT)
         {
-        	m.setRight();	//Sluta svänga höger
+        	m.setRight();	//Sluta svï¿½nga hï¿½ger
         }
     }
 
     public void actionPerformed(ActionEvent e)
     {   
     	m.updateModel();
-        v.repaint();
+        v.updateView();
     }
 
 

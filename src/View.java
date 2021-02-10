@@ -12,7 +12,7 @@ import javax.swing.*;
 public class View extends JPanel {
 
 	private Model m;
-	static	BufferedImage redCar;
+	private	BufferedImage redCar;
 	private LinkedList<Car> carList;
 	
 	public View(Model m) {
@@ -20,7 +20,7 @@ public class View extends JPanel {
 		this.carList = m.getCarList();
 		
 		try {
-		BufferedImage redCar = ImageIO.read(new File("REDCAR.png"));	
+			redCar = ImageIO.read(new File("REDCAR.png"));	
 		}
 		catch(IOException e){
 			
@@ -42,7 +42,7 @@ public class View extends JPanel {
 	public void updateView() {
 		repaint();
 	}
-	//test test
+	
 	
 	public void drawCar(Graphics2D g2d, Car car) {
 		
