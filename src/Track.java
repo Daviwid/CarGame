@@ -1,9 +1,10 @@
+package src;
 
 
 
 
 public class Track {
-	private int startPositionX; //gör om till Points eller LinkedList?
+	private int startPositionX; //gï¿½r om till Points eller LinkedList?
 	private int startPositionY;
 	private int startAngle;
 	
