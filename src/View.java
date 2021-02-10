@@ -42,6 +42,7 @@ public class View extends JPanel {
 	public void updateView() {
 		repaint();
 	}
+	//test test
 	
 	public void drawCar(Graphics2D g2d, Car car) {
 		
