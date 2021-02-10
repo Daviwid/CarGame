@@ -1,9 +1,11 @@
+package src;
+
 import java.awt.Color;
 
 public class Car {
 	
 	//instansvariabler
-	private double positionX; //gör om till points
+	private double positionX; //gï¿½r om till points
 	private double positionY;
 	private int speed;
 	private int angle;
@@ -31,7 +33,7 @@ public class Car {
 	}
 	
 	//getters&setters
-	public void setPosition(Track track) //gör om till points
+	public void setPosition(Track track) //gï¿½r om till points
 	{
 		positionX = track.getStartPositionX() + xOffset;
 		positionY = track.getStartPositionY() + yOffset;
