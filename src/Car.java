@@ -21,10 +21,10 @@ public class Car {
 		this.yOffset = yOffset;
 		this.topspeed = topspeed;
 		this.carSize = carSize;
-		angle = 181;
+		angle = 0;
 	}
 	
-	private void move() 	// �ndra position varje frame baserat p� angle och speed
+	public void move() 	// �ndra position varje frame baserat p� angle och speed
 	{
 		double tmp = Math.toRadians(angle); 	
 		positionX = positionX - (Math.sin(tmp) * speed);

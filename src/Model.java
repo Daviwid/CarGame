@@ -47,7 +47,7 @@ public class Model implements Observable<Model> {
 	{
 		moveCar();
 		
-		notifyAll();
+		updateObservers();
 		
 	}
 	
@@ -75,6 +75,7 @@ public class Model implements Observable<Model> {
 			}
 			
 		}
+		carList.get(0).move();
 	}
 	
 	//getters
