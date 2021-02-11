@@ -108,7 +108,8 @@ public class Controller extends JFrame implements KeyListener, ActionListener
         //v.updateView();
     }
 
-    //public double getScreenY() { return v.getHeight();}
-  // public double getScreenX() {return v.getWidth();}
    public void setScreenY() { m.setBorderY(v.getHeight());  }
    public void setScreenX() { m.setBorderX(v.getWidth()); }
+   
+
+}
