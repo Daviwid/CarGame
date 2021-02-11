@@ -20,6 +20,9 @@ public class Controller extends JFrame implements KeyListener, ActionListener
         createFrame(v);					//Skapar frame
         t = new Timer(10,this);      	//
         startGame();					//Startar timer
+        
+        setScreenY();
+        setScreenX();
     }
     
     public void createFrame(View v)
@@ -45,9 +48,7 @@ public class Controller extends JFrame implements KeyListener, ActionListener
     {
     	t.start();
     }
-    
-    public double getScreenY() { return v.getHeight();}
-    public double getScreenX() {return v.getWidth();}
+   
     
     public void keyPressed(KeyEvent e)
     {   
@@ -107,7 +108,7 @@ public class Controller extends JFrame implements KeyListener, ActionListener
         //v.updateView();
     }
 
-
-
-
-}
+    //public double getScreenY() { return v.getHeight();}
+  // public double getScreenX() {return v.getWidth();}
+   public void setScreenY() { m.setBorderY(v.getHeight());  }
+   public void setScreenX() { m.setBorderX(v.getWidth()); }

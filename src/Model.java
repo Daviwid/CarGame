@@ -8,6 +8,9 @@ public class Model implements Observable<Model> {
     //Instansvariabler:
     private LinkedList<Car> carList = new LinkedList<Car>();
     private int highScore = 0; //ndra till ngon slags tid
+    private int borderX;
+    private int borderY;
+    
     private boolean pressedUp = false;
     private boolean pressedDown = false;
     private boolean pressedRight = false;
@@ -18,7 +21,7 @@ public class Model implements Observable<Model> {
     private Track currentTrack;
     
     private final Collection<Observer<Model>> observers;
-    private Controller controller;
+   // private Controller controller;
     public Model()
     {
         this.observers = new HashSet<>();
@@ -79,13 +82,30 @@ public class Model implements Observable<Model> {
     }
     
     public void checkBorder() {
-    	for(int i = 0; i < carList.size(); i++) {
-    	if(carList.get(i).getPositionX() >= controller.getScreenX()) { carList.get(i).turnDirection(); }
-    	if(carList.get(i).getPositionX() <= 0) {carList.get(i).turnDirection();} 
-    	if(carList.get(i).getPositionY() >= controller.getScreenY()) {carList.get(i).turnDirection();} 
-    	if(carList.get(i).getPositionY() <= 0) {}carList.get(i).turnDirection(); 	
-    	}
-    	carList.get(0).move();
+    	
+    	if(carList.get(0).getPositionX() >= borderX) { 
+    		carList.get(0).turnDirection(); 
+    		}
+    	if(carList.get(0).getPositionX() <= 0) {
+    		carList.get(0).turnDirection();
+    		} 
+    	if(carList.get(0).getPositionY() >= borderY) {
+    		carList.get(0).turnDirection();
+    		} 
+    	if(carList.get(0).getPositionY() <= 0) {
+    		carList.get(0).turnDirection();
+    	} 	
+    	
+    	/*if(carList.get(0).getPositionX() >= borderX ) { System.out.println("1"); }
+    	if(carList.get(0).getPositionX() <= 0) {System.out.println("2" );}  //BUGG
+    	if(carList.get(0).getPositionY() >= borderY) {System.out.println("3");} //BUGG
+    	if(carList.get(0).getPositionY() <= 0) {System.out.println("4");}*/
+    	
+    	//carList.get(0).move();
+    	/*System.out.println("BIL X: " + carList.get(0).getPositionX());
+    	System.out.println("BIL Y: " +carList.get(0).getPositionY());
+    	System.out.println("WIDTH: " + borderX);  //1180
+    	System.out.println("HEIGHT: " + borderY);*/ //620
     }
     
     //getters
@@ -131,7 +151,10 @@ public class Model implements Observable<Model> {
     {
         pressedLeft = false;
     }
-
+    public void setBorderX(int x) { borderX = x;}
+    public void setBorderY(int y) { borderY = y;}
+    public int getBorderX() { return borderX;}
+    public int getBorderY() { return borderY;}
     
     @Override
     public void addObserver(Observer<Model> o){

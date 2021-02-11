@@ -67,7 +67,7 @@ public class Car {
 		angle = angle   +   -Math.PI    /   128.0;
 	}
 	public void turnDirection() {
-		angle= angle + Math.PI ;
+		angle = angle + Math.PI ;
 		
 	}
 	//getters
