@@ -4,14 +4,14 @@ public class Car {
 	
 	//instansvariabler
 	private double positionX; 
-	private double positionY;
-	private int speed;
-	private double angle;
-	private int color;
-	private int xOffset;
-	private int yOffset;
-	private int topspeed;
-	private int carSize;
+  private double positionY;
+  private double speed;
+  private double angle;
+  private int color;
+  private int xOffset;
+  private int yOffset;
+  private double topspeed;
+  private int carSize;
 	
 	//Konstruktor
 	public Car(int color, int xOffset, int yOffset, int topspeed, int carSize)
@@ -22,6 +22,7 @@ public class Car {
 		this.topspeed = topspeed;
 		this.carSize = carSize;
 		angle = 0;
+    
 		positionX = 200;
 		positionY = 200;
 	}
@@ -59,6 +60,10 @@ public class Car {
 		{
 			speed--;
 		}
+	}
+  public void turnDirection() {
+		angle = angle + Math.PI ;
+		
 	}
 	public void turnRight()
 	{
@@ -102,7 +107,4 @@ public class Car {
 	{
 		return carSize;
 	}
-
-	
-
 }

@@ -1,6 +1,3 @@
-
-
-
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.io.*;
@@ -49,37 +46,46 @@ public class View extends JPanel implements Observer<Model> {
 	
 	public void drawCar(Graphics2D g2d, Car car) {
 		
-		Image resultingImage = redCar.getScaledInstance(50, 50, Image.SCALE_DEFAULT);
-        BufferedImage outputImage = new BufferedImage(50, 50, BufferedImage.TYPE_INT_RGB);
+/*  Kevin och victorias code
+		Image resultingImage = redCar.getScaledInstance(20, 20, Image.SCALE_DEFAULT);
+        BufferedImage outputImage = new BufferedImage(20, 20, BufferedImage.TYPE_INT_RGB);
         outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
+        g2d.setColor(Color.red);
+        g2d.drawLine(500,0,500,1000);
+        g2d.drawLine(0,500,1000,500);
 
-		double radAngle = Math.toRadians(car.getAngle()); 		//converts angle to radians...
-		
-
-
-        //Make a backup so that we can reset our graphics object after using it.
+		//Make a backup so that we can reset our graphics object after using it.
         AffineTransform backup = g2d.getTransform();
 
 
-        AffineTransform a = AffineTransform.getRotateInstance(radAngle, car.getPositionX(), car.getPositionY());
+        AffineTransform a = AffineTransform.getRotateInstance(car.getAngle()+(-3.14/2), car.getPositionX(), car.getPositionY());
+*/
+     Image resultingImage = redCar.getScaledInstance(50, 50, Image.SCALE_DEFAULT);
+     BufferedImage outputImage = new BufferedImage(50, 50, BufferedImage.TYPE_INT_ARGB);
+     outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
 
-        //Set our Graphics2D object to the transform
-        g2d.setTransform(a);
+     double radAngle = Math.toRadians(car.getAngle()); 		//converts angle to radians...
 
 
 
+     //Make a backup so that we can reset our graphics object after using it.
+     AffineTransform backup = g2d.getTransform();
 
-        g2d.drawImage(outputImage, car.getPositionX()-outputImage.getWidth()/2, car.getPositionY()-outputImage.getHeight()/2 , null);
 
-        //Reset our graphics object so we can draw with it again.
-        g2d.setTransform(backup);
+     AffineTransform a = AffineTransform.getRotateInstance(radAngle, car.getPositionX(), car.getPositionY());
+
+     //Set our Graphics2D object to the transform
+     g2d.setTransform(a);
+
+     g2d.drawImage(outputImage, (int)car.getPositionX()-outputImage.getWidth()/2, (int)car.getPositionY()-outputImage.getHeight()/2 , null);
+
+     //Reset our graphics object so we can draw with it again.
+     g2d.setTransform(backup);
 	    
 		
 	}
-
 	@Override
     public void update(Model observable) {
         repaint();
-		System.out.println("notify");
     }
 }
