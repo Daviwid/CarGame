@@ -29,8 +29,8 @@ public class Controller extends JFrame implements KeyListener, ActionListener
     {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
         setLocation(50,25);
-    	screenSize = Toolkit.getDefaultToolkit().getScreenSize();		//Hmtar skrmstorlek
-    	v.setPreferredSize(new Dimension((int)screenSize.getWidth()-100,(int)screenSize.getHeight()-100));	//anpassar frame efter skrm
+    	  screenSize = Toolkit.getDefaultToolkit().getScreenSize();		//Hmtar skrmstorlek
+    	  v.setPreferredSize(new Dimension((int)screenSize.getWidth()-100,(int)screenSize.getHeight()-100));	//anpassar frame efter skrm
     	
     	add(v);
         pack();
@@ -42,13 +42,10 @@ public class Controller extends JFrame implements KeyListener, ActionListener
          
     }
     
-    
-    
     public void startGame()
     {
     	t.start();
     }
-   
     
     public void keyPressed(KeyEvent e)
     {   
@@ -107,7 +104,6 @@ public class Controller extends JFrame implements KeyListener, ActionListener
     	m.updateModel();
         //v.updateView();
     }
-
    public void setScreenY() { m.setBorderY(v.getHeight());  }
    public void setScreenX() { m.setBorderX(v.getWidth()); }
    

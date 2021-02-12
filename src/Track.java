@@ -1,6 +1,5 @@
-
 public class Track {
-	private int startPositionX; //gör om till Points eller LinkedList?
+	private int startPositionX;
 	private int startPositionY;
 	private int startAngle;
 	
@@ -17,6 +16,4 @@ public class Track {
 	{
 		return startAngle;
 	}
-	
-
 }

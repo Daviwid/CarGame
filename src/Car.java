@@ -4,14 +4,14 @@ public class Car {
 	
 	//instansvariabler
 	private double positionX; 
-    private double positionY;
-    private double speed;
-    private double angle;
-    private int color;
-    private int xOffset;
-    private int yOffset;
-    private double topspeed;
-    private int carSize;
+  private double positionY;
+  private double speed;
+  private double angle;
+  private int color;
+  private int xOffset;
+  private int yOffset;
+  private double topspeed;
+  private int carSize;
 	
 	//Konstruktor
 	public Car(int color, int xOffset, int yOffset, int topspeed, int carSize)
@@ -22,14 +22,17 @@ public class Car {
 		this.topspeed = topspeed;
 		this.carSize = carSize;
 		angle = 0;
-		this.positionX = 500;
-        this.positionY=500;
+    
+		positionX = 200;
+		positionY = 200;
 	}
 	
-	public void move() 	// ndra position varje frame baserat p angle och speed
+	public void move() 	// �ndra position varje frame baserat p� angle och speed
 	{
-		positionX += (Math.cos(this.angle) * speed);
-        positionY += (Math.sin(this.angle) * speed);
+		double tmp = Math.toRadians(angle); 	
+		positionX = positionX - (Math.sin(tmp) * speed);
+		positionY = positionY + (Math.cos(tmp) * speed);
+		return;
 	}
 	
 	//getters&setters
@@ -46,47 +49,56 @@ public class Car {
 	
 	public void accelerate()
 	{
-		if(speed < topspeed)
-        {
-            speed+=0.1;    
-        }
+		if(speed <= topspeed)
+		{
+			speed++;	
+		}
 	}
 	public void decelerate()
 	{
-		 if(speed >= 0)
-	        {
-	            speed-=0.1;
-	        }
+		if(speed >= 0)
+		{
+			speed--;
+		}
 	}
-	public void turnRight()  //in radians
-	{
-		angle = angle   +   Math.PI    /   128.0;
-	}
-	public void turnLeft()
-	{
-		angle = angle   +   -Math.PI    /   128.0;
-	}
-	public void turnDirection() {
+  public void turnDirection() {
 		angle = angle + Math.PI ;
 		
 	}
-	//getters
-	public double getPositionX()
+	public void turnRight()
 	{
-		return positionX;
+		angle++;
+		if(angle >= 360)
+		{
+			angle = angle - 360;
+		}
 	}
-	public double getPositionY()
+	public void turnLeft()
 	{
-		return positionY;
+		angle--;
+		if(angle <= 360)
+		{
+			angle = angle + 360;
+		}
+	}
+	
+	//getters
+	public int getPositionX()
+	{
+		return (int)positionX;
+	}
+	public int getPositionY()
+	{
+		return (int)positionY;
 	}
 	public double getAngle()
 	{
 		return angle;
 	}
 	public double getRadianAngle()
-    {
-        return Math.toRadians(angle);
-    }
+	{
+		return Math.toRadians(angle);
+	}
 	public int getColor()
 	{
 		return color;
@@ -95,6 +107,4 @@ public class Car {
 	{
 		return carSize;
 	}
-	
-
 }

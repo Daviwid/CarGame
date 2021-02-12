@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.util.HashSet;
 
 public class Model implements Observable<Model> {
-
     //Instansvariabler:
     private LinkedList<Car> carList = new LinkedList<Car>();
     private int highScore = 0; //ndra till ngon slags tid
