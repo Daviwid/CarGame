@@ -22,6 +22,8 @@ public class Car {
 		this.topspeed = topspeed;
 		this.carSize = carSize;
 		angle = 0;
+		positionX = 200;
+		positionY = 200;
 	}
 	
 	public void move() 	// �ndra position varje frame baserat p� angle och speed
@@ -101,60 +103,6 @@ public class Car {
 		return carSize;
 	}
 
-	
-	
-	public void accelerate()
-	{
-		if(speed <= topspeed)
-		{
-			speed++;	
-		}
-	}
-	public void decelerate()
-	{
-		if(speed >= 0)
-		{
-			speed--;
-		}
-	}
-	public void turnRight()
-	{
-		angle++;
-		if(angle >= 360)
-		{
-			angle = angle - 360;
-		}
-	}
-	public void turnLeft()
-	{
-		angle--;
-		if(angle <= 360)
-		{
-			angle = angle + 360;
-		}
-	}
-	
-	//getters
-	public int getPositionX()
-	{
-		return (int)positionX;
-	}
-	public int getPositionY()
-	{
-		return (int)positionY;
-	}
-	public int getAngle()
-	{
-		return angle;
-	}
-	public int getColor()
-	{
-		return color;
-	}
-	public int getCarSize()
-	{
-		return carSize;
-	}
 	
 
 }

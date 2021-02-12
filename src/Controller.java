@@ -50,19 +50,19 @@ public class Controller extends JFrame implements KeyListener, ActionListener
        
         if(k == KeyEvent.VK_UP)
         {
-        	m.setUp();	//F�rsta bilen i listan flaggar: K�r fram�t
+        	m.setPressedUp();	//F�rsta bilen i listan flaggar: K�r fram�t
         }
         else if(k == KeyEvent.VK_LEFT)
         {
-        	m.setLeft(); //F�rsta bilen i listan flaggar: Sv�nger v�nster
+        	m.setPressedLeft(); //F�rsta bilen i listan flaggar: Sv�nger v�nster
         }
         else if(k == KeyEvent.VK_RIGHT)
         {
-        	m.setRight();	//F�rsta bilen i listan flaggar: Sv�nger h�ger
+        	m.setPressedRight();//F�rsta bilen i listan flaggar: Sv�nger h�ger
         }
         else if(k == KeyEvent.VK_DOWN)
         {
-        	m.setDown();	//F�rsta bilen i listan flaggar: K�r bak�t
+        	m.setPressedDown();	//F�rsta bilen i listan flaggar: K�r bak�t
         }
         else if(k == KeyEvent.VK_ESCAPE)
         {
@@ -80,19 +80,19 @@ public class Controller extends JFrame implements KeyListener, ActionListener
         int k = e.getKeyCode(); 
         if(k == KeyEvent.VK_UP)
         {
-        	m.setUp();	//Sluta accelerera fram�t
+        	m.setReleasedUp();	//Sluta accelerera fram�t
         }
         else if(k == KeyEvent.VK_DOWN)
         {
-        	m.setDown(); //Sluta accelerera bak�t
+        	m.setReleasedDown(); //Sluta accelerera bak�t
         }
         else if(k == KeyEvent.VK_LEFT)
         {
-        	m.setLeft(); //Sluta sv�nga v�nster
+        	m.setReleasedLeft();//Sluta sv�nga v�nster
         }
         else if(k == KeyEvent.VK_RIGHT)
         {
-        	m.setRight();	//Sluta sv�nga h�ger
+        	m.setReleasedRight(); //Sluta sv�nga h�ger
         }
     }
 
