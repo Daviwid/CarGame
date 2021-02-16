@@ -11,16 +11,19 @@ public class Car {
       private int xOffset;
       private int yOffset;
       private double topspeed;
-      private int carSize;
+      private int height;
+	  private int width;
     
     //Konstruktor
-    public Car(int color, int xOffset, int yOffset, int topspeed, int carSize)
+    public Car(int color, int xOffset, int yOffset, int topspeed, int height, int width)
     {
         this.color = color;
         this.xOffset = xOffset;
         this.yOffset = yOffset;
         this.topspeed = topspeed;
-        this.carSize = carSize;
+        this.height = height;
+		this.width = width;
+
         angle = 0;
     
         positionX = 200;
@@ -105,8 +108,10 @@ public class Car {
 	{
 		return color;
 	}
-	public int getCarSize()
-	{
-		return carSize;
+	public int getHeight(){
+		return this.height;
+	}
+	public int getWidth(){
+		return this.width;
 	}
 }

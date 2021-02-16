@@ -35,7 +35,7 @@ public class View extends JPanel implements Observer<Model> {
         
         Graphics2D g2d = (Graphics2D)g;
         drawCar(g2d, carList.get(0));
-        System.out.println(carList.get(0).getAngle());
+        System.out.println(carList.get(0).getAngle());	//debug code
         
         //Debug code "yellow spinning circles"
         g.setColor(Color.yellow);
@@ -58,11 +58,11 @@ public class View extends JPanel implements Observer<Model> {
     
     public void drawCar(Graphics2D g2d, Car car) {
         
-     Image resultingImage = redCar.getScaledInstance(50, 50, Image.SCALE_DEFAULT);
-     BufferedImage outputImage = new BufferedImage(50, 50, BufferedImage.TYPE_INT_ARGB);
+     Image resultingImage = redCar.getScaledInstance(car.getHeight(), car.getWidth(), Image.SCALE_DEFAULT);
+     BufferedImage outputImage = new BufferedImage(car.getHeight(), car.getWidth(), BufferedImage.TYPE_INT_ARGB);
      outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
      
-        //Debug code "Green rectangle"
+       /* //Debug code "Green rectangle"
         g2d.setColor(Color.green); 
         double w = 20;  //Test values of green rectangle under png
         double h = 40;
@@ -82,7 +82,7 @@ public class View extends JPanel implements Observer<Model> {
              yPts[i]=(int)(dy[i]+.5); 
         }
         g2d.fillPolygon(xPts,yPts,4);
-        //End of debug code
+        */ //End of debug code
 
 
      //Make a backup so that we can reset our graphics object after using it.

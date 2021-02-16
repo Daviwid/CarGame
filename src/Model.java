@@ -15,7 +15,8 @@ public class Model implements Observable<Model> {
     private boolean pressedRight = false;
     private boolean pressedLeft = false;
     private static int TOPSPEED = 10;
-    private static int CARSIZE = 10;
+    private static int height = 50;
+    private static int width = 50;
     private int carNumber = 1;
     private Track currentTrack;
     
@@ -31,7 +32,7 @@ public class Model implements Observable<Model> {
     {
         for(int i = 0; i < carNumber; i++)
         {
-            carList.add(new Car(1, 0, 0, TOPSPEED, CARSIZE));
+            carList.add(new Car(1, 0, 0, TOPSPEED, height, width));
         }
     }
     
@@ -107,6 +108,7 @@ public class Model implements Observable<Model> {
     {
         return currentTrack;
     }
+
     
     //setters
     public void setPressedUp()
