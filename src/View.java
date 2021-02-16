@@ -19,6 +19,7 @@ public class View extends JPanel implements Observer<Model> {
         this.m = m;
         this.carList = m.getCarList();
         
+		//v.setPreferredSize(new Dimension((int)screenSize.getWidth()-100,(int)screenSize.getHeight()-100));	//anpassar frame efter skrm
         try {
             redCar = ImageIO.read(new File("REDCAR.png"));  
         }
@@ -35,8 +36,8 @@ public class View extends JPanel implements Observer<Model> {
         
         Graphics2D g2d = (Graphics2D)g;
         drawCar(g2d, carList.get(0));
-        System.out.println(carList.get(0).getAngle());	//debug code
         
+        System.out.println("x " + this.size());
         //Debug code "yellow spinning circles"
         g.setColor(Color.yellow);
         for (int    i=0;    i<5;   i++)
@@ -48,6 +49,7 @@ public class View extends JPanel implements Observer<Model> {
             g.fillOval(350-5+xx1,300-5+yy1,10,10);    
         }   
         //End of debug code
+		
     }
     
     
@@ -103,6 +105,6 @@ public class View extends JPanel implements Observer<Model> {
     }
     @Override
     public void update(Model observable) {
-        repaint();
+        updateView();
     }
 }

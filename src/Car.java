@@ -33,7 +33,8 @@ public class Car {
     public void move()  // �ndra position varje frame baserat p� angle och speed
     {
         positionX += (Math.cos(angle) * speed); 
-        positionY += (Math.sin(angle) * speed);  
+        positionY += (Math.sin(angle) * speed);
+         
     }
     
     //getters&setters

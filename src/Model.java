@@ -143,11 +143,11 @@ public class Model implements Observable<Model> {
     {
         pressedLeft = false;
     }
-    public void setBorderX(int x) {
-    	borderX = x;
+    public void setBorderX(double x) {
+    	borderX = (int)x;
     }
-    public void setBorderY(int y) { 
-    	borderY = y;
+    public void setBorderY(double y) { 
+    	borderY = (int)y;
     }
   
     

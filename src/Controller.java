@@ -16,31 +16,26 @@ public class Controller extends JFrame implements KeyListener, ActionListener
         m = new Model();    
         v = new View(m);
         m.addObserver(v);
+        screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        createFrame(v);					//Skapar frame
+        setPreferredSize(screenSize);	//anpassar frame efter skrm
+        add(v);
+        pack();
+        addKeyListener(this); 
+        setFocusable(true);       //Annars funkar inte tangenttryck
+        
+        setLocation(25, 50);
         t = new Timer(10,this);      	//
         startGame();					//Startar timer
         
         setScreenY();
         setScreenX();
+        setVisible(true);
     }
     
-    public void createFrame(View v)
-    {
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
-        setLocation(50,25);
-    	  screenSize = Toolkit.getDefaultToolkit().getScreenSize();		//Hmtar skrmstorlek
-    	  v.setPreferredSize(new Dimension((int)screenSize.getWidth()-100,(int)screenSize.getHeight()-100));	//anpassar frame efter skrm
-    	
-    	add(v);
-        pack();
-        v.addKeyListener(this); 
-        v.setFocusable(true);       //Annars funkar inte tangenttryck
-        
-     
-        setVisible(true);  ///gammalt
-         
-    }
+    
     
     public void startGame()
     {
@@ -104,8 +99,8 @@ public class Controller extends JFrame implements KeyListener, ActionListener
     	m.updateModel();
         //v.updateView();
     }
-   public void setScreenY() { m.setBorderY(v.getHeight());  }
-   public void setScreenX() { m.setBorderX(v.getWidth()); }
+   public void setScreenY() { m.setBorderY(screenSize.getHeight()); }
+   public void setScreenX() { m.setBorderX(screenSize.getWidth()); }
    
 
 }
