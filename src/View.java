@@ -3,6 +3,8 @@ import java.awt.geom.AffineTransform;
 import java.io.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 import javax.imageio.*;
@@ -14,12 +16,13 @@ public class View extends JPanel implements Observer<Model> {
     private Model m;
     private BufferedImage redCar;
     private LinkedList<Car> carList;
+    private getPixel bild;
     
     public View(Model m) {
         this.m = m;
         this.carList = m.getCarList();
+        this.bild = new getPixel();
         
-		
         try {
             redCar = ImageIO.read(new File("REDCAR.png"));  
         }
@@ -36,8 +39,10 @@ public class View extends JPanel implements Observer<Model> {
         
         Graphics2D g2d = (Graphics2D)g;
         drawCar(g2d, carList.get(0));
+        //System.out.println(carList.get(0).getAngle());	//debug code
         
-        System.out.println("x " + this.size());
+       
+        
         //Debug code "yellow spinning circles"
         g.setColor(Color.yellow);
         for (int    i=0;    i<5;   i++)
@@ -49,7 +54,19 @@ public class View extends JPanel implements Observer<Model> {
             g.fillOval(350-5+xx1,300-5+yy1,10,10);    
         }   
         //End of debug code
-		
+        
+        
+        //Ritar ut bilden till debug
+        g.setColor(Color.red);
+       
+        Iterator<Point> it = bild.getList().iterator();
+        while(it.hasNext())
+        {
+        	Point p = it.next();
+        	g.drawLine(p.x,p.y,p.x,p.y);
+        }
+        //
+        
     }
     
     
@@ -64,7 +81,7 @@ public class View extends JPanel implements Observer<Model> {
      BufferedImage outputImage = new BufferedImage(car.getHeight(), car.getWidth(), BufferedImage.TYPE_INT_ARGB);
      outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
      
-        //Debug code "Green rectangle"
+       /* //Debug code "Green rectangle"
         g2d.setColor(Color.green); 
         double w = 20;  //Test values of green rectangle under png
         double h = 40;
@@ -84,7 +101,7 @@ public class View extends JPanel implements Observer<Model> {
              yPts[i]=(int)(dy[i]+.5); 
         }
         g2d.fillPolygon(xPts,yPts,4);
-         //End of debug code
+        */ //End of debug code
 
 
      //Make a backup so that we can reset our graphics object after using it.
@@ -105,6 +122,6 @@ public class View extends JPanel implements Observer<Model> {
     }
     @Override
     public void update(Model observable) {
-        updateView();
+        repaint();
     }
 }
