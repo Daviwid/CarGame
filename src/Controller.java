@@ -10,10 +10,11 @@ public class Controller extends JFrame implements KeyListener, ActionListener
     private View v;
     private Dimension screenSize;
     private Timer t;    //RITAR, FLYTTAR och kollar regler
-    
+    private Menu menu;
     public Controller()
     {
-        m = new Model();    
+        m = new Model(); 
+       // menu = new Menu(m);
         v = new View(m);
         m.addObserver(v);
         
