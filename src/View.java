@@ -19,7 +19,7 @@ public class View extends JPanel implements Observer<Model> {
         this.m = m;
         this.carList = m.getCarList();
         
-		//v.setPreferredSize(new Dimension((int)screenSize.getWidth()-100,(int)screenSize.getHeight()-100));	//anpassar frame efter skrm
+		
         try {
             redCar = ImageIO.read(new File("REDCAR.png"));  
         }
@@ -64,7 +64,7 @@ public class View extends JPanel implements Observer<Model> {
      BufferedImage outputImage = new BufferedImage(car.getHeight(), car.getWidth(), BufferedImage.TYPE_INT_ARGB);
      outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
      
-       /* //Debug code "Green rectangle"
+        //Debug code "Green rectangle"
         g2d.setColor(Color.green); 
         double w = 20;  //Test values of green rectangle under png
         double h = 40;
@@ -84,7 +84,7 @@ public class View extends JPanel implements Observer<Model> {
              yPts[i]=(int)(dy[i]+.5); 
         }
         g2d.fillPolygon(xPts,yPts,4);
-        */ //End of debug code
+         //End of debug code
 
 
      //Make a backup so that we can reset our graphics object after using it.
