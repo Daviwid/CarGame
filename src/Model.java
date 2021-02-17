@@ -7,8 +7,8 @@ public class Model implements Observable<Model> {
     //Instansvariabler:
     private LinkedList<Car> carList = new LinkedList<Car>();
     private int highScore = 0; //ndra till ngon slags tid
-    private int borderX;
-    private int borderY;
+    private double borderX;
+    private double borderY;
     
     private boolean pressedUp = false;
     private boolean pressedDown = false;
@@ -144,10 +144,10 @@ public class Model implements Observable<Model> {
         pressedLeft = false;
     }
     public void setBorderX(double x) {
-    	borderX = (int)x;
+    	borderX = x;
     }
     public void setBorderY(double y) { 
-    	borderY = (int)y;
+    	borderY = y;
     }
   
     
