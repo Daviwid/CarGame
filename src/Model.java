@@ -108,28 +108,34 @@ public class Model implements Observable<Model> {
    
     
  /* source: https://stackoverflow.com/questions/17136084/checking-if-a-point-is-inside-a-rotated-rectangle/17146376*/
-public boolean overlapsWith(int px, int py){ //px, py är kordinater till track
-	int ax= carList.get(0).getPositionX() - carList.get(0).getWidth()/2;
-	int ay= carList.get(0).getPositionY() - carList.get(0).getHeight()/2;
-	int bx= carList.get(0).getPositionX() + carList.get(0).getWidth()/2;
-	int by= carList.get(0).getPositionY() - carList.get(0).getHeight()/2;
-	int cx= carList.get(0).getPositionX() - carList.get(0).getWidth()/2;  //bugg? elr koden som är fel?
-	int cy= carList.get(0).getPositionY() + carList.get(0).getHeight()/2;
-	int dx= carList.get(0).getPositionX() + carList.get(0).getWidth()/2;
-	int dy= carList.get(0).getPositionY() + carList.get(0).getHeight()/2;
+public boolean overlapsWith(double px, double py){ //px, py är kordinater till track
+	double width= (double) carList.get(0).getWidth()/2;
+	double height= (double)carList.get(0).getHeight()/2;
 	
-	int rectarea = (carList.get(0).getHeight())*(carList.get(0).getWidth());
+	double ax= carList.get(0).getPositionX() - width;
+	double ay= carList.get(0).getPositionY() - height;
+	
+	double bx= carList.get(0).getPositionX() + width;
+	double by= carList.get(0).getPositionY() - height;
+	
+	double cx= carList.get(0).getPositionX() - width;  
+	double cy= carList.get(0).getPositionY() + height;
+	
+	double dx= carList.get(0).getPositionX() + width;
+	double dy= carList.get(0).getPositionY() + height;
+	
+	double rectarea = (2*height)*(2*width);
 					
-	int APD = Math.abs((px * ay - ax * py) + (dx * py - px * dy) + (ax * dy - dx * ay))/2;
-	int DPC = Math.abs((px * dy - dx * py) + (cx * py - px * cy) + (dx * cy - cx * dy))/2;
-	int CPB = Math.abs((px * cy - cx * py) + (bx * py - px * by) + (cx * by - bx * cy))/2;  
-	int PBA = Math.abs((bx * py - px * by) + (ax * by - bx * ay) + (px * ay - ax * py))/2;
-	int sum = APD + DPC + CPB + PBA;
+	double APD = Math.abs((px * ay - ax * py) + (dx * py - px * dy) + (ax * dy - dx * ay))/2;
+	double DPC = Math.abs((px * dy - dx * py) + (cx * py - px * cy) + (dx * cy - cx * dy))/2;
+	double CPB = Math.abs((px * cy - cx * py) + (bx * py - px * by) + (cx * by - bx * cy))/2;  
+	double PBA = Math.abs((bx * py - px * by) + (ax * by - bx * ay) + (px * ay - ax * py))/2;
+	double sum = APD + DPC + CPB + PBA;
 	
-	if(sum > rectarea) return false;
-	else		 
+	if(sum > rectarea ) return false;
+		 
     return true; 
-    }     
+	}  
 
     public void checkHitboxes() {  //
     Iterator<Point> it = bild.getList().iterator();
