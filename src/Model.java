@@ -1,7 +1,10 @@
 import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.awt.Color;
+import java.awt.Point;
 import java.util.HashSet;
+import java.util.Iterator;
 
 public class Model implements Observable<Model> {
     //Instansvariabler:
@@ -19,12 +22,13 @@ public class Model implements Observable<Model> {
     private static int width = 50;
     private int carNumber = 1;
     private Track currentTrack;
-    
+    private getPixel bild = new getPixel();
     private final Collection<Observer<Model>> observers;
-   // private Controller controller;
+    //private ArrayList<Point2D> tracklist = new ArrayList<Point2D>();
     public Model()
     {
         this.observers = new HashSet<>();
+        
         modelInit(carNumber);
     }
     
@@ -32,7 +36,7 @@ public class Model implements Observable<Model> {
     {
         for(int i = 0; i < carNumber; i++)
         {
-            carList.add(new Car(1, 0, 0, TOPSPEED, height, width));
+        	carList.add(new Car(1, 0, 0, TOPSPEED, height, width));
         }
     }
     
@@ -48,8 +52,9 @@ public class Model implements Observable<Model> {
     public void updateModel()
     {
     	checkBorder();
+    	checkHitboxes();
         moveCar();
-        
+        System.out.println(carList.get(0).getAngle());
         updateObservers();
        
     }
@@ -83,21 +88,71 @@ public class Model implements Observable<Model> {
     
     public void checkBorder() {
     	
-    	if(carList.get(0).getPositionX() >= borderX) { 
+    	if(carList.get(0).getPositionX() >= borderX || carList.get(0).getPositionX() <= 0 || carList.get(0).getPositionY() >= borderY || carList.get(0).getPositionY() <= 0) { 
     		carList.get(0).turnDirection(); 
+    		
     		}
-    	if(carList.get(0).getPositionX() <= 0) {
+    	/*if(carList.get(0).getPositionX() <= 0) {
     		carList.get(0).turnDirection();
+    		
     		} 
     	if(carList.get(0).getPositionY() >= borderY) {
     		carList.get(0).turnDirection();
+    		
     		} 
     	if(carList.get(0).getPositionY() <= 0) {
     		carList.get(0).turnDirection();
-    	} 	
-    	
-    	
+    		
+    	} 	*/
     }
+   
+    
+ /* source: https://stackoverflow.com/questions/17136084/checking-if-a-point-is-inside-a-rotated-rectangle/17146376*/
+public boolean overlapsWith(double px, double py){ //px, py är kordinater till track
+	double width= (double) carList.get(0).getWidth()/2;
+	double height= (double)carList.get(0).getHeight()/2;
+	
+	double ax= carList.get(0).getPositionX() - width;
+	double ay= carList.get(0).getPositionY() - height;
+	
+	double bx= carList.get(0).getPositionX() + width;
+	double by= carList.get(0).getPositionY() - height;
+	
+	double cx= carList.get(0).getPositionX() - width;  
+	double cy= carList.get(0).getPositionY() + height;
+	
+	double dx= carList.get(0).getPositionX() + width;
+	double dy= carList.get(0).getPositionY() + height;
+	
+	double rectarea = (2*height)*(2*width);
+					
+	double APD = Math.abs((px * ay - ax * py) + (dx * py - px * dy) + (ax * dy - dx * ay))/2;
+	double DPC = Math.abs((px * dy - dx * py) + (cx * py - px * cy) + (dx * cy - cx * dy))/2;
+	double CPB = Math.abs((px * cy - cx * py) + (bx * py - px * by) + (cx * by - bx * cy))/2;  
+	double PBA = Math.abs((bx * py - px * by) + (ax * by - bx * ay) + (px * ay - ax * py))/2;
+	double sum = APD + DPC + CPB + PBA;
+	
+	if(sum > rectarea ) return false;
+		 
+    return true; 
+	}  
+    
+
+    public void checkHitboxes() {  //
+    Iterator<Point> it = bild.getList().iterator();
+        while(it.hasNext()) {
+        Point p = it.next();
+    	if(overlapsWith(p.x, p.y)) { 
+    		carList.get(0).setNewCordinates();
+    		//carList.get(0).turnDirection(); 
+    		
+    		//for(int i=0; i<= 5000; i++) {carList.get(0).collisionSpeed();}  //car slows down after collision for a few seconds
+    	//carList.get(0).toNormalSpeed();
+    	}
+        }
+    }
+    
+    
     
     //getters
     public LinkedList<Car> getCarList()
@@ -108,7 +163,6 @@ public class Model implements Observable<Model> {
     {
         return currentTrack;
     }
-
     
     //setters
     public void setPressedUp()
