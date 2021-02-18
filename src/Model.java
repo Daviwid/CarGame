@@ -190,10 +190,10 @@ public boolean overlapsWith(double px, double py){ //px, py är kordinater till 
     {
         pressedLeft = false;
     }
-    public void setBorderX(int x) {
+    public void setBorderX(double x) {
     	borderX = x;
     }
-    public void setBorderY(int y) { 
+    public void setBorderY(double y) { 
     	borderY = y;
     }
     
