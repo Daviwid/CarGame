@@ -26,8 +26,9 @@ public class Car {
 		this.width = width;
         angle = 0;
 
-        positionX = 200;
-        positionY = 200;
+        positionX = 500;
+        positionY = 500;
+       
     }
 
     public void move()  // ndra position varje frame baserat p angle och speed
@@ -75,27 +76,10 @@ public class Car {
               }
 		
 	}
-  public void setNewCordinates() {  //bugg
-	  positionX= 500;
-	  positionY=350;
-	 /* if(angle >= 0 && angle <= Math.PI) {
-			  	//System.out.println("1");
-		  positionX -=2;
-			positionY -=2;
-	  }
-	  if(angle >= Math.PI && angle <= 2*Math.PI) {
-		
-		positionX +=2;
-	  	positionY +=2;
-*/
-		//System.out.println("2");
-		
-	//}
-	  
-  }
+  
   public void collisionSpeed() {
 	  tempspeed = speed;
-	  speed = 5;
+	  speed = 0.5;
   }
   public void toNormalSpeed() {
 	  speed = tempspeed;
