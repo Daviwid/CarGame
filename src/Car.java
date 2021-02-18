@@ -1,8 +1,8 @@
 import java.awt.Color;
 
 public class Car {
-	
-	//instansvariabler
+    
+    //instansvariabler
     private double positionX; 
       private double positionY;
       private double speed;
@@ -14,7 +14,7 @@ public class Car {
       private double topspeed;
       private int height;
 	  private int width;
-
+    
     //Konstruktor
     public Car(int color, int xOffset, int yOffset, int topspeed, int height, int width)
     {
@@ -24,18 +24,19 @@ public class Car {
         this.topspeed = topspeed;
         this.height = height;
 		this.width = width;
+
         angle = 0;
-
-        positionX = 200;
-        positionY = 200;
+    
+        positionX = 600;
+        positionY = 600;
     }
-
-    public void move()  // ndra position varje frame baserat p angle och speed
+    
+    public void move() 
     {
         positionX += (Math.cos(angle) * speed); 
         positionY += (Math.sin(angle) * speed);  
     }
-
+    
     //getters&setters
     public void setPosition(Track track) 
     {
@@ -45,10 +46,15 @@ public class Car {
     public void setAngle(Track track)
     {
         angle = track.getStartAngle();
-
+        
     }
-
-
+    public void collisionSpeed() {
+  	  tempspeed = speed;
+  	  speed = 0.5;
+    }
+    public void toNormalSpeed() {
+  	  speed = tempspeed;
+    }
     public void accelerate()
     {
         if(speed <= topspeed)
@@ -64,42 +70,16 @@ public class Car {
         }
     }
   public void turnDirection() {
-	  angle = (angle) + Math.PI ;
+		angle = (angle) + Math.PI ;
 		if(angle>(2*Math.PI))             //keep interval 0-6
-              {       
-                  angle-=(2*Math.PI);
-              }
-              if(angle<0)                      //keep interval 0-6
-              {
-                  angle+=(2*Math.PI);
-              }
-		
+                {       
+                    angle-=(2*Math.PI);
+                }
+                if(angle<0)                      //keep interval 0-6
+                {
+                    angle+=(2*Math.PI);
+                }
 	}
-  public void setNewCordinates() {  //bugg
-	  positionX= 500;
-	  positionY=350;
-	 /* if(angle >= 0 && angle <= Math.PI) {
-			  	//System.out.println("1");
-		  positionX -=2;
-			positionY -=2;
-	  }
-	  if(angle >= Math.PI && angle <= 2*Math.PI) {
-		
-		positionX +=2;
-	  	positionY +=2;
-*/
-		//System.out.println("2");
-		
-	//}
-	  
-  }
-  public void collisionSpeed() {
-	  tempspeed = speed;
-	  speed = 5;
-  }
-  public void toNormalSpeed() {
-	  speed = tempspeed;
-  }
 	public void turnRight()
 	{
 		angle = angle   +   Math.PI    /   128.0; //increase radian angle
@@ -111,10 +91,10 @@ public class Car {
 	public void turnLeft()
 	{
 		angle = angle   +   -Math.PI    /   128.0;    //decrease radian angle
-        if(angle<0)                                   //keep interval 0-6
-        {
-            angle+=(2*Math.PI);
-        }
+                if(angle<0)                                   //keep interval 0-6
+                {
+                    angle+=(2*Math.PI);
+                }
 	}
 	
 	//getters
@@ -130,7 +110,6 @@ public class Car {
 	{
 		return angle;
 	}
-	
 	public int getColor()
 	{
 		return color;
@@ -141,5 +120,4 @@ public class Car {
 	public int getWidth(){
 		return this.width;
 	}
-	
 }

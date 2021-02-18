@@ -1,18 +1,18 @@
 import java.util.LinkedList;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.awt.Color;
-import java.awt.Point;
 import java.util.HashSet;
 import java.util.Iterator;
 
 public class Model implements Observable<Model> {
     //Instansvariabler:
     private LinkedList<Car> carList = new LinkedList<Car>();
-    private int highScore = 0; //ndra till ngon slags tid
     private int borderX;
     private int borderY;
-    
+    private double saveHitspotX;
+    private double saveHitspotY;
+    private boolean mapSelected = false;
     private boolean pressedUp = false;
     private boolean pressedDown = false;
     private boolean pressedRight = false;
@@ -22,13 +22,14 @@ public class Model implements Observable<Model> {
     private static int width = 50;
     private int carNumber = 1;
     private Track currentTrack;
-    private getPixel bild = new getPixel();
+    private Menu menu;
+    private STATE state;
+    
     private final Collection<Observer<Model>> observers;
-    //private ArrayList<Point2D> tracklist = new ArrayList<Point2D>();
+   // private Controller controller;
     public Model()
     {
         this.observers = new HashSet<>();
-        
         modelInit(carNumber);
     }
     
@@ -36,27 +37,35 @@ public class Model implements Observable<Model> {
     {
         for(int i = 0; i < carNumber; i++)
         {
-        	carList.add(new Car(1, 0, 0, TOPSPEED, height, width));
+            carList.add(new Car(1, 0, 0, TOPSPEED, height, width));
         }
     }
     
-    private void setStartPositions(Track track)
+    public void menuInit()			//Skapar meny och state = menu
     {
-        for(int i = 0; i < carList.size(); i++)
-        {
-            carList.get(i).setPosition(track);
-            carList.get(i).setAngle(track);
-        }
+        menu = new Menu(borderX, borderY);
+        state = STATE.MENU;
+    }
+    
+    public Menu getMenu()		//Returnerar menu. Mest till att rita upp
+    {
+        return menu;
+    }
+    
+    public boolean getSelected()		//Boolean till om man valt en bana varav bild laddats in. Genererar annars fel.
+    {
+        return mapSelected;
     }
     
     public void updateModel()
     {
-    	checkBorder();
-    	checkHitboxes();
-        moveCar();
-        System.out.println(carList.get(0).getAngle());
+        if(state==STATE.GAME)	//Kolla endast om man spelar. Genererar annars exceptions
+        {
+            checkBorder();
+            checkHitboxes();
+            moveCar();
+        }
         updateObservers();
-       
     }
     
     //hamtacolorfranconfig()
@@ -87,71 +96,69 @@ public class Model implements Observable<Model> {
     }
     
     public void checkBorder() {
-    	
     	if(carList.get(0).getPositionX() >= borderX || carList.get(0).getPositionX() <= 0 || carList.get(0).getPositionY() >= borderY || carList.get(0).getPositionY() <= 0) { 
     		carList.get(0).turnDirection(); 
-    		
-    		}
-    	/*if(carList.get(0).getPositionX() <= 0) {
-    		carList.get(0).turnDirection();
-    		
-    		} 
-    	if(carList.get(0).getPositionY() >= borderY) {
-    		carList.get(0).turnDirection();
-    		
-    		} 
-    	if(carList.get(0).getPositionY() <= 0) {
-    		carList.get(0).turnDirection();
-    		
-    	} 	*/
+    	}
+    	
     }
-   
     
- /* source: https://stackoverflow.com/questions/17136084/checking-if-a-point-is-inside-a-rotated-rectangle/17146376*/
-public boolean overlapsWith(double px, double py){ //px, py är kordinater till track
-	double width= (double) carList.get(0).getWidth()/2;
-	double height= (double)carList.get(0).getHeight()/2;
-	
-	double ax= carList.get(0).getPositionX() - width;
-	double ay= carList.get(0).getPositionY() - height;
-	
-	double bx= carList.get(0).getPositionX() + width;
-	double by= carList.get(0).getPositionY() - height;
-	
-	double cx= carList.get(0).getPositionX() - width;  
-	double cy= carList.get(0).getPositionY() + height;
-	
-	double dx= carList.get(0).getPositionX() + width;
-	double dy= carList.get(0).getPositionY() + height;
-	
-	double rectarea = (2*height)*(2*width);
-					
-	double APD = Math.abs((px * ay - ax * py) + (dx * py - px * dy) + (ax * dy - dx * ay))/2;
-	double DPC = Math.abs((px * dy - dx * py) + (cx * py - px * cy) + (dx * cy - cx * dy))/2;
-	double CPB = Math.abs((px * cy - cx * py) + (bx * py - px * by) + (cx * by - bx * cy))/2;  
-	double PBA = Math.abs((bx * py - px * by) + (ax * by - bx * ay) + (px * ay - ax * py))/2;
-	double sum = APD + DPC + CPB + PBA;
-	
-	if(sum > rectarea ) return false;
-		 
-    return true; 
-	}  
     
+    /* source: https://stackoverflow.com/questions/17136084/checking-if-a-point-is-inside-a-rotated-rectangle/17146376*/
+    public boolean overlapsWith(double px, double py){ //px, py �r kordinater till track
+    	double width= (double) carList.get(0).getWidth()/2;
+    	double height= (double)carList.get(0).getHeight()/2;
+    	double carx= carList.get(0).getPositionX();
+    	double cary= carList.get(0).getPositionY();
+    	double ax= carx - width;
+    	double ay= cary - height;
+    	double bx= carx + width;
+    	double by= cary - height;
+    	double cx= carx - width;  
+    	double cy= cary + height;
+    	double dx= carx + width;
+    	double dy= cary + height;
+    	double rectarea = (2*height)*(2*width);
+    	double APD = Math.abs((px * ay - ax * py) + (dx * py - px * dy) + (ax * dy - dx * ay))/2;
+    	double DPC = Math.abs((px * dy - dx * py) + (cx * py - px * cy) + (dx * cy - cx * dy))/2;
+    	double CPB = Math.abs((px * cy - cx * py) + (bx * py - px * by) + (cx * by - bx * cy))/2;  
+    	double PBA = Math.abs((bx * py - px * by) + (ax * by - bx * ay) + (px * ay - ax * py))/2;
+    	double sum = APD + DPC + CPB + PBA;
+    	
+    	if(sum > rectarea ) return false;
+    	saveHitspotX= px;
+    	saveHitspotY= py;
+        return true; 
+    	} 
+        
 
     public void checkHitboxes() {  //
-    Iterator<Point> it = bild.getList().iterator();
+    Iterator<Point> it = currentTrack.getHitbox().iterator();
         while(it.hasNext()) {
+        boolean temp= false;
         Point p = it.next();
-    	if(overlapsWith(p.x, p.y)) { 
-    		carList.get(0).setNewCordinates();
-    		//carList.get(0).turnDirection(); 
-    		
-    		//for(int i=0; i<= 5000; i++) {carList.get(0).collisionSpeed();}  //car slows down after collision for a few seconds
-    	//carList.get(0).toNormalSpeed();
+    	if( overlapsWith(p.x, p.y) ) { 
+    		//carList.get(0).collisionSpeed();
+    		carList.get(0).turnDirection(); 
+    		 temp= true; 
+    	
     	}
+    	/*if(temp==true && (
+    			(carList.get(0).getPositionX() >= saveHitspotX + 10) || //car slows down after collision for a few seconds, men bugg
+    			(carList.get(0).getPositionX() <= saveHitspotX - 10) || 
+    			(carList.get(0).getPositionY() >= saveHitspotY + 10) || 
+    			(carList.get(0).getPositionY() <= saveHitspotY - 10))) 
+    	{
+    	carList.get(0).toNormalSpeed();
+    	}*/
         }
     }
-    
+        
+    public void selectMap()				//Annorlunda om man har fler banor. Byter state till game och skapar track som ska scale med screen
+    {
+        currentTrack = new LindholmenDerby(borderX,borderY);
+        state = STATE.GAME;
+        this.mapSelected=true;
+    }
     
     
     //getters
@@ -161,7 +168,11 @@ public boolean overlapsWith(double px, double py){ //px, py är kordinater till 
     }
     public Track getTrack()
     {
-        return currentTrack;
+       return currentTrack;
+    }
+    public STATE getState()
+    {
+        return this.state;
     }
     
     //setters
@@ -198,12 +209,19 @@ public boolean overlapsWith(double px, double py){ //px, py är kordinater till 
         pressedLeft = false;
     }
     public void setBorderX(int x) {
-    	borderX = x;
+        borderX = x;
     }
     public void setBorderY(int y) { 
-    	borderY = y;
+        borderY = y;
     }
-  
+    public void stateGame()
+    {
+            state=STATE.GAME;
+    }
+    public void stateMenu()
+    {
+            state=STATE.MENU;
+    }  
     
     @Override
     public void addObserver(Observer<Model> o){
