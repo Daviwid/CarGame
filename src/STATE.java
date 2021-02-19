@@ -1,5 +1,6 @@
 public enum STATE
 {
        MENU,
-       GAME
+       GAME,
+       MAP_SELECTION
 }

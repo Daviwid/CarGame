@@ -5,7 +5,7 @@ import javax.swing.ImageIcon;
 
 public class Menu
 {
-    private Rectangle playBtn, quitBtn;
+    private Rectangle playBtn, quitBtn,mapBtn;
     private ImageIcon img;
     private Color btnclr, btnoutclr, titleclr;
     
@@ -13,11 +13,17 @@ public class Menu
     {
         playBtn = new Rectangle(30,borderY/2-150,300,100);
         quitBtn = new Rectangle(30,borderY/2,300,100);
-        btnclr = Color.decode("#FA11C6");
+        mapBtn = new Rectangle(borderX/2-350,borderY/2-200,300,300);
+        btnclr = new Color(1f,0f,0f,.5f);
         btnoutclr = Color.white;
         titleclr = Color.white;
 		img = new ImageIcon("back.gif");
 		img.setImage(img.getImage().getScaledInstance(borderX, borderY, Image.SCALE_DEFAULT));	
+    }
+    
+    public Rectangle getMapBtn()
+    {
+    	return mapBtn;
     }
     
     public Rectangle getPlayBtn()

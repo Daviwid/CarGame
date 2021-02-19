@@ -13,17 +13,11 @@ public class View extends JPanel implements Observer<Model> {
 
     private Model m;
     private LinkedList<Car> carList;
-    private BufferedImage redCar;
+    
     
     public View(Model m) {
         this.m = m;
         this.carList = m.getCarList();
-		try {
-			redCar = ImageIO.read(new File("REDCAR.png"));
-		}
-		catch(IOException e){
-			
-		}
     }
     
     public void paintComponent(Graphics g) {
@@ -35,12 +29,60 @@ public class View extends JPanel implements Observer<Model> {
         	
         	drawMenu(m.getMenu(),g2d,m.getBorderX(),m.getBorderY());
         }
-        
+        if(m.getState()==STATE.MAP_SELECTION)
+        {
+        	drawMapSelect(m.getMenu(),g2d,m.getBorderX(),m.getBorderY(),m.getLindholmen());
+        }
         
         if(m.getState()==STATE.GAME)				//Rita OM game
         {
             drawGame(g2d,m.getTrack().getMap());
         }
+    }
+    
+    public void drawMapSelect(Menu menu, Graphics2D g2d, int x, int y, Track l)
+    {
+    	m.getMenu().getImg().paintIcon(this, g2d, 0, 0);
+    	
+    	
+        g2d.setColor(menu.getBtnClr());
+        g2d.fill(menu.getQuitBtn());					//quitBtn med outline
+        g2d.setColor(menu.getBtnOutClr());
+        g2d.draw(menu.getQuitBtn());
+    	
+        
+        
+        
+        g2d.setColor(menu.getBtnClr());
+        g2d.fill(menu.getMapBtn());
+        g2d.setColor(menu.getBtnOutClr());
+        g2d.draw(menu.getMapBtn());
+        
+        
+        g2d.drawImage(l.getIcon(250, 200),(int)menu.getMapBtn().getX()+25,(int)menu.getMapBtn().getY()+25,null);
+        
+        g2d.setColor(menu.getTitleClr());
+        g2d.setFont(new Font("arial",Font.BOLD,25));
+        g2d.drawString("LindholmenDerby", (int)menu.getMapBtn().getX()+45, (int)menu.getMapBtn().getY()+(int)menu.getMapBtn().getHeight()-25);
+        
+        
+        
+        g2d.setColor(menu.getTitleClr());
+        g2d.setFont(new Font("arial",Font.BOLD,50));
+        g2d.drawString("RETURN",																	//Quitbtn text
+                (int)menu.getQuitBtn().getX()+(int)menu.getQuitBtn().getWidth()/2-105,
+                (int)menu.getQuitBtn().getY()+(int)menu.getQuitBtn().getHeight()/2+20);
+        
+        
+        g2d.setColor(menu.getTitleClr());
+        g2d.setFont(new Font("arial",Font.BOLD,150));
+        g2d.drawString("CARGAME",20,150);					//Game title
+        
+        g2d.setColor(menu.getTitleClr());
+        g2d.setFont(new Font("arial",Font.BOLD,20));
+        g2d.drawString("Team: Ingen Aning", x-200, y-35);										//Gruppnamn
+        g2d.drawString("Devs: David J, Erik L, Jacob W, Kevin P, Victoria B", x-500, y-10);		//Developers
+        g2d.drawString(m.getBuild(), 10, y-10);					
     }
     
     public void drawGame(Graphics2D g2d, BufferedImage map)
@@ -125,13 +167,11 @@ public class View extends JPanel implements Observer<Model> {
     
     
     public void drawCar(Graphics2D g2d, Car car) {
-        // getsubimage om vi ska ha 1 bild med alla olika bilar.
-
-		Image resultingImage = redCar.getScaledInstance(car.getHeight(), car.getWidth(), Image.SCALE_DEFAULT);
+		Image resultingImage = car.getRedCar().getScaledInstance(car.getHeight(), car.getWidth(), Image.SCALE_DEFAULT);
 	    BufferedImage outputImage = new BufferedImage(car.getHeight(), car.getWidth(), BufferedImage.TYPE_INT_ARGB);
 	    outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
 	    
-	    //start debug
+	    
         g2d.setColor(Color.green); 
         double w = car.getWidth();  //Test values of green rectangle under png
         double h = car.getHeight();
@@ -151,8 +191,7 @@ public class View extends JPanel implements Observer<Model> {
              yPts[i]=(int)(dy[i]+.5); 
         }
         g2d.fillPolygon(xPts,yPts,4);
-        // end debug
-
+        
         AffineTransform backup = g2d.getTransform();
 //        AffineTransform a = AffineTransform.getRotateInstance(car.getAngle(), car.getPositionX(), car.getPositionY());
         //Set our Graphics2D object to the transform

@@ -3,8 +3,6 @@ import java.util.LinkedList;
 
 
 import java.awt.Point;
-import java.awt.Toolkit;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -25,7 +23,7 @@ public class Model implements Observable<Model> {
     private static int height = 50;
     private static int width = 50;
     private int carNumber = 1;
-    private Track currentTrack;
+    private Track currentTrack,lindholmen;
     private Menu menu;
     private STATE state;
     private String build = "Build v. 1.0.0.0";
@@ -38,12 +36,20 @@ public class Model implements Observable<Model> {
         modelInit(carNumber);
     }
     
-    private void modelInit(int carNumber)
+    public void modelInit(int carNumber)
     {
         for(int i = 0; i < carNumber; i++)
         {
             carList.add(new Car(1, 0, 0, TOPSPEED, height, width));
         }
+    }
+    
+    public void resetCarFlags()
+    {
+    	pressedUp=false;
+    	pressedDown=false;
+    	pressedLeft=false;
+    	pressedRight=false;
     }
     
     public void menuInit()			//Skapar meny och state = menu
@@ -165,13 +171,22 @@ public class Model implements Observable<Model> {
         }
     }
         
-    public void selectMap()				//Annorlunda om man har fler banor. Byter state till game och skapar track som ska scale med screen
+    public void selectMap(Track t)				//Annorlunda om man har fler banor. Byter state till game och skapar track som ska scale med screen
     {
-        currentTrack = new LindholmenDerby(borderX,borderY);
+        currentTrack = t;
         state = STATE.GAME;
         this.mapSelected=true;
     }
     
+    public void mapInit()
+    {
+    	lindholmen = new LindholmenDerby(borderX,borderY);
+    }
+    
+    public Track getLindholmen()
+    {
+    	return lindholmen;
+    }
     
     //getters
     public LinkedList<Car> getCarList()
@@ -198,6 +213,11 @@ public class Model implements Observable<Model> {
     {
     	return build;
     }
+    public int getCarnmbr()
+    {
+    	return carNumber;
+    }
+    
     
     //setters
     public void setPressedUp()
@@ -246,6 +266,10 @@ public class Model implements Observable<Model> {
     {
             state=STATE.MENU;
     }  
+    public void stateMap()
+    {
+    		state=STATE.MAP_SELECTION;
+    }
     
     @Override
     public void addObserver(Observer<Model> o){

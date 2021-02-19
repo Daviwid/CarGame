@@ -11,6 +11,7 @@ public class Track {
 	private int startPositionY;
 	private int startAngle;
 	private BufferedImage bi;
+	private BufferedImage icon;
 	private getPixel pixels;
 	private ArrayList<Point> list;
 	
@@ -28,12 +29,13 @@ public class Track {
 		return startAngle;
 	}
 	
+	
 	public void setMap(String map_name,int x, int y)
 	{
 		 try
 	        {
-				this.bi= ImageIO.read(new File(map_name));											//local jpg/png
-				Image resultingImage = bi.getScaledInstance(x, y, Image.SCALE_DEFAULT);				//scale to desired size
+				this.icon= ImageIO.read(new File(map_name));											//local jpg/png
+				Image resultingImage = icon.getScaledInstance(x, y, Image.SCALE_DEFAULT);				//scale to desired size
 				BufferedImage outputImage = new BufferedImage(x,y, BufferedImage.TYPE_INT_RGB);
 				outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
 				this.bi = outputImage;
@@ -42,6 +44,14 @@ public class Track {
 	        {
 				System.out.println("Error hittar ej bild");
 	        }
+	}
+	
+	public BufferedImage getIcon(int x, int y)
+	{
+		Image resultingImage = icon.getScaledInstance(x, y, Image.SCALE_DEFAULT);				//scale to desired size
+		BufferedImage outputImage = new BufferedImage(x,y, BufferedImage.TYPE_INT_RGB);
+		outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
+		return outputImage;
 	}
 	
 	public BufferedImage getMap()		//Return image, mostly needed in view.

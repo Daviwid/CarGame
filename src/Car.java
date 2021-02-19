@@ -1,4 +1,9 @@
 import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 public class Car {
     
@@ -14,10 +19,12 @@ public class Car {
       private double topspeed;
       private int height;
 	  private int width;
-    
+	  private BufferedImage redCar;
+	  
     //Konstruktor
     public Car(int color, int xOffset, int yOffset, int topspeed, int height, int width)
     {
+    	this.speed = 0;
         this.color = color;
         this.xOffset = xOffset;
         this.yOffset = yOffset;
@@ -29,6 +36,12 @@ public class Car {
     
         positionX = 600;
         positionY = 600;
+		try {
+			redCar = ImageIO.read(new File("REDCAR.png"));
+		}
+		catch(IOException e){
+			
+		}
     }
     
     public void move() 
@@ -127,5 +140,9 @@ public class Car {
 	public double getSpeed()
 	{
 		return this.speed;
+	}
+	public BufferedImage getRedCar()
+	{
+		return redCar;
 	}
 }
