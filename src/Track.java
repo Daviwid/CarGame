@@ -12,6 +12,7 @@ public class Track {
 	private int startAngle;
 	private BufferedImage bi;
 	private BufferedImage icon;
+
 	private getPixel pixels;
 	private ArrayList<Point> list;
 	
@@ -28,8 +29,7 @@ public class Track {
 	{
 		return startAngle;
 	}
-	
-	
+
 	public void setMap(String map_name,int x, int y)
 	{
 		 try
@@ -45,7 +45,7 @@ public class Track {
 				System.out.println("Error hittar ej bild");
 	        }
 	}
-	
+  
 	public BufferedImage getIcon(int x, int y)
 	{
 		Image resultingImage = icon.getScaledInstance(x, y, Image.SCALE_DEFAULT);				//scale to desired size
@@ -53,21 +53,21 @@ public class Track {
 		outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
 		return outputImage;
 	}
-	
+
 	public BufferedImage getMap()		//Return image, mostly needed in view.
 	{
 		return bi;
 	}
-	
+
 	public void setHitbox(int color,int lcolor)		//Set hitbox-list once. 
 	{
 		pixels = new getPixel(bi,color,lcolor);
 		this.list = pixels.getList();
 	}
-	
+
 	public ArrayList<Point> getHitbox()		//Get hitbox-list. Kallas hela tiden.
 	{
 		return this.list;
 	}
-	
+
 }

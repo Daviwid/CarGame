@@ -1,4 +1,3 @@
-
 public class LindholmenDerby extends Track {
 	
 	private String map;
@@ -14,3 +13,4 @@ public class LindholmenDerby extends Track {
 		setHitbox(color,lcolor);	//Skapar hitbox-lista
 	}
 }
+

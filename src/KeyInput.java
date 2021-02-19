@@ -1,5 +1,5 @@
 import  java.awt.event.*;   
-    
+
 public class KeyInput implements KeyListener
 {
     private Controller c;
@@ -12,7 +12,6 @@ public class KeyInput implements KeyListener
     	int k = e.getKeyCode(); 
         if(c.getModel().getState()==STATE.GAME)		//Funkar endast om man ska spela.
         {
-            
             if(k == KeyEvent.VK_UP)
             {
                 c.getModel().setPressedUp();   
@@ -46,8 +45,11 @@ public class KeyInput implements KeyListener
                 {
                 	c.getModel().stateMenu();
                 }
+                if(c.getModel().getState()==STATE.CARCONFIG)
+                {
+                	c.getModel().stateMenu();
+                }
             }
-        
     } 
 
     public void keyTyped(KeyEvent e){}
@@ -74,6 +76,5 @@ public class KeyInput implements KeyListener
             }
         }
     }
-
-
 }
+

@@ -10,53 +10,114 @@ public class MouseInput implements MouseListener{
     {   
         int x = e.getX();		//x och y koordinater av klick med muspekare
         int y = e.getY();
+        
         if(c.getModel().getState()==STATE.MENU)		//Funkar endast om man har meny uppe.
         {         
-            //Kollar om klick on playBtn
-            if(x >= c.getModel().getMenu().getPlayBtn().getX() && x <= c.getModel().getMenu().getPlayBtn().getX()+c.getModel().getMenu().getPlayBtn().getWidth())
-            {
-                if(y >= c.getModel().getMenu().getPlayBtn().getY() && y <= c.getModel().getMenu().getPlayBtn().getY()+c.getModel().getMenu().getPlayBtn().getHeight())
-                {
-                	c.getModel().modelInit(c.getModel().getCarnmbr());
-                	c.getModel().stateMap();
-                }
-            }
             
-            //Kollar om klick on quitBtn
-            if(x >= c.getModel().getMenu().getQuitBtn().getX() && x <= c.getModel().getMenu().getQuitBtn().getX()+c.getModel().getMenu().getQuitBtn().getWidth())
-            {
-                if(y >= c.getModel().getMenu().getQuitBtn().getY() && y <= c.getModel().getMenu().getQuitBtn().getY()+c.getModel().getMenu().getQuitBtn().getHeight())
-                {
-                    System.exit(0);
-                }
-            }
+        	menuButtons(c.getModel(), c.getModel().getMenu(),x,y);
         }
         
+        if(c.getModel().getState()==STATE.CARCONFIG) {
+        	
+        	carConfigButtons(c.getModel(), c.getModel().getMenu(),x,y);
+        }
+	        
         if(c.getModel().getState()==STATE.MAP_SELECTION)		//Funkar endast om man har meny uppe.
         {           
-            //Kollar om klick on quitBtn
-            if(x >= c.getModel().getMenu().getQuitBtn().getX() && x <= c.getModel().getMenu().getQuitBtn().getX()+c.getModel().getMenu().getQuitBtn().getWidth())
+        	selectMapButtons(c.getModel(), c.getModel().getMenu(),x,y);
+        }
+        
+    }
+    public void menuButtons(Model model, Menu m,int x,int y)
+    {
+    	//Kollar om klick on playBtn
+        if(x >= m.getPlayBtn().getX() && x <= m.getPlayBtn().getX()+m.getPlayBtn().getWidth())
+        {
+            if(y >= m.getPlayBtn().getY() && y <= m.getPlayBtn().getY()+m.getPlayBtn().getHeight())
             {
-                if(y >= c.getModel().getMenu().getQuitBtn().getY() && y <= c.getModel().getMenu().getQuitBtn().getY()+c.getModel().getMenu().getQuitBtn().getHeight())
-                {
-                    c.getModel().stateMenu();
-                }
+            	  model.stateMap();
             }
-            
-            //KOlla klick on map lindholmen
-            if(x >= c.getModel().getMenu().getMapBtn().getX() && x <= c.getModel().getMenu().getMapBtn().getX()+c.getModel().getMenu().getMapBtn().getWidth())
+        }
+      	//Kollar om klick on ConfigBtn 
+        if(x >= m.getConfigBtn().getX() && x <= m.getConfigBtn().getX()+m.getConfigBtn().getWidth())
+        {
+            if(y >= m.getConfigBtn().getY() && y <= m.getConfigBtn().getY()+m.getConfigBtn().getHeight())
             {
-                if(y >= c.getModel().getMenu().getMapBtn().getY() && y <= c.getModel().getMenu().getMapBtn().getY()+c.getModel().getMenu().getMapBtn().getHeight())
-                {
-                    c.getModel().selectMap(c.getModel().getLindholmen());
-                }
+                model.stateConfig();
+             }
+        }
+        
+        //Kollar om klick on quitBtn
+        if(x >= m.getQuitBtn().getX() && x <= m.getQuitBtn().getX()+m.getQuitBtn().getWidth())
+        {
+            if(y >= m.getQuitBtn().getY() && y <= m.getQuitBtn().getY()+m.getQuitBtn().getHeight())
+            {
+                System.exit(0);
             }
-            
         }
     }
+    
+    public void carConfigButtons(Model model, Menu m, int x, int y)
+    {
+    	if(x >= m.getredCarBtn().getX() && x <= m.getredCarBtn().getX()+m.getredCarBtn().getWidth())
+        {
+            if(y >= m.getredCarBtn().getY() && y <= m.getredCarBtn().getY()+m.getredCarBtn().getHeight())
+            {
+            	model.setCarColor(0);
+            	model.stateMenu();
+            }
+        }
+    	if(x >= m.getgreenCarBtn().getX() && x <= m.getgreenCarBtn().getX()+m.getgreenCarBtn().getWidth())
+        {
+            if(y >= m.getgreenCarBtn().getY() && y <= m.getgreenCarBtn().getY()+m.getgreenCarBtn().getHeight())
+            {
+            	model.setCarColor(1);
+            	model.stateMenu();
+            }
+        }
+    	if(x >= m.getblueCarBtn().getX() && x <= m.getblueCarBtn().getX()+m.getblueCarBtn().getWidth())
+        {
+            if(y >= m.getblueCarBtn().getY() && y <= m.getblueCarBtn().getY()+m.getblueCarBtn().getHeight())
+            {
+            	model.setCarColor(2);
+            	model.stateMenu();
+            }
+        }
+    	
+    	if(x >= m.getReturnBtn().getX() && x <= m.getReturnBtn().getX()+m.getReturnBtn().getWidth())
+        {
+            if(y >= m.getReturnBtn().getY() && y <= m.getReturnBtn().getY()+m.getReturnBtn().getHeight())
+            {
+            	model.stateMenu();
+            }
+        }  
+    }
+    
+    public void selectMapButtons(Model model, Menu m, int x, int y)
+    {
+        //Kollar om klick on returnBtn
+    	if(x >= m.getReturnBtn().getX() && x <= m.getReturnBtn().getX()+m.getReturnBtn().getWidth())
+        {
+            if(y >= m.getReturnBtn().getY() && y <= m.getReturnBtn().getY()+m.getReturnBtn().getHeight())
+            {
+            	model.stateMenu();
+            }
+        }  
+        
+        //KOlla klick on map lindholmen
+        if(x >= m.getMapBtn().getX() && x <= m.getMapBtn().getX()+m.getMapBtn().getWidth())
+        {
+            if(y >= m.getMapBtn().getY() && y <= m.getMapBtn().getY()+m.getMapBtn().getHeight())
+            {
+                model.selectMap(model.getLindholmen());
+                model.stateGame();
+            }
+        }
+    }
+    
     public void mousePressed(MouseEvent e){}
     public void mouseEntered(MouseEvent e){}
     public void mouseExited(MouseEvent e){}
     public void mouseReleased(MouseEvent e){}
+} 
 
-}

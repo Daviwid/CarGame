@@ -9,10 +9,9 @@ public class Controller extends JFrame implements ActionListener
     private View v;
     private Dimension screenSize;
     private Timer t;    
-    
+
     public Controller()
     {
-        
         m = new Model();    
         v = new View(m);
         m.addObserver(v);
@@ -28,11 +27,11 @@ public class Controller extends JFrame implements ActionListener
         t = new Timer(10,this);   
         
         startApp();
-        
     }
     
     public void createWindow(View v)
     {
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
         setLocation(25,15);
         screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -43,8 +42,9 @@ public class Controller extends JFrame implements ActionListener
         v.addKeyListener(new KeyInput(this));			//Tangent-input
         v.addMouseListener(new MouseInput(this));		//Mus-input
         v.setFocusable(true);      
-        setVisible(true);  
+        setVisible(true); 
     }
+    
     
     public Model getModel()		//Kallas i listener-klassser
     {
@@ -63,6 +63,5 @@ public class Controller extends JFrame implements ActionListener
     
    public void setScreenY() { m.setBorderY((int)screenSize.getHeight());  }
    public void setScreenX() { m.setBorderX((int)screenSize.getWidth()); }
-   
-
 }
+
