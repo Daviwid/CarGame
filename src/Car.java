@@ -1,4 +1,9 @@
 import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 public class Car {
 	
@@ -14,9 +19,11 @@ public class Car {
       private double topspeed;
       private int height;
 	  private int width;
-
+	  private BufferedImage redCar;
+	  private BufferedImage blueCar;
+	  private BufferedImage greenCar;
     //Konstruktor
-    public Car(int color, int xOffset, int yOffset, int topspeed, int height, int width)
+    public Car(int color, int xOffset, int yOffset, int topspeed, int height, int width, int col)
     {
         this.color = color;
         this.xOffset = xOffset;
@@ -26,8 +33,25 @@ public class Car {
 		this.width = width;
         angle = 0;
 
-        positionX = 200;
-        positionY = 200;
+        positionX = 500;
+        positionY = 500;
+        if(col==0) {
+            try {
+    		 blueCar = ImageIO.read(new File("BLUECAR.png"));
+    		}
+    		catch(IOException e){
+    			
+    		} 
+        if(col==1) {
+        try {
+		 redCar = ImageIO.read(new File("REDCAR.png"));
+		}
+		catch(IOException e){
+			
+		}
+        }
+        }
+        
     }
 
     public void move()  // ndra position varje frame baserat p angle och speed
@@ -75,27 +99,10 @@ public class Car {
               }
 		
 	}
-  public void setNewCordinates() {  //bugg
-	  positionX= 200;
-	  positionY=250;
-	 /* if(angle >= 0 && angle <= Math.PI) {
-			  	//System.out.println("1");
-		  positionX -=2;
-			positionY -=2;
-	  }
-	  if(angle >= Math.PI && angle <= 2*Math.PI) {
-		
-		positionX +=2;
-	  	positionY +=2;
-*/
-		//System.out.println("2");
-		
-	//}
-	  
-  }
+  
   public void collisionSpeed() {
 	  tempspeed = speed;
-	  speed = 5;
+	  speed = 0.5;
   }
   public void toNormalSpeed() {
 	  speed = tempspeed;
@@ -141,5 +148,7 @@ public class Car {
 	public int getWidth(){
 		return this.width;
 	}
-	
+	public BufferedImage getRedCar() { return this.redCar; }
+	public BufferedImage getBlueCar() { return this.blueCar; }
+	public BufferedImage getGreenCar() { return this.greenCar; }
 }

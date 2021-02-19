@@ -1,7 +1,7 @@
 import java.util.LinkedList;
 import java.util.ArrayList;
+import java.awt.Toolkit;
 import java.util.Collection;
-import java.awt.Color;
 import java.awt.Point;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -9,22 +9,27 @@ import java.util.Iterator;
 public class Model implements Observable<Model> {
     //Instansvariabler:
     private LinkedList<Car> carList = new LinkedList<Car>();
-    private int highScore = 0; //ndra till ngon slags tid
     private int borderX;
     private int borderY;
-    
+    private double saveHitspotX;
+    private double saveHitspotY;
+    private boolean mapSelected = false;
+    private boolean carSelected = false;
     private boolean pressedUp = false;
     private boolean pressedDown = false;
     private boolean pressedRight = false;
     private boolean pressedLeft = false;
+    private boolean redCar = false;
     private static int TOPSPEED = 10;
     private static int height = 50;
     private static int width = 50;
     private int carNumber = 1;
     private Track currentTrack;
-    private getPixel bild = new getPixel();
+    private Menu menu;
+    private STATE state;
     private final Collection<Observer<Model>> observers;
-    //private ArrayList<Point2D> tracklist = new ArrayList<Point2D>();
+    private String build = "Build v. 1.0.0.0";
+ // private Controller controller;
     public Model()
     {
         this.observers = new HashSet<>();
@@ -36,25 +41,41 @@ public class Model implements Observable<Model> {
     {
         for(int i = 0; i < carNumber; i++)
         {
-        	carList.add(new Car(1, 0, 0, TOPSPEED, height, width));
+        	if(redCar) {
+        	carList.add(new Car(1, 0, 0, TOPSPEED, height, width, 1));  //REDCAR
+        	System.out.println("spelar med röd bil");
+        	}
+        	carList.add(new Car(1, 0, 0, TOPSPEED, height, width, 0));  //BLUECAR
         }
     }
     
-    private void setStartPositions(Track track)
+    public void menuInit()			//Skapar meny och state = menu
     {
-        for(int i = 0; i < carList.size(); i++)
-        {
-            carList.get(i).setPosition(track);
-            carList.get(i).setAngle(track);
-        }
+    	menu = new Menu(borderX, borderY);
+        state = STATE.MENU;
     }
-    
+    public Menu getMenu()		//Returnerar menu. Mest till att rita upp
+    {
+        return menu;
+    }
+   
+    public boolean getSelected()		//Boolean till om man valt en bana varav bild laddats in. Genererar annars fel.
+    {
+        return mapSelected;
+    }
+    public boolean getSelectedCar()		//Boolean till om man valt en bil varav bild laddats in. Genererar annars fel.
+    {
+        return carSelected;
+    }
     public void updateModel()
     {
-    	checkBorder();
-    	checkHitboxes();
-        moveCar();
-        System.out.println(carList.get(0).getAngle());
+    	if(state==STATE.GAME)	//Kolla endast om man spelar. Genererar annars exceptions
+        {
+            checkBorder();
+            checkHitboxes();
+            moveCar();
+        }
+    	
         updateObservers();
        
     }
@@ -87,23 +108,10 @@ public class Model implements Observable<Model> {
     }
     
     public void checkBorder() {
-    	
     	if(carList.get(0).getPositionX() >= borderX || carList.get(0).getPositionX() <= 0 || carList.get(0).getPositionY() >= borderY || carList.get(0).getPositionY() <= 0) { 
     		carList.get(0).turnDirection(); 
-    		
-    		}
-    	/*if(carList.get(0).getPositionX() <= 0) {
-    		carList.get(0).turnDirection();
-    		
-    		} 
-    	if(carList.get(0).getPositionY() >= borderY) {
-    		carList.get(0).turnDirection();
-    		
-    		} 
-    	if(carList.get(0).getPositionY() <= 0) {
-    		carList.get(0).turnDirection();
-    		
-    	} 	*/
+    	}
+    	
     }
    
     
@@ -111,21 +119,17 @@ public class Model implements Observable<Model> {
 public boolean overlapsWith(double px, double py){ //px, py är kordinater till track
 	double width= (double) carList.get(0).getWidth()/2;
 	double height= (double)carList.get(0).getHeight()/2;
-	
-	double ax= carList.get(0).getPositionX() - width;
-	double ay= carList.get(0).getPositionY() - height;
-	
-	double bx= carList.get(0).getPositionX() + width;
-	double by= carList.get(0).getPositionY() - height;
-	
-	double cx= carList.get(0).getPositionX() - width;  
-	double cy= carList.get(0).getPositionY() + height;
-	
-	double dx= carList.get(0).getPositionX() + width;
-	double dy= carList.get(0).getPositionY() + height;
-	
+	double carx= carList.get(0).getPositionX();
+	double cary= carList.get(0).getPositionY();
+	double ax= carx - width;
+	double ay= cary - height;
+	double bx= carx + width;
+	double by= cary - height;
+	double cx= carx - width;  
+	double cy= cary + height;
+	double dx= carx + width;
+	double dy= cary + height;
 	double rectarea = (2*height)*(2*width);
-					
 	double APD = Math.abs((px * ay - ax * py) + (dx * py - px * dy) + (ax * dy - dx * ay))/2;
 	double DPC = Math.abs((px * dy - dx * py) + (cx * py - px * cy) + (dx * cy - cx * dy))/2;
 	double CPB = Math.abs((px * cy - cx * py) + (bx * py - px * by) + (cx * by - bx * cy))/2;  
@@ -133,25 +137,55 @@ public boolean overlapsWith(double px, double py){ //px, py är kordinater till 
 	double sum = APD + DPC + CPB + PBA;
 	
 	if(sum > rectarea ) return false;
-		 
+	saveHitspotX= px;
+	saveHitspotY= py;
     return true; 
 	}  
+    
 
     public void checkHitboxes() {  //
-    Iterator<Point> it = bild.getList().iterator();
+    Iterator<Point> it = currentTrack.getHitbox().iterator();
         while(it.hasNext()) {
+        boolean temp= false;
         Point p = it.next();
-    	if(overlapsWith(p.x, p.y) == true) { 
-    		//System.out.println("krock");
-    		carList.get(0).setNewCordinates();
-    		//carList.get(0).turnDirection(); 
-    	//	for(int i=0; i<= 5000; i++) {carList.get(0).collisionSpeed();}  //car slows down after collision for a few seconds
-    	//carList.get(0).toNormalSpeed();
-    		}
+    	if( overlapsWith(p.x, p.y) ) { 
+    		//carList.get(0).collisionSpeed();
+    		carList.get(0).turnDirection(); 
+    		 temp= true; 
+    	
+    	}
+    	/*if(temp==true && (
+    			(carList.get(0).getPositionX() >= saveHitspotX + 10) || //car slows down after collision for a few seconds, men bugg
+    			(carList.get(0).getPositionX() <= saveHitspotX - 10) || 
+    			(carList.get(0).getPositionY() >= saveHitspotY + 10) || 
+    			(carList.get(0).getPositionY() <= saveHitspotY - 10))) 
+    	{
+    	carList.get(0).toNormalSpeed();
+    	}*/
         }
     }
     
-    
+    public void selectMap()				//Annorlunda om man har fler banor. Byter state till game och skapar track som ska scale med screen
+    {
+        currentTrack = new LindholmenDerby(borderX,borderY);
+        state = STATE.GAME;
+        this.mapSelected=true;
+    }
+    public void selectCarConfig()				
+    {
+        //flagga för å skapa ny bil från model
+        state = STATE.CARCONFIG;
+        
+    }
+    public void selectRedCar()				
+    {
+        redCar=true;
+        this.carSelected=true;
+        
+        state = STATE.MENU;
+        
+        //updateModel();
+    }
     
     //getters
     public LinkedList<Car> getCarList()
@@ -161,6 +195,10 @@ public boolean overlapsWith(double px, double py){ //px, py är kordinater till 
     public Track getTrack()
     {
         return currentTrack;
+    }
+    public STATE getState()
+    {
+        return this.state;
     }
     
     //setters
@@ -202,8 +240,34 @@ public boolean overlapsWith(double px, double py){ //px, py är kordinater till 
     public void setBorderY(int y) { 
     	borderY = y;
     }
-  
-    
+    public void stateGame()
+    {
+            state=STATE.GAME;
+    }
+
+    public void stateMenu()
+    {
+            state=STATE.MENU;
+    }
+    public void stateConfig()
+    {
+            state=STATE.CARCONFIG;
+    }
+    public int getBorderX()
+    {
+    	return borderX;
+    }
+    public int getBorderY()
+    {
+    	return borderY;
+    }
+    public boolean getRedCarbool() {
+    	return this.redCar;
+    }
+    public String getBuild()
+    {
+    	return build;
+    }
     @Override
     public void addObserver(Observer<Model> o){
         this.observers.add(o);
