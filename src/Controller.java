@@ -1,111 +1,67 @@
 import  java.awt.*; 
 import  java.awt.event.*;   
 import  javax.swing.*; 
-import  java.util.List;
-import  java.util.Iterator;
+
     
-public class Controller extends JFrame implements KeyListener, ActionListener
+public class Controller extends JFrame implements ActionListener
 {
     private Model m;
     private View v;
     private Dimension screenSize;
-    private Timer t;    //RITAR, FLYTTAR och kollar regler
+    private Timer t;    
     
     public Controller()
     {
+        
         m = new Model();    
         v = new View(m);
         m.addObserver(v);
         
-        createFrame(v);					//Skapar frame
-        t = new Timer(10,this);      	//
-        startGame();					//Startar timer
+        createWindow(v);                                 
         
         setScreenY();
         setScreenX();
+        
+        m.menuInit();				//Skapar en meny
+        
+        t = new Timer(10,this);   
+        
+        startApp();
+        
     }
     
-    public void createFrame(View v)
+    public void createWindow(View v)
     {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
-        setLocation(50,25);
-    	  screenSize = Toolkit.getDefaultToolkit().getScreenSize();		//Hmtar skrmstorlek
-    	  v.setPreferredSize(new Dimension((int)screenSize.getWidth()-100,(int)screenSize.getHeight()-100));	//anpassar frame efter skrm
-    	
-    	add(v);
+        setLocation(25,15);
+        screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        screenSize.setSize(screenSize.getWidth()-100, screenSize.getHeight()-100);
+        v.setPreferredSize(screenSize);
+        add(v);
         pack();
-        v.addKeyListener(this); 
-        v.setFocusable(true);       //Annars funkar inte tangenttryck
-        
-     
-        setVisible(true);  ///gammalt
-         
+        v.addKeyListener(new KeyInput(this));			//Tangent-input
+        v.addMouseListener(new MouseInput(this));		//Mus-input
+        v.setFocusable(true);      
+        setVisible(true);  
     }
     
-    public void startGame()
+    public Model getModel()		//Kallas i listener-klassser
     {
-    	t.start();
+        return m;
     }
     
-    public void keyPressed(KeyEvent e)
-    {   
-        int k = e.getKeyCode(); 
-       
-        if(k == KeyEvent.VK_UP)
-        {
-        	m.setPressedUp();	//Frsta bilen i listan flaggar: Kr framt
-        }
-        else if(k == KeyEvent.VK_LEFT)
-        {
-        	m.setPressedLeft(); //Frsta bilen i listan flaggar: Svnger vnster
-        }
-        else if(k == KeyEvent.VK_RIGHT)
-        {
-        	m.setPressedRight();	//Frsta bilen i listan flaggar: Svnger hger
-        }
-        else if(k == KeyEvent.VK_DOWN)
-        {
-        	m.setPressedDown();	//Frsta bilen i listan flaggar: Kr bakt
-        }
-        else if(k == KeyEvent.VK_ESCAPE)
-        {
-        	System.exit(0);//pausar spelet / avsluta spelet?
-        }
-        
-        
-        
-        
-    } 
-
-    public void keyTyped(KeyEvent e){}
-    public void keyReleased(KeyEvent e)
+    public void startApp()
     {
-        int k = e.getKeyCode(); 
-        if(k == KeyEvent.VK_UP)
-        {
-        	m.setReleasedUp();	//Sluta accelerera framt
-        }
-        else if(k == KeyEvent.VK_DOWN)
-        {
-        	m.setReleasedDown(); //Sluta accelerera bakt
-        }
-        else if(k == KeyEvent.VK_LEFT)
-        {
-        	m.setReleasedLeft(); //Sluta svnga vnster
-        }
-        else if(k == KeyEvent.VK_RIGHT)
-        {
-        	m.setReleasedRight();	//Sluta svnga hger
-        }
+        t.start();
     }
-
+    
     public void actionPerformed(ActionEvent e)
     {   
-    	m.updateModel();
-        //v.updateView();
+        m.updateModel();
     }
-   public void setScreenY() { m.setBorderY(v.getHeight());  }
-   public void setScreenX() { m.setBorderX(v.getWidth()); }
+    
+   public void setScreenY() { m.setBorderY((int)screenSize.getHeight());  }
+   public void setScreenX() { m.setBorderX((int)screenSize.getWidth()); }
    
 
 }

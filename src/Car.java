@@ -6,28 +6,32 @@ public class Car {
     private double positionX; 
       private double positionY;
       private double speed;
+      private double tempspeed;
       private double angle;
       private int color;
       private int xOffset;
       private int yOffset;
       private double topspeed;
-      private int carSize;
+      private int height;
+	  private int width;
     
     //Konstruktor
-    public Car(int color, int xOffset, int yOffset, int topspeed, int carSize)
+    public Car(int color, int xOffset, int yOffset, int topspeed, int height, int width)
     {
         this.color = color;
         this.xOffset = xOffset;
         this.yOffset = yOffset;
         this.topspeed = topspeed;
-        this.carSize = carSize;
+        this.height = height;
+		this.width = width;
+
         angle = 0;
     
-        positionX = 200;
-        positionY = 200;
+        positionX = 600;
+        positionY = 600;
     }
     
-    public void move()  // �ndra position varje frame baserat p� angle och speed
+    public void move() 
     {
         positionX += (Math.cos(angle) * speed); 
         positionY += (Math.sin(angle) * speed);  
@@ -44,8 +48,13 @@ public class Car {
         angle = track.getStartAngle();
         
     }
-    
-    
+    public void collisionSpeed() {
+  	  tempspeed = speed;
+  	  speed = 0.5;
+    }
+    public void toNormalSpeed() {
+  	  speed = tempspeed;
+    }
     public void accelerate()
     {
         if(speed <= topspeed)
@@ -87,6 +96,10 @@ public class Car {
                     angle+=(2*Math.PI);
                 }
 	}
+	public void setSpeed(double s)
+	{
+		this.speed=s;
+	}
 	
 	//getters
 	public int getPositionX()
@@ -105,8 +118,14 @@ public class Car {
 	{
 		return color;
 	}
-	public int getCarSize()
+	public int getHeight(){
+		return this.height;
+	}
+	public int getWidth(){
+		return this.width;
+	}
+	public double getSpeed()
 	{
-		return carSize;
+		return this.speed;
 	}
 }

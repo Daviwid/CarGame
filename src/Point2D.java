@@ -11,7 +11,6 @@ public  class   Point2D
     public  Point2D rotate(double   angle)  
     {   
         //angle   =   Math.toRadians(angle);  
-        return  new Point2D(Rotate2D.getX(x,y,angle),   
-                                                                                                Rotate2D.getY(x,y,angle));  
+        return  new Point2D(Rotate2D.getX(x,y,angle), Rotate2D.getY(x,y,angle));  
     }   
 }   
