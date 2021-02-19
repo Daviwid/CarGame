@@ -6,9 +6,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Car {
-	
-	//instansvariabler
-    private double positionX; 
+      private double positionX; 
       private double positionY;
       private double speed;
       private double tempspeed;
@@ -18,19 +16,27 @@ public class Car {
       private int yOffset;
       private double topspeed;
       private int height;
-	  private int width;
-	  private BufferedImage redCar;
-	  private BufferedImage blueCar;
-	  private BufferedImage greenCar;
+	    private int width;
+	    private BufferedImage redCar;
+	    private BufferedImage blueCar;
+	    private BufferedImage greenCar;
     //Konstruktor
     public Car(int color, int xOffset, int yOffset, int topspeed, int height, int width, int col)
     {
+=======
+	  
+    //Konstruktor
+    public Car(int color, int xOffset, int yOffset, int topspeed, int height, int width)
+    {
+    	this.speed = 0;
+
         this.color = color;
         this.xOffset = xOffset;
         this.yOffset = yOffset;
         this.topspeed = topspeed;
         this.height = height;
 		this.width = width;
+
         angle = 0;
 
         positionX = 500;
@@ -44,17 +50,14 @@ public class Car {
     		} 
         if(col==1) {
         try {
-		 redCar = ImageIO.read(new File("REDCAR.png"));
-		}
+		           redCar = ImageIO.read(new File("REDCAR.png"));
+        }
+          
 		catch(IOException e){
 			
 		}
-        }
-        }
-        
-    }
 
-    public void move()  // ndra position varje frame baserat p angle och speed
+    public void move() 
     {
         positionX += (Math.cos(angle) * speed); 
         positionY += (Math.sin(angle) * speed);  
@@ -69,10 +72,16 @@ public class Car {
     public void setAngle(Track track)
     {
         angle = track.getStartAngle();
-
     }
-
-
+        
+    
+    public void collisionSpeed() {
+  	  tempspeed = speed;
+  	  speed = 0.5;
+    }
+    public void toNormalSpeed() {
+  	  speed = tempspeed;
+    }
     public void accelerate()
     {
         if(speed <= topspeed)
@@ -97,7 +106,6 @@ public class Car {
               {
                   angle+=(2*Math.PI);
               }
-		
 	}
   
   public void collisionSpeed() {
@@ -111,17 +119,22 @@ public class Car {
 	{
 		angle = angle   +   Math.PI    /   128.0; //increase radian angle
 		if(angle>(2*Math.PI))                     //keep interval 0-6
-                {       
-                    angle-=(2*Math.PI);
-                }
+    {       
+       angle-=(2*Math.PI);
+    }
 	}
 	public void turnLeft()
 	{
-		angle = angle   +   -Math.PI    /   128.0;    //decrease radian angle
-        if(angle<0)                                   //keep interval 0-6
-        {
-            angle+=(2*Math.PI);
-        }
+		  angle = angle   +   -Math.PI    /   128.0;    //decrease radian angle
+      if(angle<0)                                   //keep interval 0-6
+      {
+          angle+=(2*Math.PI);
+      }
+	}
+  
+	public void setSpeed(double s)
+	{
+		this.speed=s;
 	}
 	
 	//getters
@@ -137,7 +150,6 @@ public class Car {
 	{
 		return angle;
 	}
-	
 	public int getColor()
 	{
 		return color;
@@ -145,8 +157,17 @@ public class Car {
 	public int getHeight(){
 		return this.height;
 	}
-	public int getWidth(){
+	public int getWidth()
+  {
 		return this.width;
+  }
+	public double getSpeed()
+	{
+		return this.speed;
+	}
+	public BufferedImage getRedCar()
+	{
+		return redCar;
 	}
 	public BufferedImage getRedCar() { return this.redCar; }
 	public BufferedImage getBlueCar() { return this.blueCar; }

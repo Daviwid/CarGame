@@ -2,5 +2,7 @@ public enum STATE
 {
        MENU,
        GAME,
-       CARCONFIG
+       CARCONFIG,
+       MAP_SELECTION
 }
+

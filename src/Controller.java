@@ -8,36 +8,33 @@ public class Controller extends JFrame implements ActionListener
     private Model m;
     private View v;
     private Dimension screenSize;
-    private Timer t;    //RITAR, FLYTTAR och kollar regler
-    private JMenuBar menuBar;
-   
+    private Timer t;    
+
     
     private boolean carDelay= false;
     public Controller()
     {
-        m = new Model(); 
-       
+        m = new Model();    
         v = new View(m);
         m.addObserver(v);
         
-        createWindow(v);      				//Skapar frame
-        t = new Timer(10,this);      	
-        
-        //startGame();					//Startar timer
+        createWindow(v);                                 
         
         setScreenY();
         setScreenX();
+        
         m.menuInit();				//Skapar en meny
-
+        m.mapInit();
+        
         t = new Timer(10,this);   
-
+        
         startApp();
-
     }
     
     public void createWindow(View v)
     {
-    	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
         setLocation(25,15);
         screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         screenSize.setSize(screenSize.getWidth()-100, screenSize.getHeight()-100);
@@ -50,27 +47,23 @@ public class Controller extends JFrame implements ActionListener
         setVisible(true); 
     }
     
-    public Model getModel()
+    
+    public Model getModel()		//Kallas i listener-klassser
     {
-    	return m;
+        return m;
     }
     
     public void startApp()
     {
-    	t.start();
+        t.start();
     }
     
-    
-
     public void actionPerformed(ActionEvent e)
     {   
-    	//v.updateView();
-    	
-    	m.updateModel();
+        m.updateModel();
     }
-    public void setScreenY() { m.setBorderY((int)screenSize.getHeight());  }
-    public void setScreenX() { m.setBorderX((int)screenSize.getWidth()); }
-  
+    
+   public void setScreenY() { m.setBorderY((int)screenSize.getHeight());  }
+   public void setScreenX() { m.setBorderX((int)screenSize.getWidth()); }
 
-} 
 

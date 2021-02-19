@@ -1,9 +1,9 @@
 public class LindholmenDerby extends Track {
-
+	
 	private String map;
 	private int color;
 	private int lcolor;
-
+	
 	public LindholmenDerby(int x, int y)
 	{
 		map = "tests.jpg";			//Laddar in banan Lindholmen...
@@ -13,3 +13,4 @@ public class LindholmenDerby extends Track {
 		setHitbox(color,lcolor);	//Skapar hitbox-lista
 	}
 }
+
