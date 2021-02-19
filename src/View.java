@@ -125,11 +125,13 @@ public class View extends JPanel implements Observer<Model> {
     
     
     public void drawCar(Graphics2D g2d, Car car) {
+        // getsubimage om vi ska ha 1 bild med alla olika bilar.
+
 		Image resultingImage = redCar.getScaledInstance(car.getHeight(), car.getWidth(), Image.SCALE_DEFAULT);
 	    BufferedImage outputImage = new BufferedImage(car.getHeight(), car.getWidth(), BufferedImage.TYPE_INT_ARGB);
 	    outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
 	    
-	    
+	    //start debug
         g2d.setColor(Color.green); 
         double w = car.getWidth();  //Test values of green rectangle under png
         double h = car.getHeight();
@@ -149,7 +151,8 @@ public class View extends JPanel implements Observer<Model> {
              yPts[i]=(int)(dy[i]+.5); 
         }
         g2d.fillPolygon(xPts,yPts,4);
-        
+        // end debug
+
         AffineTransform backup = g2d.getTransform();
 //        AffineTransform a = AffineTransform.getRotateInstance(car.getAngle(), car.getPositionX(), car.getPositionY());
         //Set our Graphics2D object to the transform
