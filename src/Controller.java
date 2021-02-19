@@ -22,21 +22,15 @@ public class Controller extends JFrame implements ActionListener
 
         screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         screenSize.setSize(screenSize.getWidth()-100, screenSize.getHeight()-100);
-        
-        //setMaximumSize(new Dimension((int)screenSize.getWidth() + 1000, (int)screenSize.getHeight() + 800 ));
-        //setMinimumSize(new Dimension((int)screenSize.getWidth() - 600, (int)screenSize.getHeight() - 400 ));
-        //setPreferredSize(screenSize);
-        setPreferredSize(screenSize);
-        
-        
+        v.setPreferredSize(screenSize);
+
         add(v);
         pack();
-        
         addKeyListener(new KeyInput(this));			//Tangent-input
         addMouseListener(new MouseInput(this));		//Mus-input
         setFocusable(true);      
-        setVisible(true);  
-
+        setVisible(true);                                 
+        
         setScreenY();
         setScreenX();
         
@@ -48,20 +42,7 @@ public class Controller extends JFrame implements ActionListener
         
     }
     
-    public void createWindow(View v)
-    {
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
-        setLocation(25,15);
-        screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        screenSize.setSize(screenSize.getWidth()-100, screenSize.getHeight()-100);
-        v.setPreferredSize(screenSize);
-        add(v);
-        pack();
-        v.addKeyListener(new KeyInput(this));			//Tangent-input
-        v.addMouseListener(new MouseInput(this));		//Mus-input
-        v.setFocusable(true);      
-        setVisible(true);  
-    }
+    
     
     public Model getModel()		//Kallas i listener-klassser
     {
@@ -76,7 +57,6 @@ public class Controller extends JFrame implements ActionListener
     public void actionPerformed(ActionEvent e)
     {   
         m.updateModel();
-        pack();
     }
     
    public void setScreenY() { m.setBorderY((int)screenSize.getHeight());  }
