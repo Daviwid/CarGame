@@ -22,7 +22,12 @@ public class Controller extends JFrame implements ActionListener
 
         screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         screenSize.setSize(screenSize.getWidth()-100, screenSize.getHeight()-100);
+        
+        setMaximumSize(new Dimension((int)screenSize.getWidth() + 1000, (int)screenSize.getHeight() + 800 ));
+        setMinimumSize(new Dimension((int)screenSize.getWidth() - 600, (int)screenSize.getHeight() - 400 ));
         setPreferredSize(screenSize);
+        v.setPreferredSize(screenSize);
+        
         
         add(v);
         pack();
@@ -57,8 +62,8 @@ public class Controller extends JFrame implements ActionListener
     
     public void actionPerformed(ActionEvent e)
     {   
-        
         m.updateModel();
+        pack();
     }
     
    public void setScreenY() { m.setBorderY((int)screenSize.getHeight());  }
