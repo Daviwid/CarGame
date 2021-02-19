@@ -37,4 +37,5 @@ public class MouseInput implements MouseListener{
     public void mouseEntered(MouseEvent e){}
     public void mouseExited(MouseEvent e){}
     public void mouseReleased(MouseEvent e){}
+
 }

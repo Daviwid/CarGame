@@ -96,6 +96,10 @@ public class Car {
                     angle+=(2*Math.PI);
                 }
 	}
+	public void setSpeed(double s)
+	{
+		this.speed=s;
+	}
 	
 	//getters
 	public int getPositionX()
@@ -119,5 +123,9 @@ public class Car {
 	}
 	public int getWidth(){
 		return this.width;
+	}
+	public double getSpeed()
+	{
+		return this.speed;
 	}
 }

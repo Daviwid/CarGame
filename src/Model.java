@@ -1,5 +1,9 @@
 import java.util.LinkedList;
+
+
+
 import java.awt.Point;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -24,6 +28,7 @@ public class Model implements Observable<Model> {
     private Track currentTrack;
     private Menu menu;
     private STATE state;
+    private String build = "Build v. 1.0.0.0";
     
     private final Collection<Observer<Model>> observers;
    // private Controller controller;
@@ -130,7 +135,9 @@ public class Model implements Observable<Model> {
         return true; 
     	} 
         
+    
 
+    
     public void checkHitboxes() {  //
     Iterator<Point> it = currentTrack.getHitbox().iterator();
         while(it.hasNext()) {
@@ -138,10 +145,15 @@ public class Model implements Observable<Model> {
         Point p = it.next();
     	if( overlapsWith(p.x, p.y) ) { 
     		//carList.get(0).collisionSpeed();
+    		//Toolkit.getDefaultToolkit().beep();
     		carList.get(0).turnDirection(); 
+
+    		
+    		
     		 temp= true; 
-    	
+    		 System.out.println(carList.get(0).getSpeed());
     	}
+    
     	/*if(temp==true && (
     			(carList.get(0).getPositionX() >= saveHitspotX + 10) || //car slows down after collision for a few seconds, men bugg
     			(carList.get(0).getPositionX() <= saveHitspotX - 10) || 
@@ -173,6 +185,18 @@ public class Model implements Observable<Model> {
     public STATE getState()
     {
         return this.state;
+    }
+    public int getBorderX()
+    {
+    	return borderX;
+    }
+    public int getBorderY()
+    {
+    	return borderY;
+    }
+    public String getBuild()
+    {
+    	return build;
     }
     
     //setters
