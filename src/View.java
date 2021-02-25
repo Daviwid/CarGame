@@ -13,7 +13,7 @@ public class View extends JPanel implements Observer<Model> {
 
     private Model m;
     private LinkedList<Car> carList;
-    private BufferedImage redCar;
+    private Image redCar;
     
     public View(Model m) {
         this.m = m;
@@ -128,9 +128,9 @@ public class View extends JPanel implements Observer<Model> {
     private void drawCar(Graphics2D g2d, Car car) {
         // getsubimage om vi ska ha 1 bild med alla olika bilar.
 
-		Image resultingImage = redCar.getScaledInstance(car.getHeight(), car.getWidth(), Image.SCALE_DEFAULT);
-	    BufferedImage outputImage = new BufferedImage(car.getHeight(), car.getWidth(), BufferedImage.TYPE_INT_ARGB);
-	    outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
+		Image resultingImage = redCar.getScaledInstance(car.getHeight(), car.getWidth(), Image.SCALE_REPLICATE);
+	    //BufferedImage outputImage = new BufferedImage(car.getHeight(), car.getWidth(), BufferedImage.TYPE_INT_ARGB);
+	    //outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
 	    
 	    //start debug
         g2d.setColor(Color.green); 
@@ -159,7 +159,7 @@ public class View extends JPanel implements Observer<Model> {
         //Set our Graphics2D object to the transform
        g2d.rotate(car.getAngle() + (3*Math.PI)/2, car.getPositionX(), car.getPositionY());
         
-        g2d.drawImage(outputImage, car.getPositionX() - 25, car.getPositionY()-25 , null);
+        g2d.drawImage(resultingImage, car.getPositionX() - (m.getHeight() / 2) , car.getPositionY() - (m.getWidth() / 2) , null);
 //      g2d.setTransform(a); 
         g2d.setTransform(backup);
     }
