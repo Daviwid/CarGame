@@ -31,6 +31,8 @@ public class Model implements Observable<Model> {
     private String build = "Build v. 1.0.0.0";
 
 	private int gameTimer;
+    private ArrayList<Point> positionList = new ArrayList<Point>();
+    private ArrayList<Double> angleList = new ArrayList<Double>();
     
     private final Collection<Observer<Model>> observers;
    // private Controller controller;
@@ -74,6 +76,8 @@ public class Model implements Observable<Model> {
             checkHitboxes();
             moveCar();
 			
+            savePosition(carList.get(0).getPositionX(), carList.get(0).getPositionY());  //for loop if we have more then 1 player
+            saveAngle(carList.get(0).getAngle());                                           // same here...
         }
         updateObservers();
     }
@@ -178,6 +182,13 @@ public class Model implements Observable<Model> {
         this.mapSelected=true;
     }
     
+    private void savePosition( int xPosition, int yPosition){
+        positionList.add(new Point(xPosition, yPosition));
+    }
+    
+    private void saveAngle(Double angle){
+        angleList.add(angle);
+    }
     
     //getters
     public LinkedList<Car> getCarList()
