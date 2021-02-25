@@ -49,7 +49,7 @@ public class View extends JPanel implements Observer<Model> {
          {
              g2d.drawImage(map, 0,0,this);					//Ritar banan
             
-             //Debug code. visar sargen.
+            /* //Debug code. visar sargen.
              Iterator<Point> it = m.getTrack().getHitbox().iterator();
              g2d.setColor(Color.red);
              while(it.hasNext())
@@ -57,10 +57,11 @@ public class View extends JPanel implements Observer<Model> {
                  Point p = it.next();
                  g2d.drawLine(p.x,p.y,p.x,p.y);
              }
-             //End of debug code.
+             */ //End of debug code.
          }
      
          drawCar(g2d, carList.get(0));
+         drawTime(g2d);
      
      
          //Debug code "yellow spinning circles"
@@ -76,7 +77,7 @@ public class View extends JPanel implements Observer<Model> {
          //End of debug code   
     }
     
-    public void drawMenu(Menu menu, Graphics2D g2d,int x,int y)
+    private void drawMenu(Menu menu, Graphics2D g2d,int x,int y)
     {
     	setBackground(Color.black);
         
@@ -124,7 +125,7 @@ public class View extends JPanel implements Observer<Model> {
     }
     
     
-    public void drawCar(Graphics2D g2d, Car car) {
+    private void drawCar(Graphics2D g2d, Car car) {
         // getsubimage om vi ska ha 1 bild med alla olika bilar.
 
 		Image resultingImage = redCar.getScaledInstance(car.getHeight(), car.getWidth(), Image.SCALE_DEFAULT);
@@ -163,7 +164,17 @@ public class View extends JPanel implements Observer<Model> {
         g2d.setTransform(backup);
     }
     
-    
+    private void drawTime(Graphics2D g2d){
+        
+        int min = m.getGameTimer() / 60;
+        int sec = m.getGameTimer() % 60;
+
+        String s = (String.valueOf(min) + ":" + String.valueOf(sec));
+        g2d.setFont(new Font("arial",Font.BOLD,20));
+        g2d.drawString(s, 20, 150);
+        
+    }
+
     @Override
     public void update(Model observable) {
         repaint();

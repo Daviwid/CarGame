@@ -29,11 +29,14 @@ public class Model implements Observable<Model> {
     private Menu menu;
     private STATE state;
     private String build = "Build v. 1.0.0.0";
+
+	private int gameTimer;
     
     private final Collection<Observer<Model>> observers;
    // private Controller controller;
     public Model()
     {
+		
         this.observers = new HashSet<>();
         modelInit(carNumber);
     }
@@ -66,9 +69,11 @@ public class Model implements Observable<Model> {
     {
         if(state==STATE.GAME)	//Kolla endast om man spelar. Genererar annars exceptions
         {
-            checkBorder();
+            
+			checkBorder();
             checkHitboxes();
             moveCar();
+			
         }
         updateObservers();
     }
@@ -109,7 +114,7 @@ public class Model implements Observable<Model> {
     
     
     /* source: https://stackoverflow.com/questions/17136084/checking-if-a-point-is-inside-a-rotated-rectangle/17146376*/
-    public boolean overlapsWith(double px, double py){ //px, py är kordinater till track
+    public boolean overlapsWith(double px, double py){ //px, py ï¿½r kordinater till track
     	double width= (double) carList.get(0).getWidth()/2;
     	double height= (double)carList.get(0).getHeight()/2;
     	double carx= carList.get(0).getPositionX();
@@ -168,6 +173,7 @@ public class Model implements Observable<Model> {
     public void selectMap()				//Annorlunda om man har fler banor. Byter state till game och skapar track som ska scale med screen
     {
         currentTrack = new LindholmenDerby(borderX,borderY);
+        resetGameTime();
         state = STATE.GAME;
         this.mapSelected=true;
     }
@@ -198,7 +204,12 @@ public class Model implements Observable<Model> {
     {
     	return build;
     }
+    public int getGameTimer()
+    {
+        return gameTimer;
+    }
     
+
     //setters
     public void setPressedUp()
     {
@@ -246,7 +257,16 @@ public class Model implements Observable<Model> {
     {
             state=STATE.MENU;
     }  
-    
+    public void resetGameTime()
+    {
+        gameTimer = 0;
+    }
+    public void setGameTime()
+    {
+        gameTimer++;
+    }
+	
+
     @Override
     public void addObserver(Observer<Model> o){
         this.observers.add(o);
