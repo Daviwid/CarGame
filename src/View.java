@@ -128,7 +128,7 @@ public class View extends JPanel implements Observer<Model> {
     private void drawCar(Graphics2D g2d, Car car) {
         // getsubimage om vi ska ha 1 bild med alla olika bilar.
 
-		Image resultingImage = redCar.getScaledInstance(car.getHeight(), car.getWidth(), Image.SCALE_REPLICATE);
+		
 	    //BufferedImage outputImage = new BufferedImage(car.getHeight(), car.getWidth(), BufferedImage.TYPE_INT_ARGB);
 	    //outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
 	    
@@ -152,16 +152,21 @@ public class View extends JPanel implements Observer<Model> {
              yPts[i]=(int)(dy[i]+.5); 
         }
         g2d.fillPolygon(xPts,yPts,4);
+        
         // end debug
 
+        
+        Image resultingImage = redCar.getScaledInstance(car.getWidth(), car.getHeight(), Image.SCALE_SMOOTH);
+        
         AffineTransform backup = g2d.getTransform();
 //        AffineTransform a = AffineTransform.getRotateInstance(car.getAngle(), car.getPositionX(), car.getPositionY());
         //Set our Graphics2D object to the transform
        g2d.rotate(car.getAngle() + (3*Math.PI)/2, car.getPositionX(), car.getPositionY());
         
-        g2d.drawImage(resultingImage, car.getPositionX() - (m.getHeight() / 2) , car.getPositionY() - (m.getWidth() / 2) , null);
+        g2d.drawImage(resultingImage, car.getPositionX() - (car.getWidth() / 2) , car.getPositionY() - (car.getHeight() / 2) , null);
 //      g2d.setTransform(a); 
-        g2d.setTransform(backup);
+        g2d.setTransform(backup); 
+        
     }
     
     private void drawTime(Graphics2D g2d){

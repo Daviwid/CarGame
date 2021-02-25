@@ -22,7 +22,7 @@ public class Model implements Observable<Model> {
     private boolean pressedRight = false;
     private boolean pressedLeft = false;
     private static int TOPSPEED = 10;
-    private static int height = 30;
+    private static int height = 40;
     private static int width = 20;
     private int carNumber = 1;
     private Track currentTrack;
@@ -219,14 +219,7 @@ public class Model implements Observable<Model> {
     {
         return gameTimer;
     }
-    public int getWidth()
-    {
-        return width;
-    }
-    public int getHeight()
-    {
-        return height;
-    }
+    
     
 
     //setters
