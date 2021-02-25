@@ -1,5 +1,8 @@
 public enum STATE
 {
        MENU,
-       GAME
+       GAME,
+       CARCONFIG,
+       MAP_SELECTION
 }
+
