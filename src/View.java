@@ -164,7 +164,7 @@ public class View extends JPanel implements Observer<Model> {
        g2d.rotate(car.getAngle() + (3*Math.PI)/2, car.getPositionX(), car.getPositionY());
         
         g2d.drawImage(resultingImage, car.getPositionX() - (car.getWidth() / 2) , car.getPositionY() - (car.getHeight() / 2) , null);
-//      g2d.setTransform(a); 
+//      g2d.setTransform(a);
         g2d.setTransform(backup); 
         
     }
