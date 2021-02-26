@@ -32,8 +32,10 @@ public class Car {
 
         angle = 0;
 
+
         positionX = 500;
         positionY = 500;
+
         try {
             	redCar = ImageIO.read(new File("REDCAR.png"));
             	greenCar = ImageIO.read(new File("GREENCAR.png"));

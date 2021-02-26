@@ -41,11 +41,11 @@ public class getPixel
         double C = (double)c;	//Color to be compared with
         double ac = A/C;
         double bc = B/C;
-        if(ac >=0.9 && ac<=1.1)
+        if(ac >=0.5 && ac<=1.5)
         {
             return true;
         }
-        if(bc>=0.9 && bc<=1.1)
+        if(bc>=0.5 && bc<=1.5)
         {
             return true;
         }

@@ -15,19 +15,26 @@ public class Model implements Observable<Model> {
     private boolean pressedRight = false;
     private boolean pressedLeft = false;
     private static int TOPSPEED = 10;
-    private static int height = 50;
-    private static int width = 50;
+
+
+    private static int height = 30;
+    private static int width = 20;
     private int carNumber = 1;
     private Track currentTrack,lindholmen;
     private Menu menu;
     private STATE state;
     private int carColor = 0;
     private String build = "Build v. 1.0.0.0";
+
+	private int gameTimer;
+    private ArrayList<Point> positionList = new ArrayList<Point>();
+    private ArrayList<Double> angleList = new ArrayList<Double>();
     
     private final Collection<Observer<Model>> observers;
  // private Controller controller;
     public Model()
     {
+		
         this.observers = new HashSet<>();
         carsInit(carNumber);
     }
@@ -59,9 +66,13 @@ public class Model implements Observable<Model> {
     {
         if(state==STATE.GAME)	//Kolla endast om man spelar. Genererar annars exceptions
         {
-            checkBorder();
+            
+			checkBorder();
             checkHitboxes();
             moveCar();
+			
+            savePosition(carList.get(0).getPositionX(), carList.get(0).getPositionY());  //for loop if we have more then 1 player
+            saveAngle(carList.get(0).getAngle());                                        // same here...
         }
         updateObservers();
     }
@@ -100,7 +111,11 @@ public class Model implements Observable<Model> {
     }
   
     /* source: https://stackoverflow.com/questions/17136084/checking-if-a-point-is-inside-a-rotated-rectangle/17146376*/
+
+
     public boolean overlapsWith(double px, double py){ //px, py är kordinater till track
+
+
     	double width= (double) carList.get(0).getWidth()/2;
     	double height= (double)carList.get(0).getHeight()/2;
     	double carx= carList.get(0).getPositionX();
@@ -151,17 +166,35 @@ public class Model implements Observable<Model> {
     
     public void selectMap(Track t)			
     {
+
         currentTrack = t;
         carsInit(carNumber);
+
+        resetGameTime();
+
+
         state = STATE.GAME;
         this.mapSelected=true;
     }
     
+
     public void mapInit()
     {
     	lindholmen = new LindholmenDerby(borderX,borderY);
     }
         
+
+
+    private void savePosition( int xPosition, int yPosition){
+        positionList.add(new Point(xPosition, yPosition));
+    }
+    
+    private void saveAngle(Double angle){
+        angleList.add(angle);
+    }
+    
+
+
     //getters
     public LinkedList<Car> getCarList()
     {
@@ -187,6 +220,7 @@ public class Model implements Observable<Model> {
     {
     	return build;
     }
+
     public int getCarnmbr()
     {
     	return carNumber;
@@ -203,7 +237,15 @@ public class Model implements Observable<Model> {
     {
     	return mapSelected;
     }
+
+    public int getGameTimer()
+    {
+        return gameTimer;
+
+    }
+
     
+
     //setters
     public void setPressedUp()
     {
@@ -251,6 +293,7 @@ public class Model implements Observable<Model> {
     {
             state=STATE.MENU;
     }  
+
     public void stateMap()
     {
     		state=STATE.MAP_SELECTION;
@@ -263,6 +306,16 @@ public class Model implements Observable<Model> {
     {
     	carColor=c;
     	carList.clear();
+    }
+
+
+    public void resetGameTime()
+    {
+        gameTimer = 0;
+    }
+    public void setGameTime()
+    {
+        gameTimer++;
     }
 
     @Override
