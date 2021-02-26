@@ -9,7 +9,7 @@ private ArrayList<Point> checklist3;
 private ArrayList<Point> checklist4;
 
    
-    public getCheckpointsPixel(BufferedImage bi,int checkpointcolor1, int checkpointcolor2, int checkpointcolor3, int checkpointcolor4, int lcolor, int lcolor3, int lcolor4, int checkpointnr)
+    public getCheckpointsPixel(BufferedImage bi,int checkpointcolor1, int checkpointcolor2, int checkpointcolor3, int checkpointcolor4, int checkpointnr)
     {
         checklist1 = new ArrayList<Point>();
         checklist2 = new ArrayList<Point>();
@@ -21,22 +21,23 @@ private ArrayList<Point> checklist4;
 		{
             for (int y=0;y<bi.getHeight();y++)
             {
-                if(checkpointnr==1 && clr(checkpointcolor1,lcolor, bi.getRGB(x,y), 1)) //send all pixels colors from the screen to compare with the designated checkpoints pixel color
+                if(checkpointnr==1 && clr(checkpointcolor1, bi.getRGB(x,y), 1)) //send all pixels colors from the screen to compare with the designated checkpoints pixel color
                 {
                 	 checklist1.add(new Point(x,y)); 
                 }
-                if(checkpointnr==2 && clr(checkpointcolor2,lcolor, bi.getRGB(x,y), 2)) //send all pixels colors from the screen to compare with the designated checkpoints pixel color
+                if(checkpointnr==2 && clr(checkpointcolor2, bi.getRGB(x,y), 2)) //send all pixels colors from the screen to compare with the designated checkpoints pixel color
                 {
                 	 checklist2.add(new Point(x,y));
                 }
-                if(checkpointnr==4 && clr(checkpointcolor4,lcolor4, bi.getRGB(x,y), 4)) //send all pixels colors from the screen to compare with the designated checkpoints pixel color
-                {
-                	 checklist4.add(new Point(x,y));
-                }
-                if(checkpointnr==3 && clr(checkpointcolor3,lcolor3, bi.getRGB(x,y), 3)) //send all pixels colors from the screen to compare with the designated checkpoints pixel color
+                if(checkpointnr==3 && clr(checkpointcolor3, bi.getRGB(x,y), 3)) //send all pixels colors from the screen to compare with the designated checkpoints pixel color
                 {
                 	 checklist3.add(new Point(x,y));
                 }
+                if(checkpointnr==4 && clr(checkpointcolor4, bi.getRGB(x,y), 4)) //send all pixels colors from the screen to compare with the designated checkpoints pixel color
+                {
+                	 checklist4.add(new Point(x,y));
+                }
+                
                 
             }
 		}
@@ -45,15 +46,14 @@ private ArrayList<Point> checklist4;
     
     
     
-    public boolean clr(int a, int b, int c, int checknr) // A=COLOR B=LCOLOR C=RGB(X,Y)=VARJE FÄRGPIXEL FÖR SKÄRMEN
+    public boolean clr(int a, int c, int checknr) // A=COLOR B=LCOLOR C=RGB(X,Y)=VARJE FÄRGPIXEL FÖR SKÄRMEN
     {
     	double A = (double)a;
-        double B = (double)b;
         double C = (double)c;	//Color to be compared with
         double ac = A/C;
-        double bc = B/C;
         
-        if((checknr==3) && ac >=0.99 && ac <= 1.01)
+        
+        if((checknr==3) && ac >=0.9 && ac <= 1.1)
         {
             return true;
         }
@@ -69,10 +69,7 @@ private ArrayList<Point> checklist4;
         {
             return true;
         }
-        if((checknr==4)&& bc>=0.9 && bc<=1.1)
-        {
-            return true;
-        }
+        
         return false;
     }
     
