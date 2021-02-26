@@ -22,7 +22,7 @@ public class Model implements Observable<Model> {
     private boolean pressedRight = false;
     private boolean pressedLeft = false;
     private static int TOPSPEED = 10;
-    private static int height = 40;
+    private static int height = 30;
     private static int width = 20;
     private int carNumber = 1;
     private Track currentTrack;
@@ -77,7 +77,7 @@ public class Model implements Observable<Model> {
             moveCar();
 			
             savePosition(carList.get(0).getPositionX(), carList.get(0).getPositionY());  //for loop if we have more then 1 player
-            saveAngle(carList.get(0).getAngle());                                           // same here...
+            saveAngle(carList.get(0).getAngle());                                        // same here...
         }
         updateObservers();
     }
@@ -219,7 +219,6 @@ public class Model implements Observable<Model> {
     {
         return gameTimer;
     }
-    
     
 
     //setters
