@@ -1,5 +1,6 @@
 public class LindholmenDerby extends Track {
 	
+
 	private String map, map2;
 	private String checkpointmap;
 	
@@ -15,11 +16,13 @@ public class LindholmenDerby extends Track {
 	
 	public LindholmenDerby(int x, int y)
 	{
+
 		
 		map = "testbana2.png";			//Laddar in banan Lindholmen...
 		map2 = "testbana2.png";
 		color = 0xFFed1c24;			//Color som ska vara sarg
 		lcolor = 0xFFed1c24;		//Low shade av color som ska vara sarg
+
 		setMap(map,map2,x,y);			//Skapar bana och scale till screensize
 		setHitbox(color,lcolor);	//Skapar hitbox-lista
 		
