@@ -14,13 +14,29 @@ public class Model implements Observable<Model> {
     private boolean pressedDown = false;
     private boolean pressedRight = false;
     private boolean pressedLeft = false;
+    
+    private boolean checkpoint1 = false;
+	private boolean checkpoint2 = false;
+	private boolean checkpoint3 = false;
+	private boolean checkpoint4 = false;
+	
+	private int checkpoint1x;
+	private int checkpoint1y;
+	private int checkpoint2x;
+	private int checkpoint2y;
+	private int checkpoint3x;
+	private int checkpoint3y;
+	private int checkpoint4x;
+	private int checkpoint4y;
+	
     private static int TOPSPEED = 10;
 
 
     private static int height = 30;
     private static int width = 20;
     private int carNumber = 1;
-    private Track currentTrack,lindholmen;
+    private Track currentTrack,lindholmen, currentCheckpoints;
+    
     private Menu menu;
     private STATE state;
     private int carColor = 0;
@@ -56,6 +72,12 @@ public class Model implements Observable<Model> {
     	pressedRight=false;
     }
     
+    public void resetCheckBox() {
+    	checkpoint1 = false;
+    	checkpoint2 = false;
+    	 checkpoint3 = false;
+    	checkpoint4 = false;
+    }
     public void menuInit()			//Skapar meny och state = menu
     {
         menu = new Menu(borderX, borderY);
@@ -66,9 +88,13 @@ public class Model implements Observable<Model> {
     {
         if(state==STATE.GAME)	//Kolla endast om man spelar. Genererar annars exceptions
         {
-            
-			checkBorder();
-            checkHitboxes();
+            checkBorder();
+           checkHitboxes();
+            checkCheckpoint1Hitboxes();
+            checkCheckpoint2Hitboxes();
+            checkCheckpoint3Hitboxes();
+            checkCheckpoint4Hitboxes();
+
             moveCar();
 			
             savePosition(carList.get(0).getPositionX(), carList.get(0).getPositionY());  //for loop if we have more then 1 player
@@ -113,7 +139,9 @@ public class Model implements Observable<Model> {
     /* source: https://stackoverflow.com/questions/17136084/checking-if-a-point-is-inside-a-rotated-rectangle/17146376*/
 
 
+
     public boolean overlapsWith(double px, double py){ //px, py är kordinater till track
+
 
 
     	double width= (double) carList.get(0).getWidth()/2;
@@ -138,31 +166,75 @@ public class Model implements Observable<Model> {
     	if(sum > rectarea ) return false;
         return true; 
     	} 
-
-    public void checkHitboxes() {  //
+    
+   public void checkHitboxes() {  //
     Iterator<Point> it = currentTrack.getHitbox().iterator();
         while(it.hasNext()) {
-        boolean temp= false;
+        
         Point p = it.next();
     	if( overlapsWith(p.x, p.y) ) { 
-    		//carList.get(0).collisionSpeed();
-    		//Toolkit.getDefaultToolkit().beep();
-    		carList.get(0).turnDirection(); 
-    		 temp= true; 
+    		//carList.get(0).turnDirection(); 
+    		if(checkpoint1==true && checkpoint2!=true && checkpoint3!=true && checkpoint4!=true) {carList.get(0).setCheckpointPosition(currentTrack, checkpoint1x , checkpoint1y);}
+    		
+    		if(checkpoint2==true && checkpoint1==true && checkpoint3!=true && checkpoint4!=true) {carList.get(0).setCheckpointPosition(currentTrack, checkpoint2x , checkpoint2y);}
+    		
+    		if(checkpoint3==true && checkpoint2==true && checkpoint1==true && checkpoint4!=true) {carList.get(0).setCheckpointPosition(currentTrack, checkpoint3x , checkpoint3y);}
+    		
+    		if(checkpoint4==true && checkpoint3==true && checkpoint2==true && checkpoint1==true) {carList.get(0).setCheckpointPosition(currentTrack, checkpoint4x , checkpoint4y);}
     	}
-    	/*if(temp==true && (
-    			(carList.get(0).getPositionX() >= saveHitspotX + 10) || //car slows down after collision for a few seconds, men bugg
-    			(carList.get(0).getPositionX() <= saveHitspotX - 10) || 
-    			(carList.get(0).getPositionY() >= saveHitspotY + 10) || 
-    			(carList.get(0).getPositionY() <= saveHitspotY - 10))) 
-    	{
-    	carList.get(0).toNormalSpeed();
-    	}*/
-        }
+    	
+    	}
     }
-
-
-
+    public void checkCheckpoint1Hitboxes() {  
+        Iterator<Point> it = currentTrack.getCheckpoints1Hitbox().iterator();
+            while(it.hasNext()) {
+            Point p = it.next();
+            if( overlapsWith(p.x, p.y) ) { 
+        		checkpoint1= true;
+        		checkpoint1x= p.x;
+        		checkpoint1y= p.y;
+        		//System.out.println("checkpoint1");
+        	}
+        	}
+        }
+    public void checkCheckpoint2Hitboxes() {  
+        Iterator<Point> it = currentTrack.getCheckpoints2Hitbox().iterator();
+            while(it.hasNext()) {
+            Point p = it.next();
+            if( overlapsWith(p.x, p.y) ) { 
+        		checkpoint2= true;
+        		checkpoint2x= p.x;
+        		checkpoint2y= p.y;
+        		//System.out.println("checkpoint2");
+        	}
+        	}
+        }
+    public void checkCheckpoint3Hitboxes() {  
+        Iterator<Point> it = currentTrack.getCheckpoints3Hitbox().iterator();
+            while(it.hasNext()) {
+            Point p = it.next();
+            if( overlapsWith(p.x, p.y) ) { 
+        		checkpoint3= true;
+        		checkpoint3x= p.x;
+        		checkpoint3y= p.y;
+        		//System.out.println("checkpoint3");
+        	}
+        	}
+        }
+    public void checkCheckpoint4Hitboxes() {  
+        Iterator<Point> it = currentTrack.getCheckpoints4Hitbox().iterator();
+            while(it.hasNext()) {
+            Point p = it.next();
+            if( overlapsWith(p.x, p.y) ) { 
+        		checkpoint4= true;
+        		checkpoint4x= p.x;
+        		checkpoint4y= p.y;
+        		//System.out.println("checkpoint4");
+        	}
+        	}
+        }
+    
+    
     
     public void selectMap(Track t)			
     {
@@ -203,6 +275,10 @@ public class Model implements Observable<Model> {
     public Track getTrack()
     {
        return currentTrack;
+    }
+    public Track getCheckpoints()
+    {
+       return currentCheckpoints;
     }
     public STATE getState()
     {

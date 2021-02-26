@@ -57,6 +57,11 @@ public class Car {
         positionX = track.getStartPositionX() + xOffset;
         positionY = track.getStartPositionY() + yOffset;
     }
+    public void setCheckpointPosition(Track track, int x,int y) 
+    {
+        positionX = x + xOffset;
+        positionY = y + yOffset;
+    }
     public void setAngle(Track track)
     {
         angle = track.getStartAngle();

@@ -98,4 +98,3 @@ public class Controller extends JFrame implements ActionListener
    public void setScreenY() { m.setBorderY((int)screenSize.getHeight());  }
    public void setScreenX() { m.setBorderX((int)screenSize.getWidth()); }
 }
-
