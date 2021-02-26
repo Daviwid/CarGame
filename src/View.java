@@ -289,7 +289,7 @@ public class View extends JPanel implements Observer<Model> {
         // end debug
 
         
-        Image resultingImage = redCar.getScaledInstance(car.getWidth(), car.getHeight(), Image.SCALE_SMOOTH);
+        Image resultingImage = car.getCarIMG().getScaledInstance(car.getWidth(), car.getHeight(), Image.SCALE_SMOOTH);
         
 
         AffineTransform backup = g2d.getTransform();

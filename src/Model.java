@@ -3,6 +3,7 @@ import java.awt.Point;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.ArrayList;
 
 public class Model implements Observable<Model> {
     //Instansvariabler:
