@@ -18,8 +18,8 @@ public class LindholmenDerby extends Track {
 	{
 
 		
-		map = "testbana2.png";			//Laddar in banan Lindholmen...
-		map2 = "testbana2.png";
+		map = "s2.jpg";			//Laddar in banan Lindholmen...
+		map2 = "s1.jpg";
 		color = 0xFFed1c24;			//Color som ska vara sarg
 		lcolor = 0xFFed1c24;		//Low shade av color som ska vara sarg
 
@@ -28,7 +28,7 @@ public class LindholmenDerby extends Track {
 		
 		
 		
-		checkpointmap= "testbana2.png";
+		checkpointmap= "s2.jpg";
 		setCheckpoints(checkpointmap, x, y);
 		checkpointcolor1 = 0xFFffaec9;			//Color som ska tillhöra checkpoint1
 		
