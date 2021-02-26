@@ -10,7 +10,9 @@ public class Track {
 	private int startPositionX;
 	private int startPositionY;
 	private int startAngle;
+
 	private BufferedImage bi,bi2;
+
 	private BufferedImage icon;
 
 	private getPixel pixels;
@@ -30,12 +32,15 @@ public class Track {
 		return startAngle;
 	}
 
+
 	public void setMap(String map_name,String map_name2,int x, int y)
+
 	{
 		 try
 	        {
 				this.icon= ImageIO.read(new File(map_name));											//local jpg/png
 				Image resultingImage = icon.getScaledInstance(x, y, Image.SCALE_DEFAULT);				//scale to desired size
+
 				BufferedImage outputImage = new BufferedImage(x,y, BufferedImage.TYPE_INT_RGB);			
 				outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
 				this.bi = outputImage;																	
@@ -43,6 +48,7 @@ public class Track {
 				this.icon= ImageIO.read(new File(map_name2));											//local jpg/png
 				resultingImage = icon.getScaledInstance(x, y, Image.SCALE_DEFAULT);				//scale to desired size
 				outputImage = new BufferedImage(x,y, BufferedImage.TYPE_INT_RGB);				
+
 				outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
 				this.bi2 = outputImage;																	//Visas i view
 	        } 

@@ -143,7 +143,9 @@ public class View extends JPanel implements Observer<Model> {
          }
 
          drawCar(g2d, carList.get(0));
+
          drawTime(g2d);
+
      
          //Debug code "yellow spinning circles"
          g2d.setColor(Color.yellow);
@@ -223,7 +225,9 @@ public class View extends JPanel implements Observer<Model> {
     
 
 
+
     private void drawCar(Graphics2D g2d, Car car) {
+
 	    
         g2d.setColor(Color.green); 
         double w = car.getWidth();  //Test values of green rectangle under png
@@ -245,11 +249,13 @@ public class View extends JPanel implements Observer<Model> {
         }
         g2d.fillPolygon(xPts,yPts,4);
         
+
         // end debug
 
         
         Image resultingImage = redCar.getScaledInstance(car.getWidth(), car.getHeight(), Image.SCALE_SMOOTH);
         
+
         AffineTransform backup = g2d.getTransform();
 
         //Set our Graphics2D object to the transform

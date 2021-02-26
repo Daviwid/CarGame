@@ -112,7 +112,9 @@ public class Model implements Observable<Model> {
   
     /* source: https://stackoverflow.com/questions/17136084/checking-if-a-point-is-inside-a-rotated-rectangle/17146376*/
 
+
     public boolean overlapsWith(double px, double py){ //px, py är kordinater till track
+
 
     	double width= (double) carList.get(0).getWidth()/2;
     	double height= (double)carList.get(0).getHeight()/2;
@@ -170,6 +172,7 @@ public class Model implements Observable<Model> {
 
         resetGameTime();
 
+
         state = STATE.GAME;
         this.mapSelected=true;
     }
@@ -181,6 +184,7 @@ public class Model implements Observable<Model> {
     }
         
 
+
     private void savePosition( int xPosition, int yPosition){
         positionList.add(new Point(xPosition, yPosition));
     }
@@ -189,6 +193,7 @@ public class Model implements Observable<Model> {
         angleList.add(angle);
     }
     
+
 
     //getters
     public LinkedList<Car> getCarList()
@@ -232,11 +237,13 @@ public class Model implements Observable<Model> {
     {
     	return mapSelected;
     }
+
     public int getGameTimer()
     {
         return gameTimer;
 
     }
+
     
 
     //setters
@@ -301,6 +308,7 @@ public class Model implements Observable<Model> {
     	carList.clear();
     }
 
+
     public void resetGameTime()
     {
         gameTimer = 0;
@@ -309,8 +317,6 @@ public class Model implements Observable<Model> {
     {
         gameTimer++;
     }
-	
-
 
     @Override
     public void addObserver(Observer<Model> o){
