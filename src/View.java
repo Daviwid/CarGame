@@ -13,7 +13,7 @@ public class View extends JPanel implements Observer<Model> {
 
     private Model m;
     private LinkedList<Car> carList;
-    private BufferedImage redCar;
+    private Image redCar;
     
     public View(Model m) {
         this.m = m;
@@ -49,7 +49,7 @@ public class View extends JPanel implements Observer<Model> {
          {
              g2d.drawImage(map, 0,0,this);					//Ritar banan
             
-             //Debug code. visar sargen.
+            /* //Debug code. visar sargen.
              Iterator<Point> it = m.getTrack().getHitbox().iterator();
              g2d.setColor(Color.red);
              while(it.hasNext())
@@ -57,10 +57,11 @@ public class View extends JPanel implements Observer<Model> {
                  Point p = it.next();
                  g2d.drawLine(p.x,p.y,p.x,p.y);
              }
-             //End of debug code.
+             */ //End of debug code.
          }
      
          drawCar(g2d, carList.get(0));
+         drawTime(g2d);
      
      
          //Debug code "yellow spinning circles"
@@ -76,7 +77,7 @@ public class View extends JPanel implements Observer<Model> {
          //End of debug code   
     }
     
-    public void drawMenu(Menu menu, Graphics2D g2d,int x,int y)
+    private void drawMenu(Menu menu, Graphics2D g2d,int x,int y)
     {
     	setBackground(Color.black);
         
@@ -124,12 +125,7 @@ public class View extends JPanel implements Observer<Model> {
     }
     
     
-    public void drawCar(Graphics2D g2d, Car car) {
-        // getsubimage om vi ska ha 1 bild med alla olika bilar.
-
-		Image resultingImage = redCar.getScaledInstance(car.getHeight(), car.getWidth(), Image.SCALE_DEFAULT);
-	    BufferedImage outputImage = new BufferedImage(car.getHeight(), car.getWidth(), BufferedImage.TYPE_INT_ARGB);
-	    outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
+    private void drawCar(Graphics2D g2d, Car car) {
 	    
 	    //start debug
         g2d.setColor(Color.green); 
@@ -151,19 +147,34 @@ public class View extends JPanel implements Observer<Model> {
              yPts[i]=(int)(dy[i]+.5); 
         }
         g2d.fillPolygon(xPts,yPts,4);
+        
         // end debug
 
+        
+        Image resultingImage = redCar.getScaledInstance(car.getWidth(), car.getHeight(), Image.SCALE_SMOOTH);
+        
         AffineTransform backup = g2d.getTransform();
-//        AffineTransform a = AffineTransform.getRotateInstance(car.getAngle(), car.getPositionX(), car.getPositionY());
+
         //Set our Graphics2D object to the transform
        g2d.rotate(car.getAngle() + (3*Math.PI)/2, car.getPositionX(), car.getPositionY());
         
-        g2d.drawImage(outputImage, car.getPositionX() - 25, car.getPositionY()-25 , null);
-//      g2d.setTransform(a); 
-        g2d.setTransform(backup);
+        g2d.drawImage(resultingImage, car.getPositionX() - (car.getWidth() / 2) , car.getPositionY() - (car.getHeight() / 2) , null);
+//      g2d.setTransform(a);
+        g2d.setTransform(backup); 
+        
     }
     
-    
+    private void drawTime(Graphics2D g2d){
+        
+        int min = m.getGameTimer() / 60;
+        int sec = m.getGameTimer() % 60;
+
+        String s = (String.valueOf(min) + ":" + String.valueOf(sec));
+        g2d.setFont(new Font("arial",Font.BOLD,20));
+        g2d.drawString(s, 20, 150);
+        
+    }
+
     @Override
     public void update(Model observable) {
         repaint();
