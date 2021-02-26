@@ -39,9 +39,9 @@ public class View extends JPanel implements Observer<Model> {
       
         if(m.getState()==STATE.GAME)				//Rita OM game
         {
-        	
+        	//drawCheckpoints(g2d, m.getTrack().getCheckpointsMap());
             drawGame(g2d,m.getTrack().getMap());
-            drawCheckpoints(g2d, m.getTrack().getCheckpointsMap());
+           // drawCheckpoints(g2d, m.getTrack().getCheckpointsMap());
             drawCar(g2d, carList.get(0));
             
         }
@@ -212,10 +212,10 @@ public class View extends JPanel implements Observer<Model> {
     
     public void drawCheckpoints(Graphics2D g2d, BufferedImage checkpoints) {
     	
-            g2d.drawImage(checkpoints, 0,0,this);					//Ritar banan
+            //g2d.drawImage(checkpoints, 0,0,this);					//Ritar banan
            
             //Debug code. visar checkpoints
-            Iterator<Point> it = m.getTrack().getCheckpoints4Hitbox().iterator();
+        /*    Iterator<Point> it = m.getTrack().getCheckpoints4Hitbox().iterator();
             g2d.setColor(Color.yellow);
             while(it.hasNext())
             {
@@ -224,7 +224,7 @@ public class View extends JPanel implements Observer<Model> {
             }
             
             Iterator<Point> it2 = m.getTrack().getCheckpoints3Hitbox().iterator();
-            g2d.setColor(Color.black);
+            g2d.setColor(Color.red);
             while(it2.hasNext())
             {
                 Point p = it2.next();
@@ -243,8 +243,8 @@ public class View extends JPanel implements Observer<Model> {
             {
                 Point p = it4.next();
                 g2d.drawLine(p.x,p.y,p.x,p.y);
-            }
-            //End of debug code.
+            }*/
+           //End of debug code.
        
     }
     

@@ -10,7 +10,7 @@ public class Track {
 	private int startPositionX;
 	private int startPositionY;
 	private int startAngle;
-	private BufferedImage bi;
+	private BufferedImage bi, bi2;
 	private BufferedImage checkbi;
 	
 	private BufferedImage icon;
@@ -38,15 +38,21 @@ public class Track {
 		return startAngle;
 	}
 
-	public void setMap(String map_name,int x, int y)
+	public void setMap(String map_name,String map_name2,int x, int y)
 	{
 		 try
 	        {
 				this.icon= ImageIO.read(new File(map_name));											//local jpg/png
 				Image resultingImage = icon.getScaledInstance(x, y, Image.SCALE_DEFAULT);				//scale to desired size
-				BufferedImage outputImage = new BufferedImage(x,y, BufferedImage.TYPE_INT_RGB);
+				BufferedImage outputImage = new BufferedImage(x,y, BufferedImage.TYPE_INT_RGB);			
 				outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
-				this.bi = outputImage;
+				this.bi = outputImage;																	
+				
+				this.icon= ImageIO.read(new File(map_name2));											//local jpg/png
+				resultingImage = icon.getScaledInstance(x, y, Image.SCALE_DEFAULT);				//scale to desired size
+				outputImage = new BufferedImage(x,y, BufferedImage.TYPE_INT_RGB);				
+				outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
+				this.bi2 = outputImage;																	//Visas i view
 	        } 
 	        catch (IOException e)
 	        {
@@ -54,7 +60,9 @@ public class Track {
 	        }
 	}
 	
-	public void setCheckpoints(String checkpoint_name, int x, int y)  //gör om setcheckpoints och setmap till samma kod sen
+	
+	
+	public void setCheckpoints(String checkpoint_name, int x, int y)  //reads the png file with checkpoints
 	{
 		 try
 	        {
@@ -82,7 +90,7 @@ public class Track {
 
 	public BufferedImage getMap()		//Return image, mostly needed in view.
 	{
-		return bi;
+		return bi2;
 	}
 	
 	public BufferedImage getCheckpointsMap()		//Return image, mostly needed in view.
@@ -96,18 +104,18 @@ public class Track {
 		this.list = pixels.getList();
 	}
 	
-	public void setCheckpointHitbox(int color1, int color2, int color3, int color4, int lcolor, int lcolor3, int lcolor4)		//Set hitbox-list once. 
+	public void setCheckpointHitbox(int color1, int color2, int color3, int color4)		//calls on getCheckpointsPixel and retrieves list with the checkpointpixels for each checkpoint 
 	{
-		cpixels = new getCheckpointsPixel(checkbi,color1, color2, color3, color4, lcolor, lcolor3, lcolor4, 1); //checkbi
+		cpixels = new getCheckpointsPixel(checkbi,color1, color2, color3, color4, 1); 
 		this.checkpointlist1 = cpixels.getCheckpointList1();
 		
-		cpixels = new getCheckpointsPixel(checkbi,color1, color2, color3, color4, lcolor, lcolor3,lcolor4, 2); //checkbi
+		cpixels = new getCheckpointsPixel(checkbi,color1, color2, color3, color4, 2); 
 		this.checkpointlist2 = cpixels.getCheckpointList2();
 		
-		cpixels = new getCheckpointsPixel(checkbi,color1, color2, color3, color4, lcolor, lcolor3,lcolor4, 3); //checkbi
+		cpixels = new getCheckpointsPixel(checkbi,color1, color2, color3, color4, 3); 
 		this.checkpointlist3 = cpixels.getCheckpointList3();
 		
-		cpixels = new getCheckpointsPixel(checkbi,color1, color2, color3, color4, lcolor, lcolor3,lcolor4, 4); //checkbi
+		cpixels = new getCheckpointsPixel(checkbi,color1, color2, color3, color4, 4); 
 		this.checkpointlist4 = cpixels.getCheckpointList4();
 		
 	}
