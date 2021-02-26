@@ -10,6 +10,7 @@ public class MouseInput implements MouseListener{
     {   
         int x = e.getX();		//x och y koordinater av klick med muspekare
         int y = e.getY();
+        System.out.println("" + c.getModel().getState());
         
         if(c.getModel().getState()==STATE.MENU)		//Funkar endast om man har meny uppe.
         {         
@@ -44,6 +45,8 @@ public class MouseInput implements MouseListener{
             if(y >= m.getConfigBtn().getY() && y <= m.getConfigBtn().getY()+m.getConfigBtn().getHeight())
             {
                 model.stateConfig();
+                
+                
              }
         }
         

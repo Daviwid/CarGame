@@ -378,6 +378,7 @@ public class Model implements Observable<Model> {
     public void stateConfig()
     {
             state=STATE.CARCONFIG;
+            
     }
     public void setCarColor(int c)
     {
