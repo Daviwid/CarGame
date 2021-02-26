@@ -1,10 +1,5 @@
 import java.util.LinkedList;
-
-
-
 import java.awt.Point;
-import java.awt.Toolkit;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -14,20 +9,21 @@ public class Model implements Observable<Model> {
     private LinkedList<Car> carList = new LinkedList<Car>();
     private int borderX;
     private int borderY;
-    private double saveHitspotX;
-    private double saveHitspotY;
     private boolean mapSelected = false;
     private boolean pressedUp = false;
     private boolean pressedDown = false;
     private boolean pressedRight = false;
     private boolean pressedLeft = false;
     private static int TOPSPEED = 10;
+
+
     private static int height = 30;
     private static int width = 20;
     private int carNumber = 1;
-    private Track currentTrack;
+    private Track currentTrack,lindholmen;
     private Menu menu;
     private STATE state;
+    private int carColor = 0;
     private String build = "Build v. 1.0.0.0";
 
 	private int gameTimer;
@@ -35,36 +31,35 @@ public class Model implements Observable<Model> {
     private ArrayList<Double> angleList = new ArrayList<Double>();
     
     private final Collection<Observer<Model>> observers;
-   // private Controller controller;
+ // private Controller controller;
     public Model()
     {
 		
         this.observers = new HashSet<>();
-        modelInit(carNumber);
+        carsInit(carNumber);
     }
     
-    private void modelInit(int carNumber)
+    public void carsInit(int carNumber)
     {
         for(int i = 0; i < carNumber; i++)
         {
-            carList.add(new Car(1, 0, 0, TOPSPEED, height, width));
+        	carList.add(new Car(carColor, 0, 0, TOPSPEED, height, width));  //REDCAR
         }
+    }
+    
+
+    public void resetCarFlags()
+    {
+    	pressedUp=false;
+    	pressedDown=false;
+    	pressedLeft=false;
+    	pressedRight=false;
     }
     
     public void menuInit()			//Skapar meny och state = menu
     {
         menu = new Menu(borderX, borderY);
         state = STATE.MENU;
-    }
-    
-    public Menu getMenu()		//Returnerar menu. Mest till att rita upp
-    {
-        return menu;
-    }
-    
-    public boolean getSelected()		//Boolean till om man valt en bana varav bild laddats in. Genererar annars fel.
-    {
-        return mapSelected;
     }
     
     public void updateModel()
@@ -82,7 +77,6 @@ public class Model implements Observable<Model> {
         updateObservers();
     }
     
-    //hamtacolorfranconfig()
     
     private void moveCar()
     {
@@ -115,10 +109,11 @@ public class Model implements Observable<Model> {
     	}
     	
     }
-    
-    
+  
     /* source: https://stackoverflow.com/questions/17136084/checking-if-a-point-is-inside-a-rotated-rectangle/17146376*/
-    public boolean overlapsWith(double px, double py){ //px, py �r kordinater till track
+
+    public boolean overlapsWith(double px, double py){ //px, py är kordinater till track
+
     	double width= (double) carList.get(0).getWidth()/2;
     	double height= (double)carList.get(0).getHeight()/2;
     	double carx= carList.get(0).getPositionX();
@@ -139,14 +134,9 @@ public class Model implements Observable<Model> {
     	double sum = APD + DPC + CPB + PBA;
     	
     	if(sum > rectarea ) return false;
-    	saveHitspotX= px;
-    	saveHitspotY= py;
         return true; 
     	} 
-        
-    
 
-    
     public void checkHitboxes() {  //
     Iterator<Point> it = currentTrack.getHitbox().iterator();
         while(it.hasNext()) {
@@ -156,13 +146,8 @@ public class Model implements Observable<Model> {
     		//carList.get(0).collisionSpeed();
     		//Toolkit.getDefaultToolkit().beep();
     		carList.get(0).turnDirection(); 
-
-    		
-    		
     		 temp= true; 
-    		 System.out.println(carList.get(0).getSpeed());
     	}
-    
     	/*if(temp==true && (
     			(carList.get(0).getPositionX() >= saveHitspotX + 10) || //car slows down after collision for a few seconds, men bugg
     			(carList.get(0).getPositionX() <= saveHitspotX - 10) || 
@@ -173,15 +158,29 @@ public class Model implements Observable<Model> {
     	}*/
         }
     }
-        
-    public void selectMap()				//Annorlunda om man har fler banor. Byter state till game och skapar track som ska scale med screen
+
+
+
+    
+    public void selectMap(Track t)			
     {
-        currentTrack = new LindholmenDerby(borderX,borderY);
+
+        currentTrack = t;
+        carsInit(carNumber);
+
         resetGameTime();
+
         state = STATE.GAME;
         this.mapSelected=true;
     }
     
+
+    public void mapInit()
+    {
+    	lindholmen = new LindholmenDerby(borderX,borderY);
+    }
+        
+
     private void savePosition( int xPosition, int yPosition){
         positionList.add(new Point(xPosition, yPosition));
     }
@@ -190,6 +189,7 @@ public class Model implements Observable<Model> {
         angleList.add(angle);
     }
     
+
     //getters
     public LinkedList<Car> getCarList()
     {
@@ -215,9 +215,27 @@ public class Model implements Observable<Model> {
     {
     	return build;
     }
+
+    public int getCarnmbr()
+    {
+    	return carNumber;
+    }
+    public Menu getMenu()		//Returnerar menu. Mest till att rita upp
+    {
+        return menu;
+    }
+    public Track getLindholmen()
+    {
+    	return lindholmen;
+    }
+    public boolean getMapSelected()
+    {
+    	return mapSelected;
+    }
     public int getGameTimer()
     {
         return gameTimer;
+
     }
     
 
@@ -268,6 +286,21 @@ public class Model implements Observable<Model> {
     {
             state=STATE.MENU;
     }  
+
+    public void stateMap()
+    {
+    		state=STATE.MAP_SELECTION;
+    }
+    public void stateConfig()
+    {
+            state=STATE.CARCONFIG;
+    }
+    public void setCarColor(int c)
+    {
+    	carColor=c;
+    	carList.clear();
+    }
+
     public void resetGameTime()
     {
         gameTimer = 0;
@@ -277,6 +310,7 @@ public class Model implements Observable<Model> {
         gameTimer++;
     }
 	
+
 
     @Override
     public void addObserver(Observer<Model> o){

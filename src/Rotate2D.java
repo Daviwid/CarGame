@@ -7,5 +7,5 @@ class Rotate2D {
     public static double getY(double x, double y, double angle) {
         return x * Math.sin(angle) + y * Math.cos(angle);
     }
-
 }
+
