@@ -1,7 +1,6 @@
-package src.GameServer;
-
 import java.awt.Point;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.FileNotFoundException;
@@ -11,77 +10,13 @@ public class FileManager {
 	
     private int nbHighscores = 10;
     private String filename = "Highscore.txt";
-    
-    //BUG CHECKING
-	private ArrayList<Point> positionList = new ArrayList<Point>();
-	private ArrayList<Double> angleList = new ArrayList<Double>();
+    private String configFile = "Config.txt";
 	
 	public FileManager(){
 		
-		positionList.add(new Point(5,1));
-		positionList.add(new Point(2,5));
-		angleList.add(7.7);
-		angleList.add(7.7);
-		//saveNewHighscore(1, positionList, angleList);
-		//recieveScoreFromClient("1\n2,2-2,2-\n2-2\n");
-		//System.out.println(getHighscores());
-		//recieveHighscoreStringFromServer("fasfd");
-		//System.out.println(sendScoreToServer(1, positionList, angleList));	
-		
-		/*
-		try {
-		positionList = getHighscorePositionList();
-		} catch (FileNotFoundException e) {
-			System.out.println("An error occurred.");
-			e.printStackTrace();
-		}
-		for(int j = 0; j < positionList.size(); j++)
-		{
-			System.out.println(positionList.get(j).toString());
-		}
-		*/
-		
-		/*
-		try {
-			angleList = getHighscoreAngleList();
-		} catch (FileNotFoundException e) {
-			System.out.println("An error occurred.");
-			e.printStackTrace();
-		}
-		for(int j = 0; j < angleList.size(); j++)
-		{
-			System.out.println(angleList.get(j).toString());
-		}
-		*/	
     }
 	
 	//HELPER FUNCTIONS:
-	private void readDataFromTxtFile(Scanner reader, int[] scores, String highscorePositionString, String highscoreAngleString)
-    {
-    	int i = 0;
-        while (reader.hasNextLine()) {
-        	//PUT HIGHSCORE TIMES FROM TXT FILES INTO scores[] ARRAY
-        	if(i < nbHighscores)
-        	{
-        		String data = reader.nextLine(); 
-                scores[i] = Integer.parseInt(data);
-                i++;
-        	}
-        	//SAVE POSITION LIST FROM TXT FILE
-        	else if (i == nbHighscores)
-        	{
-        		String data = reader.nextLine();
-        		highscorePositionString = data;
-        		i++;
-        	}
-        	//SAVE ANGLE LIST FROM TXT FILE
-        	else 
-        	{
-        		String data = reader.nextLine();
-        		highscoreAngleString = data;
-        	}
-        }
-    }
     private void sortHighscores(int playerScore, int[] scores)
     {
     	int oldscore;
@@ -115,6 +50,35 @@ public class FileManager {
     
     //PUBLIC METHODS
     
+    public int configGetCarColor() 
+    {
+    	int carColor = 0;
+    	try {
+    		File file = new File(configFile);
+            Scanner reader = new Scanner(file);
+            carColor = reader.nextInt();
+            reader.close();
+    	}catch(FileNotFoundException e){
+    		System.out.println("writer exception");
+    	}
+    	return carColor;
+    	
+    }
+    
+    public void configSetCarColor(int carColor) 
+    {
+    	try{
+        	File file = new File(configFile);
+            FileWriter writer = new FileWriter(file);
+            writer.write(Integer.toString(carColor));
+            writer.close();
+        }catch(FileNotFoundException e){
+            System.out.println("FileNotFoundException");
+        }catch(IOException e) {
+        	System.out.println("IOExeption");
+        }
+    }
+    
     
     //CLIENT USES THIS TO SEND RACE RESULTS TO SERVER AFTER FINISHED RACE
     public String sendScoreToServer(int time, ArrayList<Point> positions, ArrayList<Double> angles)
@@ -128,7 +92,8 @@ public class FileManager {
     	}
     	return time + "\n" + positionString + "\n"  + angleString;
     }
-     
+    
+    
     // AFTER RACE, SERVER RECIEVES STRING WITH TIME, AND PATH THE DRIVER WENT
     // One row with time
     // One row of position x and y-values in  x,y-x,y-x,y-... format
@@ -230,28 +195,12 @@ public class FileManager {
     }
     
     //RETURNS BEST DRIVER'S PATH AS AN ArrayList<Point>
-    public ArrayList<Point> getHighscorePositionList() throws FileNotFoundException
+    public ArrayList<Point> getHighscorePositionList()
     {
-        String highscorePositionString = "";
-        
-        File file = new File(filename);
-        Scanner reader = new Scanner(file);
-        int i = 0;
-        while (reader.hasNextLine()) {
-        	if (i == nbHighscores)
-        	{
-        		String data = reader.nextLine();
-        		highscorePositionString = data;
-        	}
-        	else {
-        		reader.nextLine();
-        	}
-        	i++;
-        }
-        reader.close();
-        
-        ArrayList<Point> posList = new ArrayList<Point>();
-        String[] positionStringArray = highscorePositionString.split("-");
+    	String[] highscoreStringArray = getHighscoreStringArray();
+    	
+    	ArrayList<Point> posList = new ArrayList<Point>();
+        String[] positionStringArray = highscoreStringArray[nbHighscores].split("-");
         for(int j = 0; j < positionStringArray.length; j++)
         {
         	String[] positionXandY = positionStringArray[j].split(",");
@@ -261,32 +210,27 @@ public class FileManager {
     }
     
     //RETURNS BEST DRIVER'S ANGLES AS AN ArrayList<Double>
-    public ArrayList<Double> getHighscoreAngleList() throws FileNotFoundException
+    public ArrayList<Double> getHighscoreAngleList()
     {
-    	String highscoreAngleString = "";
-        
-    	File file = new File(filename);
-        Scanner reader = new Scanner(file);
-        int i = 0;
-        while (reader.hasNextLine()) {
-        	if (i == nbHighscores + 1)
-        	{
-        		String data = reader.nextLine();
-        		highscoreAngleString = data;
-        	}
-        	else {
-        		reader.nextLine();
-        	}
-        	i++;
-        }
-        reader.close();
-        
-        ArrayList<Double> list = new ArrayList<Double>();
-        String[] angleStringArray = highscoreAngleString.split("-");
+    	String[] highscoreStringArray= getHighscoreStringArray();
+    	
+    	ArrayList<Double> list = new ArrayList<Double>();
+        String[] angleStringArray = highscoreStringArray[nbHighscores + 1].split("-");
         for(int j = 0; j < angleStringArray.length; j++)
         {
         	list.add((Double.parseDouble(angleStringArray[j])));
         }
     	return list;
     }
+    
+    // RETURNS A STRING-ARRAY OF HIGHSCORE.TXT WHERE:
+    // Element 0-9 is top 10 times
+    // Element 10 is the position-string
+    // Element 11 is the angle-string
+    public String[] getHighscoreStringArray()
+    {
+    	String[] splitString = getHighscores().split("\n");
+    	return splitString;
+    }
+    
 }
