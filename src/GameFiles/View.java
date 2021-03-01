@@ -326,8 +326,8 @@ public class View extends JPanel implements Observer<Model> {
     
     private void drawTime(Graphics2D g2d){
         
-        int min = m.getGameTimer() / 60;
-        int sec = m.getGameTimer() % 60;
+        int min = m.getGameTimer() / 6000;
+        int sec = m.getGameTimer() % 6000;
 
         String s = (String.valueOf(min) + ":" + String.valueOf(sec));
         g2d.setFont(new Font("arial",Font.BOLD,20));

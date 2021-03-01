@@ -19,7 +19,7 @@ public class Controller extends JFrame implements ActionListener
         private Timer t;    
 
         public GameTimer(Model m){
-            t = new Timer(1000, this);
+            t = new Timer(10, this);
             t.start();
         }
         public void actionPerformed(ActionEvent e){
