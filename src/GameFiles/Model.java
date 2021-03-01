@@ -447,9 +447,10 @@ public class Model implements Observable<Model>, ActionListener {
     	carList.clear();
     }
     public void resetGameTimer(){
-        gameTimer=0;
+        gameTimer = 0;
     }
-    public void setGameTimer(){
+    public void setGameTimer()
+    {
         gameTimer++;
     }
 
