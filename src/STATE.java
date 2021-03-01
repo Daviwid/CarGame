@@ -3,6 +3,8 @@ public enum STATE
        MENU,
        GAME,
        CARCONFIG,
-       MAP_SELECTION
+       MAP_SELECTION,
+       CARCRASH,
+       GAMEFINISHED
 }
 

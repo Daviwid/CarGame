@@ -10,7 +10,7 @@ public class View extends JPanel implements Observer<Model> {
 
     private Model m;
     private LinkedList<Car> carList;
-    
+    private STATE state;
     public View(Model m) {
         this.m = m;
         this.carList = m.getCarList();
@@ -41,10 +41,18 @@ public class View extends JPanel implements Observer<Model> {
         {
         	//drawCheckpoints(g2d, m.getTrack().getCheckpointsMap());
             drawGame(g2d,m.getTrack().getMap());
-           // drawCheckpoints(g2d, m.getTrack().getCheckpointsMap());
+            //drawCheckpoints(g2d, m.getTrack().getCheckpointsMap());
             drawCar(g2d, carList.get(0));
             
         }
+        if(m.getState()== STATE.CARCRASH) {
+        	drawCrash(g2d);
+        	
+        } 
+        if(m.getState()== STATE.GAMEFINISHED) {
+        	drawFinished(g2d);
+        	
+        } 
     }
     
   public void drawConfig(Menu menu, Graphics2D g2d, int x,int y) {
@@ -66,10 +74,12 @@ public class View extends JPanel implements Observer<Model> {
         g2d.setColor(menu.getBtnOutClr());
         g2d.draw(menu.getgreenCarBtn());
         
+        
+        
         g2d.setColor(menu.getBtnClr());
-        g2d.fill(menu.getReturnBtn());				
+        g2d.fill(menu.getConfigReturnBtn());				
         g2d.setColor(menu.getBtnOutClr());
-        g2d.draw(menu.getReturnBtn());
+        g2d.draw(menu.getConfigReturnBtn());
         //Slutet av buttons
         
         g2d.drawImage(menu.resize(menu.getRedCar(),280,300),(int)menu.getredCarBtn().getX()+10,(int)menu.getredCarBtn().getY()+10,null);
@@ -88,8 +98,8 @@ public class View extends JPanel implements Observer<Model> {
                 (int)menu.getgreenCarBtn().getX()+(int)menu.getgreenCarBtn().getWidth()/2-90,	    
                 (int)menu.getgreenCarBtn().getY()+(int)menu.getgreenCarBtn().getHeight()-20);
         g2d.drawString("RETURN",																	
-                (int)menu.getReturnBtn().getX()+(int)menu.getReturnBtn().getWidth()/2-100,
-                (int)menu.getReturnBtn().getY()+(int)menu.getReturnBtn().getHeight()/2+20);
+                (int)menu.getConfigReturnBtn().getX()+(int)menu.getConfigReturnBtn().getWidth()/2-100,
+                (int)menu.getConfigReturnBtn().getY()+(int)menu.getConfigReturnBtn().getHeight()/2+20);
         //slut pa text
    }
   
@@ -133,13 +143,13 @@ public class View extends JPanel implements Observer<Model> {
              g2d.drawImage(map, 0,0,this);					//Ritar banan
             
              //Debug code. visar sargen.
-             Iterator<Point> it = m.getTrack().getHitbox().iterator();
-             g2d.setColor(Color.red);
+           /*  Iterator<Point> it = m.getTrack().getHitbox().iterator();
+             g2d.setColor(Color.BLACK);
              while(it.hasNext())
              {
                  Point p = it.next();
                  g2d.drawLine(p.x,p.y,p.x,p.y);
-             }
+             }*/
              
              //End of debug code.
          }
@@ -212,10 +222,10 @@ public class View extends JPanel implements Observer<Model> {
     
     public void drawCheckpoints(Graphics2D g2d, BufferedImage checkpoints) {
     	
-            //g2d.drawImage(checkpoints, 0,0,this);					//Ritar banan
+            g2d.drawImage(checkpoints, 0,0,this);					//Ritar banan
            
             //Debug code. visar checkpoints
-        /*    Iterator<Point> it = m.getTrack().getCheckpoints4Hitbox().iterator();
+          /*  Iterator<Point> it = m.getTrack().getCheckpoints4Hitbox().iterator();
             g2d.setColor(Color.yellow);
             while(it.hasNext())
             {
@@ -238,7 +248,7 @@ public class View extends JPanel implements Observer<Model> {
                 g2d.drawLine(p.x,p.y,p.x,p.y);
             }
             Iterator<Point> it4 = m.getTrack().getCheckpoints1Hitbox().iterator();
-            g2d.setColor(Color.black);
+            g2d.setColor(Color.RED);
             while(it4.hasNext())
             {
                 Point p = it4.next();
@@ -246,6 +256,15 @@ public class View extends JPanel implements Observer<Model> {
             }*/
            //End of debug code.
        
+    }
+   
+    public void drawCrash(Graphics2D g2d) {
+    	m.getMenu().getCrashImg().paintIcon(this, g2d, 0, 0);
+    }
+    public void drawFinished(Graphics2D g2d) {
+    	m.getMenu().getFinishedImg().paintIcon(this, g2d, 0, 0);
+    	
+    	g2d.drawString("GAME FINISHED", 500, 600);
     }
     
     public void drawCar(Graphics2D g2d, Car car) {

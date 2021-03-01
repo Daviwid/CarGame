@@ -38,7 +38,7 @@ public class Track {
 		return startAngle;
 	}
 
-	public void setMap(String map_name,String map_name2,int x, int y)
+	public void setMap(String map_name,String map_name2, String checkpointfile, int x, int y)
 	{
 		 try
 	        {
@@ -52,25 +52,16 @@ public class Track {
 				resultingImage = icon.getScaledInstance(x, y, Image.SCALE_DEFAULT);				//scale to desired size
 				outputImage = new BufferedImage(x,y, BufferedImage.TYPE_INT_RGB);				
 				outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
-				this.bi2 = outputImage;																	//Visas i view
-	        } 
-	        catch (IOException e)
-	        {
-				System.out.println("Error hittar ej bild");
-	        }
-	}
-	
-	
-	
-	public void setCheckpoints(String checkpoint_name, int x, int y)  //reads the png file with checkpoints
-	{
-		 try
-	        {
-				this.icon= ImageIO.read(new File(checkpoint_name));											//local jpg/png
-				Image resultingImage = icon.getScaledInstance(x, y, Image.SCALE_DEFAULT);				//scale to desired size
-				BufferedImage outputImage = new BufferedImage(x,y, BufferedImage.TYPE_INT_RGB);
+				this.bi2 = outputImage;		
+				
+				/* reads and set the png file with checkpoints*/
+				this.icon= ImageIO.read(new File(checkpointfile));											
+				resultingImage = icon.getScaledInstance(x, y, Image.SCALE_DEFAULT);				
+				outputImage = new BufferedImage(x,y, BufferedImage.TYPE_INT_RGB);
 				outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
 				this.checkbi = outputImage;
+				
+				//Visas i view
 	        } 
 	        catch (IOException e)
 	        {
@@ -79,7 +70,6 @@ public class Track {
 	}
 	
 	
-  
 	public BufferedImage getIcon(int x, int y)
 	{
 		Image resultingImage = icon.getScaledInstance(x, y, Image.SCALE_DEFAULT);				//scale to desired size

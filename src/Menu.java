@@ -11,27 +11,33 @@ import javax.swing.ImageIcon;
 public class Menu
 {
     private Rectangle playBtn, quitBtn, configBtn,
-    redCarBtn, blueCarBtn, greenCarBtn, returnBtn,mapBtn;
-    private ImageIcon img;
+    redCarBtn, blueCarBtn, greenCarBtn, returnBtn,mapBtn, configReturnBtn;
+    private ImageIcon img, crashimg, finishedimg;
     private BufferedImage redCar,greenCar,blueCar;
     private Color btnclr, btnoutclr, titleclr;
     
     public Menu(int borderX, int borderY)
-    {
-        playBtn = new Rectangle(30,borderY/2-150,300,100);
+    { 
+    	
+    	playBtn = new Rectangle(30,borderY/2-150,300,100);
         configBtn= new Rectangle(30,borderY/2,300,100);
         quitBtn = new Rectangle(30,borderY/2 + 150,300,100);
+
         returnBtn = new Rectangle(borderX/2-150,borderY-200,300,100);
         
-        redCarBtn = new Rectangle(borderX/2-550,borderY/2-180,300,400);
-        greenCarBtn = new Rectangle(borderX/2-150,borderY/2-180,300,400);
-        blueCarBtn= new Rectangle(borderX/2+250,borderY/2-180,300,400);
-        
-        btnclr = new Color(1F, 0F, 0F, .5F);
+        redCarBtn = new Rectangle(borderX/2-550,borderY/2-220,150,80);
+        greenCarBtn = new Rectangle(borderX/2-100,borderY/2-220,180,80);
+        blueCarBtn= new Rectangle(borderX/2+200,borderY/2-220,150,80);
+       
+        configReturnBtn= new Rectangle(borderX/2-150,borderY/2 + 260,250,100);
+    	
+       btnclr = new Color(1F, 0F, 0F, .5F);
         mapBtn = new Rectangle(borderX/2-150,borderY/2-180,300,300);
         btnoutclr = Color.white;
         titleclr = Color.white;
 		img = new ImageIcon("back.gif");
+		crashimg= new ImageIcon("tenor.gif");
+		finishedimg= new ImageIcon("finito.gif");
 		try {
 			redCar= ImageIO.read(new File("red.png"));
 			greenCar=ImageIO.read(new File("green.png"));
@@ -41,7 +47,9 @@ public class Menu
 		img.setImage(img.getImage().getScaledInstance(borderX, borderY, Image.SCALE_DEFAULT));	
     }
     
-    public BufferedImage getRedCar()
+    
+
+	public BufferedImage getRedCar()
     {
     	return redCar;
     }
@@ -82,6 +90,10 @@ public class Menu
     {
         return returnBtn;
     }
+    public Rectangle getConfigReturnBtn()
+    {
+        return configReturnBtn;
+    }
     public Rectangle getredCarBtn()
     {
         return redCarBtn;
@@ -98,6 +110,14 @@ public class Menu
     public ImageIcon getImg()
     {
     	return img;
+    }
+    public ImageIcon getCrashImg()
+    {
+    	return crashimg;
+    }
+    public ImageIcon getFinishedImg()
+    {
+    	return finishedimg;
     }
     public Color getBtnClr()
     {
