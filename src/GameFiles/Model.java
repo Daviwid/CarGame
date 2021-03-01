@@ -5,6 +5,8 @@ import java.util.LinkedList;
 
 import javax.swing.Timer;
 
+import GameFiles.Controller.GameTimer;
+
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -51,7 +53,7 @@ public class Model implements Observable<Model>, ActionListener {
     private static int width = 50;
     private int carNumber = 1;
     private Track currentTrack,lindholmen, track2, currentCheckpoints;
-    
+    private int gameTimer;
     private Menu menu;
     private STATE state;
     private int carColor = 0;
@@ -365,7 +367,9 @@ public class Model implements Observable<Model>, ActionListener {
     {
     	return mapSelected;
     }
-    
+    public int getGameTimer(){
+        return gameTimer;
+    }
     //setters
     public void setPressedUp()
     {
@@ -426,6 +430,12 @@ public class Model implements Observable<Model>, ActionListener {
     {
     	carColor=c;
     	carList.clear();
+    }
+    public void resetGameTimer(){
+        gameTimer=0;
+    }
+    public void setGameTimer(){
+        gameTimer++;
     }
 
     @Override
