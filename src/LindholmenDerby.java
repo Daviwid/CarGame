@@ -14,16 +14,18 @@ public class LindholmenDerby extends Track {
 	public LindholmenDerby(int x, int y)
 	{
 		
+
 		map = "s2_pixelerad.png";		//bilbanans sarg
 		map2 = "s1.jpg";   //bilbanan vi kommer se
 		checkpointmap= "checkpoints.png";  //png fil med alla checkpoints
 		
-		color = 0xFFed1c24;			//Color som ska vara sarg
+    color = 0xFFed1c24;			//Color som ska vara sarg
 		lcolor = 0xFFed1c24;		//Low shade av color som ska vara sarg
 		setMap(map,map2, checkpointmap, x,y);			//Skapar bana och scale till screensize
 		setHitbox(color,lcolor);	//Skapar hitbox-lista
 		
 		
+
 		checkpointcolor1 = 0xFFffaec9;			//Color som ska tillhöra checkpoint1
 		checkpointcolor2 = 0xFF22b14c;			//Color som ska tillhöra checkpoint2
 		checkpointcolor3= 0xFFff7f27;          ////Color som ska tillhöra checkpoint3

@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.ArrayList;
 
 public class Model implements Observable<Model>, ActionListener {
     //Instansvariabler:
@@ -415,6 +416,7 @@ public class Model implements Observable<Model>, ActionListener {
     public void stateConfig()
     {
             state=STATE.CARCONFIG;
+            
     }
     public void setCarColor(int c)
     {
