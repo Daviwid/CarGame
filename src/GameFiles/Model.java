@@ -8,14 +8,14 @@ import javax.swing.Timer;
 import GameFiles.Controller.GameTimer;
 
 import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+/*import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;*/
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.ArrayList;
 
-public class Model implements Observable<Model>, ActionListener {
+public class Model implements Observable<Model>{//, ActionListener {
     //Instansvariabler:
     private LinkedList<Car> carList = new LinkedList<Car>();
     private int borderX;
@@ -30,7 +30,7 @@ public class Model implements Observable<Model>, ActionListener {
 	private boolean checkpoint2 = false;
 	private boolean checkpoint3 = false;
 	private boolean checkpoint4 = false;
-	
+	private boolean carCrash=false;
 	private boolean sound =false;
 	private boolean freeze=false;
 
@@ -53,7 +53,6 @@ public class Model implements Observable<Model>, ActionListener {
     private static int width = 50;
     private int carNumber = 1;
     private Track currentTrack,lindholmen, track2, currentCheckpoints;
-    private String currentHighscore;
     private int gameTimer;
     private Menu menu;
     private STATE state;
@@ -67,15 +66,13 @@ public class Model implements Observable<Model>, ActionListener {
 
     private final Collection<Observer<Model>> observers;
     
-    private ActionListener a;
-    private FileManager fileManager;
+   // private ActionListener a;
  // private Controller controller;
     public Model()
     {
         this.observers = new HashSet<>();
-        fileManager = new FileManager();
         carsInit(carNumber);
-        carColor = fileManager.configGetCarColor();
+        
     }
     
     public void carsInit(int carNumber)
@@ -114,7 +111,7 @@ public class Model implements Observable<Model>, ActionListener {
         {
             checkBorder();
             if(checkpoint1==true && checkpoint2==true && checkpoint3==true && checkpoint4==true) {
-         	   state= STATE.GAMEFINISHED;
+         	   //state= STATE.GAMEFINISHED;
                 new Client();
             }
            if(point1==false) {
@@ -203,7 +200,7 @@ public class Model implements Observable<Model>, ActionListener {
     	} 
     
     public void gameFinished() {
-    	state= STATE.GAMEFINISHED;
+    	//state= STATE.GAMEFINISHED;
     }
    public void checkHitboxes() {  //checks if objects position overlaps with one of the tracks
     Iterator<Point> it = currentTrack.getHitbox().iterator();
@@ -225,17 +222,19 @@ public class Model implements Observable<Model>, ActionListener {
     			}
     		}
     		if(checkpoint1==true && checkpoint2!=true && checkpoint3!=true && checkpoint4!=true){
-    			timer= new Timer(4000, a);  //extra effekter
+    			/*timer= new Timer(4000, a);  //extra effekter
     			
     			timer.addActionListener(this); 		
     	    	timer.start();	
     			
-    			freeze=true;
-    			state=STATE.CARCRASH;
     			
+    			//state=STATE.CARCRASH;
+                carCrash=true;
+    			
+    			
+    			point1=true;*/
+                freeze=true;
     			carList.get(0).setCheckpointPosition(currentTrack, checkpoint1x , checkpoint1y );
-    			point1=true;
-    			
     		}
     		
     		if(checkpoint1==true && checkpoint2==true && checkpoint3!=true && checkpoint4!=true) {
@@ -317,7 +316,6 @@ public class Model implements Observable<Model>, ActionListener {
     {
         currentTrack = t;
         carsInit(carNumber);
-        currentHighscore = fileManager.getHighscoreForPosition(1);
         state = STATE.GAME;
         this.mapSelected=true;
     }
@@ -348,10 +346,6 @@ public class Model implements Observable<Model>, ActionListener {
     public Track getCheckpoints()
     {
        return currentCheckpoints;
-    }
-    public int getCurrentHighscore()
-    {
-    	return currentHighscore;
     }
     public STATE getState()
     {
@@ -432,12 +426,6 @@ public class Model implements Observable<Model>, ActionListener {
     public void setBorderY(int y) { 
         borderY = y;
     }
-    public void setCarColor(int c)
-    {
-    	fileManager.configSetCarColor = c;
-    	carColor=c;
-    	carList.clear();
-    }
     public void stateGame()
     {
             state=STATE.GAME;
@@ -454,6 +442,11 @@ public class Model implements Observable<Model>, ActionListener {
     {
             state=STATE.CARCONFIG;
             
+    }
+    public void setCarColor(int c)
+    {
+    	carColor=c;
+    	carList.clear();
     }
     public void resetGameTimer(){
         gameTimer = 0;
@@ -479,13 +472,13 @@ public class Model implements Observable<Model>, ActionListener {
         }
     }
 
-    @Override
+    /*@Override
 	public void actionPerformed(ActionEvent e) {
 		//System.out.println("carcrash over");
 		state=STATE.GAME;
 		freeze=false;
 		carList.get(0).collisionSpeed();
 		timer.stop();
-	}
+	}*/
 
 }

@@ -48,14 +48,14 @@ public class View extends JPanel implements Observer<Model> {
             drawCar(g2d, carList.get(0));
             
         }
-        if(m.getState()== STATE.CARCRASH) {
+       /* if(m.getState()== STATE.CARCRASH) {
         	drawCrash(g2d);
         	
         } 
         if(m.getState()== STATE.GAMEFINISHED) {
         	drawFinished(g2d);
         	
-        } 
+        } */
     }
     
   public void drawConfig(Menu menu, Graphics2D g2d, int x,int y) {
@@ -271,7 +271,7 @@ public class View extends JPanel implements Observer<Model> {
        
     }
    
-    public void drawCrash(Graphics2D g2d) {
+  /*  public void drawCrash(Graphics2D g2d) {
     	m.getMenu().getCrashImg().paintIcon(this, g2d, 0, 0);
     }
     public void drawFinished(Graphics2D g2d) {
@@ -279,7 +279,7 @@ public class View extends JPanel implements Observer<Model> {
     	
     	g2d.drawString("GAME FINISHED", 500, 600);
     }
-    
+    */
 
 
 
@@ -324,32 +324,15 @@ public class View extends JPanel implements Observer<Model> {
         
     }
     
-    
-    //RETURNS STRING IN min:sec:hundredths   placement is 1 to 10
-    //  Remember that m.fileManager.getHighscoreForPosition(int placement)
-    //  returns a string with time for that placement (placement is 1-10)
-    public String formatScoreString(String scoreString)
-    {
-        int highscore = Integer.parseInt(scoreString);
-        int minutes = highscore / 6000;
-        int seconds = (highscore % 6000)/100;
-        int hundredths = highscore % 100;
-        String formatScoreString = minutes + ":" + seconds + ":" + hundredths;
-        return formatScoreString;
-    }
-    
-    
-    
     private void drawTime(Graphics2D g2d){
         
         int min = m.getGameTimer() / 6000;
-        int sec = (m.getGameTimer() % 6000) / 100;
-        int hundredths = m.getGameTimer() % 100;
+        int sec = m.getGameTimer() % 6000;
 
-        String s = (String.valueOf(min) + ":" + String.valueOf(sec) + ":" + String.valueOf(hundredths));
+        String s = (String.valueOf(min) + ":" + String.valueOf(sec));
         g2d.setFont(new Font("arial",Font.BOLD,20));
         g2d.drawString(s, 20, 150);
-        g2d.drawString(formatScoreString(m.currentHighscore), 20, 200);
+        
     }
 
     @Override
