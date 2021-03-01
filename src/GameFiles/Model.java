@@ -59,6 +59,11 @@ public class Model implements Observable<Model>, ActionListener {
     private int carColor = 0;
     private String build = "Build v. 1.0.0.0";
     private Timer timer;
+
+    private ArrayList<Point> positionList = new ArrayList<Point>();
+    private ArrayList<Double> angleList = new ArrayList<Double>();
+
+
     private final Collection<Observer<Model>> observers;
     
     private ActionListener a;
@@ -124,6 +129,8 @@ public class Model implements Observable<Model>, ActionListener {
            checkHitboxes();
            if(freeze==false) {
             moveCar();
+            savePosition(carList.get(0).getPositionX(), carList.get(0).getPositionY());  //for loop if we have more then 1 player
+            saveAngle(carList.get(0).getAngle());                                           // same here...
            }
            
         }
@@ -315,6 +322,14 @@ public class Model implements Observable<Model>, ActionListener {
     {
     	lindholmen = new LindholmenDerby(borderX,borderY);
     	
+    }
+
+    private void savePosition( int xPosition, int yPosition){
+        positionList.add(new Point(xPosition, yPosition));
+    }
+    
+    private void saveAngle(Double angle){
+        angleList.add(angle);
     }
         
     //getters
