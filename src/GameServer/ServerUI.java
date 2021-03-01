@@ -1,5 +1,3 @@
-package src.GameServer;
-
 import javax.swing.JFrame;
 import  java.awt.*; 
 import  java.awt.event.*;
@@ -42,14 +40,9 @@ public class ServerUI extends JFrame implements KeyListener, ActionListener {
         JButton sButton = new JButton("Close Server");
         sButton.addActionListener(this);
         buttons[0] = sButton;
-
-        JButton cButton = new JButton("Add Client");
-        cButton.addActionListener(this);
-        buttons[1] = cButton;
         
         add(serverWindow);
         serverWindow.add(sButton);
-        serverWindow.add(cButton);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
         pack();
@@ -66,9 +59,6 @@ public class ServerUI extends JFrame implements KeyListener, ActionListener {
             } catch (Exception ex) {
                 System.out.println("IO exception in button");
             }
-        }else if(b == buttons[1]){
-            ClientThread c = new ClientThread();
-            c.start();
         }
     }
 

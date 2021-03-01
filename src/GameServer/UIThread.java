@@ -1,7 +1,3 @@
-package src.GameServer;
-
-import java.net.ServerSocket;
-
 public class UIThread extends Thread{
 
     private Server s;
