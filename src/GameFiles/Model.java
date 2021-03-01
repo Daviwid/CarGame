@@ -30,7 +30,7 @@ public class Model implements Observable<Model>, ActionListener {
 	private boolean checkpoint2 = false;
 	private boolean checkpoint3 = false;
 	private boolean checkpoint4 = false;
-	
+	private boolean carCrash=false;
 	private boolean sound =false;
 	private boolean freeze=false;
 
@@ -106,7 +106,7 @@ public class Model implements Observable<Model>, ActionListener {
         {
             checkBorder();
             if(checkpoint1==true && checkpoint2==true && checkpoint3==true && checkpoint4==true) {
-         	   state= STATE.GAMEFINISHED;
+         	   //state= STATE.GAMEFINISHED;
                 new Client();
             }
            if(point1==false) {
@@ -193,7 +193,7 @@ public class Model implements Observable<Model>, ActionListener {
     	} 
     
     public void gameFinished() {
-    	state= STATE.GAMEFINISHED;
+    	//state= STATE.GAMEFINISHED;
     }
    public void checkHitboxes() {  //checks if objects position overlaps with one of the tracks
     Iterator<Point> it = currentTrack.getHitbox().iterator();
@@ -215,17 +215,19 @@ public class Model implements Observable<Model>, ActionListener {
     			}
     		}
     		if(checkpoint1==true && checkpoint2!=true && checkpoint3!=true && checkpoint4!=true){
-    			timer= new Timer(4000, a);  //extra effekter
+    			/*timer= new Timer(4000, a);  //extra effekter
     			
     			timer.addActionListener(this); 		
     	    	timer.start();	
     			
-    			freeze=true;
-    			state=STATE.CARCRASH;
     			
+    			//state=STATE.CARCRASH;
+                carCrash=true;
+    			
+    			
+    			point1=true;*/
+                freeze=true;
     			carList.get(0).setCheckpointPosition(currentTrack, checkpoint1x , checkpoint1y );
-    			point1=true;
-    			
     		}
     		
     		if(checkpoint1==true && checkpoint2==true && checkpoint3!=true && checkpoint4!=true) {
@@ -454,13 +456,13 @@ public class Model implements Observable<Model>, ActionListener {
         }
     }
 
-    @Override
+    /*@Override
 	public void actionPerformed(ActionEvent e) {
 		//System.out.println("carcrash over");
 		state=STATE.GAME;
 		freeze=false;
 		carList.get(0).collisionSpeed();
 		timer.stop();
-	}
+	}*/
 
 }

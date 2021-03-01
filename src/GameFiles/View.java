@@ -48,14 +48,14 @@ public class View extends JPanel implements Observer<Model> {
             drawCar(g2d, carList.get(0));
             
         }
-        if(m.getState()== STATE.CARCRASH) {
+       /* if(m.getState()== STATE.CARCRASH) {
         	drawCrash(g2d);
         	
         } 
         if(m.getState()== STATE.GAMEFINISHED) {
         	drawFinished(g2d);
         	
-        } 
+        } */
     }
     
   public void drawConfig(Menu menu, Graphics2D g2d, int x,int y) {
@@ -271,7 +271,7 @@ public class View extends JPanel implements Observer<Model> {
        
     }
    
-    public void drawCrash(Graphics2D g2d) {
+  /*  public void drawCrash(Graphics2D g2d) {
     	m.getMenu().getCrashImg().paintIcon(this, g2d, 0, 0);
     }
     public void drawFinished(Graphics2D g2d) {
@@ -279,7 +279,7 @@ public class View extends JPanel implements Observer<Model> {
     	
     	g2d.drawString("GAME FINISHED", 500, 600);
     }
-    
+    */
 
 
 

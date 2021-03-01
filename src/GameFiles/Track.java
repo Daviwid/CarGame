@@ -44,21 +44,21 @@ public class Track {
 	{
 		 try
 	        {
-				this.icon= ImageIO.read(new File(map_name));											//local jpg/png
+				this.icon= ImageIO.read(getClass().getResource(map_name));											//local jpg/png
 				Image resultingImage = icon.getScaledInstance(x, y, Image.SCALE_DEFAULT);				//scale to desired size
 				BufferedImage outputImage = new BufferedImage(x,y, BufferedImage.TYPE_INT_RGB);			
 				outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
 				this.bi = outputImage;																	
 				
-				this.icon= ImageIO.read(new File(map_name2));											//local jpg/png
+				this.icon= ImageIO.read(getClass().getResource(map_name2));											//local jpg/png
 				resultingImage = icon.getScaledInstance(x, y, Image.SCALE_DEFAULT);				//scale to desired size
 				outputImage = new BufferedImage(x,y, BufferedImage.TYPE_INT_RGB);				
 				outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
 				this.bi2 = outputImage;		
 				
 				/* reads and set the png file with checkpoints*/
-				this.icon= ImageIO.read(new File(checkpointfile));											
-				resultingImage = icon.getScaledInstance(x, y, Image.SCALE_DEFAULT);				
+				BufferedImage tmp= ImageIO.read(getClass().getResource(checkpointfile));											
+				resultingImage = tmp.getScaledInstance(x, y, Image.SCALE_DEFAULT);				
 				outputImage = new BufferedImage(x,y, BufferedImage.TYPE_INT_RGB);
 				outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
 				this.checkbi = outputImage;

@@ -37,13 +37,13 @@ public class Menu
         mapBtn = new Rectangle(borderX/2-150,borderY/2-180,300,300);
         btnoutclr = Color.white;
         titleclr = Color.white;
-		img = new ImageIcon("back.gif");
-		crashimg= new ImageIcon("tenor.gif");
-		finishedimg= new ImageIcon("finito.gif");
+		img = new ImageIcon(getClass().getResource("back.gif"));
+		crashimg= new ImageIcon(getClass().getResource("tenor.gif"));
+		finishedimg= new ImageIcon(getClass().getResource("finito.gif"));
 		try {
-			redCar= ImageIO.read(new File("red.png"));
-			greenCar=ImageIO.read(new File("green.png"));
-			blueCar=ImageIO.read(new File("blue.png"));
+			redCar= ImageIO.read(getClass().getResource("red.png"));		
+			greenCar=ImageIO.read(getClass().getResource("green.png"));	
+			blueCar=ImageIO.read(getClass().getResource("blue.png"));	
 		}
 		catch(IOException e) {}
 		img.setImage(img.getImage().getScaledInstance(borderX, borderY, Image.SCALE_DEFAULT));	
