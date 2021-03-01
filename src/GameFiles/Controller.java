@@ -1,3 +1,5 @@
+package GameFiles;
+
 import  java.awt.*; 
 import  java.awt.event.*;   
 import  javax.swing.*; 
@@ -21,7 +23,7 @@ public class Controller extends JFrame implements ActionListener
             t.start();
         }
         public void actionPerformed(ActionEvent e){
-            m.setGameTime();
+            m.setGameTimer();
         }
     }
     

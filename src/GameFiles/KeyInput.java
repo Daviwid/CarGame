@@ -1,3 +1,5 @@
+package GameFiles;
+
 import  java.awt.event.*;   
 
 public class KeyInput implements KeyListener

@@ -1,3 +1,5 @@
+package GameFiles;
+
 public class LindholmenDerby extends Track {
 	
 	private String map, map2, checkpointmap;
