@@ -12,13 +12,16 @@ public class MouseInput implements MouseListener{
         int y = e.getY();
         System.out.println("" + c.getModel().getState());
         
+       
         if(c.getModel().getState()==STATE.MENU)		//Funkar endast om man har meny uppe.
         {         
             
         	menuButtons(c.getModel(), c.getModel().getMenu(),x,y);
+        	
         }
         
         if(c.getModel().getState()==STATE.CARCONFIG) {
+        	
         	
         	carConfigButtons(c.getModel(), c.getModel().getMenu(),x,y);
         }
@@ -27,6 +30,7 @@ public class MouseInput implements MouseListener{
         {           
         	selectMapButtons(c.getModel(), c.getModel().getMenu(),x,y);
         }
+        
         
     }
     public void menuButtons(Model model, Menu m,int x,int y)
@@ -42,8 +46,10 @@ public class MouseInput implements MouseListener{
       	//Kollar om klick on ConfigBtn 
         if(x >= m.getConfigBtn().getX() && x <= m.getConfigBtn().getX()+m.getConfigBtn().getWidth())
         {
+        	
             if(y >= m.getConfigBtn().getY() && y <= m.getConfigBtn().getY()+m.getConfigBtn().getHeight())
             {
+            	
                 model.stateConfig();
                 
                 
@@ -62,6 +68,7 @@ public class MouseInput implements MouseListener{
     
     public void carConfigButtons(Model model, Menu m, int x, int y)
     {
+    	
     	if(x >= m.getredCarBtn().getX() && x <= m.getredCarBtn().getX()+m.getredCarBtn().getWidth())
         {
             if(y >= m.getredCarBtn().getY() && y <= m.getredCarBtn().getY()+m.getredCarBtn().getHeight())
@@ -87,13 +94,14 @@ public class MouseInput implements MouseListener{
             }
         }
     	
-    	if(x >= m.getReturnBtn().getX() && x <= m.getReturnBtn().getX()+m.getReturnBtn().getWidth())
+    	if(x >= m.getConfigReturnBtn().getX() && x <= m.getConfigReturnBtn().getX()+m.getConfigReturnBtn().getWidth())
         {
-            if(y >= m.getReturnBtn().getY() && y <= m.getReturnBtn().getY()+m.getReturnBtn().getHeight())
+            if(y >= m.getConfigReturnBtn().getY() && y <= m.getConfigReturnBtn().getY()+m.getConfigReturnBtn().getHeight())
             {
             	model.stateMenu();
             }
         }  
+    	
     }
     
     public void selectMapButtons(Model model, Menu m, int x, int y)
@@ -116,6 +124,9 @@ public class MouseInput implements MouseListener{
                 model.stateGame();
             }
         }
+        
+        
+      
     }
     
     public void mousePressed(MouseEvent e){}

@@ -1,11 +1,16 @@
 import java.util.LinkedList;
+
+import javax.swing.Timer;
+
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.ArrayList;
 
-public class Model implements Observable<Model> {
+public class Model implements Observable<Model>, ActionListener {
     //Instansvariabler:
     private LinkedList<Car> carList = new LinkedList<Car>();
     private int borderX;
@@ -21,6 +26,14 @@ public class Model implements Observable<Model> {
 	private boolean checkpoint3 = false;
 	private boolean checkpoint4 = false;
 	
+	private boolean sound =false;
+	private boolean freeze=false;
+
+	private boolean point1=false;
+	private boolean point2=false;
+	private boolean point3=false;
+	private boolean point4=false;
+	
 	private int checkpoint1x;
 	private int checkpoint1y;
 	private int checkpoint2x;
@@ -31,29 +44,25 @@ public class Model implements Observable<Model> {
 	private int checkpoint4y;
 	
     private static int TOPSPEED = 10;
-
-
-    private static int height = 30;
-    private static int width = 20;
+    private static int height = 50;
+    private static int width = 50;
     private int carNumber = 1;
-    private Track currentTrack,lindholmen, currentCheckpoints;
+    private Track currentTrack,lindholmen, track2, currentCheckpoints;
     
     private Menu menu;
     private STATE state;
     private int carColor = 0;
     private String build = "Build v. 1.0.0.0";
-
-	private int gameTimer;
-    private ArrayList<Point> positionList = new ArrayList<Point>();
-    private ArrayList<Double> angleList = new ArrayList<Double>();
-    
+    private Timer timer;
     private final Collection<Observer<Model>> observers;
+    
+    private ActionListener a;
  // private Controller controller;
     public Model()
     {
-		
         this.observers = new HashSet<>();
         carsInit(carNumber);
+        
     }
     
     public void carsInit(int carNumber)
@@ -81,6 +90,7 @@ public class Model implements Observable<Model> {
     }
     public void menuInit()			//Skapar meny och state = menu
     {
+    	
         menu = new Menu(borderX, borderY);
         state = STATE.MENU;
     }
@@ -90,23 +100,35 @@ public class Model implements Observable<Model> {
         if(state==STATE.GAME)	//Kolla endast om man spelar. Genererar annars exceptions
         {
             checkBorder();
-           checkHitboxes();
+            if(checkpoint1==true && checkpoint2==true && checkpoint3==true && checkpoint4==true) {
+         	   state= STATE.GAMEFINISHED;
+            }
+           if(point1==false) {
             checkCheckpoint1Hitboxes();
+           }
+           if(point2==false) {
             checkCheckpoint2Hitboxes();
+           }
+           if(point3==false) {
             checkCheckpoint3Hitboxes();
+           }
+           if(point4==false) {
             checkCheckpoint4Hitboxes();
-
+           }
+           checkHitboxes();
+           if(freeze==false) {
             moveCar();
-			
-            savePosition(carList.get(0).getPositionX(), carList.get(0).getPositionY());  //for loop if we have more then 1 player
-            saveAngle(carList.get(0).getAngle());                                        // same here...
+           }
+           
         }
+        
         updateObservers();
     }
     
     
     private void moveCar()
     {
+    	
         for(int i = 0; i < carList.size(); i++)
         {
             if(pressedUp)
@@ -138,15 +160,11 @@ public class Model implements Observable<Model> {
     }
   
     /* source: https://stackoverflow.com/questions/17136084/checking-if-a-point-is-inside-a-rotated-rectangle/17146376*/
-
-
-
-    public boolean overlapsWith(double px, double py){ //px, py är kordinater till track
-
-
-
-    	double width= (double) carList.get(0).getWidth()/2;
-    	double height= (double)carList.get(0).getHeight()/2;
+    public boolean overlapsWith(double px, double py){ //px, py kordinater till checkpoints
+    	/*double width= (double) carList.get(0).getWidth()/2;
+    	double height= (double)carList.get(0).getHeight()/2;*/
+    	double width= (double) carList.get(0).getWidth()/10;
+    	double height= (double)carList.get(0).getHeight()/10;
     	double carx= carList.get(0).getPositionX();
     	double cary= carList.get(0).getPositionY();
     	double ax= carx - width;
@@ -168,33 +186,78 @@ public class Model implements Observable<Model> {
         return true; 
     	} 
     
-   public void checkHitboxes() {  //
+    public void gameFinished() {
+    	state= STATE.GAMEFINISHED;
+    }
+   public void checkHitboxes() {  //checks if objects position overlaps with one of the tracks
     Iterator<Point> it = currentTrack.getHitbox().iterator();
+    int count=0;
+    
+    SoundEffectCarCollision s; 
         while(it.hasNext()) {
-        
+       
         Point p = it.next();
     	if( overlapsWith(p.x, p.y) ) { 
-    		//carList.get(0).turnDirection(); 
-    		if(checkpoint1==true && checkpoint2!=true && checkpoint3!=true && checkpoint4!=true) {carList.get(0).setCheckpointPosition(currentTrack, checkpoint1x , checkpoint1y);}
+    		if(count==0) { carList.get(0).turnDirection(); count++;}
     		
-    		if(checkpoint2==true && checkpoint1==true && checkpoint3!=true && checkpoint4!=true) {carList.get(0).setCheckpointPosition(currentTrack, checkpoint2x , checkpoint2y);}
+    		if(sound==false) {
+    			try {
+    				s = new SoundEffectCarCollision();
+    			} catch (Exception e1) {
+				
+    				e1.printStackTrace();
+    			}
+    		}
+    		if(checkpoint1==true && checkpoint2!=true && checkpoint3!=true && checkpoint4!=true){
+    			timer= new Timer(4000, a);  //extra effekter
+    			
+    			timer.addActionListener(this); 		
+    	    	timer.start();	
+    			
+    			freeze=true;
+    			state=STATE.CARCRASH;
+    			
+    			carList.get(0).setCheckpointPosition(currentTrack, checkpoint1x , checkpoint1y );
+    			point1=true;
+    			
+    		}
     		
-    		if(checkpoint3==true && checkpoint2==true && checkpoint1==true && checkpoint4!=true) {carList.get(0).setCheckpointPosition(currentTrack, checkpoint3x , checkpoint3y);}
+    		if(checkpoint1==true && checkpoint2==true && checkpoint3!=true && checkpoint4!=true) {
+    			carList.get(0).setCheckpointPosition(currentTrack, checkpoint2x , checkpoint2y);
+    			point2=true;
+    			
+    			}
     		
-    		if(checkpoint4==true && checkpoint3==true && checkpoint2==true && checkpoint1==true) {carList.get(0).setCheckpointPosition(currentTrack, checkpoint4x , checkpoint4y);}
+    		if(checkpoint1==true && checkpoint2==true && checkpoint3==true && checkpoint4!=true) {
+    			carList.get(0).setCheckpointPosition(currentTrack, checkpoint3x , checkpoint3y);
+    			point3=true;
+    			
+    			}
+    		
+    		if(checkpoint1==true && checkpoint2==true && checkpoint3==true && checkpoint4==true) {
+    			carList.get(0).setCheckpointPosition(currentTrack, checkpoint4x , checkpoint4y);
+    			point4=true;
+    			
+    			}
+    		sound=true;
+    		  
+    		 
+    		
     	}
     	
     	}
     }
     public void checkCheckpoint1Hitboxes() {  
+    	
         Iterator<Point> it = currentTrack.getCheckpoints1Hitbox().iterator();
             while(it.hasNext()) {
             Point p = it.next();
-            if( overlapsWith(p.x, p.y) ) { 
-        		checkpoint1= true;
-        		checkpoint1x= p.x;
-        		checkpoint1y= p.y;
-        		//System.out.println("checkpoint1");
+            
+           if( overlapsWith(p.x, p.y)) { 
+            	checkpoint1= true;
+            	checkpoint1x= p.x;
+            	checkpoint1y= p.y;
+            	
         	}
         	}
         }
@@ -206,7 +269,6 @@ public class Model implements Observable<Model> {
         		checkpoint2= true;
         		checkpoint2x= p.x;
         		checkpoint2y= p.y;
-        		//System.out.println("checkpoint2");
         	}
         	}
         }
@@ -214,11 +276,10 @@ public class Model implements Observable<Model> {
         Iterator<Point> it = currentTrack.getCheckpoints3Hitbox().iterator();
             while(it.hasNext()) {
             Point p = it.next();
-            if( overlapsWith(p.x, p.y) ) { 
+            if( overlapsWith(p.x, p.y)) { 
         		checkpoint3= true;
         		checkpoint3x= p.x;
         		checkpoint3y= p.y;
-        		//System.out.println("checkpoint3");
         	}
         	}
         }
@@ -230,7 +291,6 @@ public class Model implements Observable<Model> {
         		checkpoint4= true;
         		checkpoint4x= p.x;
         		checkpoint4y= p.y;
-        		//System.out.println("checkpoint4");
         	}
         	}
         }
@@ -239,35 +299,18 @@ public class Model implements Observable<Model> {
     
     public void selectMap(Track t)			
     {
-
         currentTrack = t;
         carsInit(carNumber);
-
-        resetGameTime();
-
-
         state = STATE.GAME;
         this.mapSelected=true;
     }
     
-
     public void mapInit()
     {
     	lindholmen = new LindholmenDerby(borderX,borderY);
+    	
     }
         
-
-
-    private void savePosition( int xPosition, int yPosition){
-        positionList.add(new Point(xPosition, yPosition));
-    }
-    
-    private void saveAngle(Double angle){
-        angleList.add(angle);
-    }
-    
-
-
     //getters
     public LinkedList<Car> getCarList()
     {
@@ -297,7 +340,6 @@ public class Model implements Observable<Model> {
     {
     	return build;
     }
-
     public int getCarnmbr()
     {
     	return carNumber;
@@ -310,19 +352,16 @@ public class Model implements Observable<Model> {
     {
     	return lindholmen;
     }
+    public Track getTrack2()
+    {
+    	return track2;
+    }
+    
     public boolean getMapSelected()
     {
     	return mapSelected;
     }
-
-    public int getGameTimer()
-    {
-        return gameTimer;
-
-    }
-
     
-
     //setters
     public void setPressedUp()
     {
@@ -370,7 +409,6 @@ public class Model implements Observable<Model> {
     {
             state=STATE.MENU;
     }  
-
     public void stateMap()
     {
     		state=STATE.MAP_SELECTION;
@@ -384,16 +422,6 @@ public class Model implements Observable<Model> {
     {
     	carColor=c;
     	carList.clear();
-    }
-
-
-    public void resetGameTime()
-    {
-        gameTimer = 0;
-    }
-    public void setGameTime()
-    {
-        gameTimer++;
     }
 
     @Override
@@ -411,5 +439,14 @@ public class Model implements Observable<Model> {
             o.update(this);
         }
     }
+
+    @Override
+	public void actionPerformed(ActionEvent e) {
+		//System.out.println("carcrash over");
+		state=STATE.GAME;
+		freeze=false;
+		carList.get(0).collisionSpeed();
+		timer.stop();
+	}
 
 }

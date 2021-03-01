@@ -7,7 +7,6 @@ public class Car {
       private double positionX; 
       private double positionY;
       private double speed;
-      private double tempspeed;
       private double angle;
       private int color;
       private int xOffset;
@@ -32,10 +31,8 @@ public class Car {
 
         angle = 0;
 
-
-        positionX = 500;
-        positionY = 500;
-
+        positionX = 400;
+        positionY = 600;
         try {
             	redCar = ImageIO.read(new File("REDCAR.png"));
             	greenCar = ImageIO.read(new File("GREENCAR.png"));
@@ -96,12 +93,9 @@ public class Car {
 	}
   
   public void collisionSpeed() {
-	  tempspeed = speed;
-	  speed = 0.5;
+	  speed=0;
   }
-  public void toNormalSpeed() {
-	  speed = tempspeed;
-  }
+  
 	public void turnRight()
 	{
 		angle = angle   +   Math.PI    /   128.0; //increase radian angle
