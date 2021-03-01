@@ -21,7 +21,7 @@ public class Controller extends JFrame implements ActionListener
             t.start();
         }
         public void actionPerformed(ActionEvent e){
-            m.setGameTime();
+            m.setGameTimer();
         }
     }
     

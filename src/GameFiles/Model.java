@@ -48,7 +48,6 @@ public class Model implements Observable<Model>, ActionListener {
     private static int width = 50;
     private int carNumber = 1;
     private Track currentTrack,lindholmen, track2, currentCheckpoints;
-    private int gameTimer;
     
     private Menu menu;
     private STATE state;
@@ -103,6 +102,7 @@ public class Model implements Observable<Model>, ActionListener {
             checkBorder();
             if(checkpoint1==true && checkpoint2==true && checkpoint3==true && checkpoint4==true) {
          	   state= STATE.GAMEFINISHED;
+                new Client();
             }
            if(point1==false) {
             checkCheckpoint1Hitboxes();
@@ -119,7 +119,6 @@ public class Model implements Observable<Model>, ActionListener {
            checkHitboxes();
            if(freeze==false) {
             moveCar();
-            setGameTimer();
            }
            
         }
@@ -304,7 +303,6 @@ public class Model implements Observable<Model>, ActionListener {
         currentTrack = t;
         carsInit(carNumber);
         state = STATE.GAME;
-        resetGameTimer();
         this.mapSelected=true;
     }
     
@@ -364,11 +362,7 @@ public class Model implements Observable<Model>, ActionListener {
     {
     	return mapSelected;
     }
-    public int getGameTimer()
-    {
-        return gameTimer;
-    }
-
+    
     //setters
     public void setPressedUp()
     {
@@ -429,16 +423,6 @@ public class Model implements Observable<Model>, ActionListener {
     {
     	carColor=c;
     	carList.clear();
-    }
-
-    public void setGameTimer() 
-    {
-        gameTimer++;
-    }
-
-    public void resetGameTimer()
-    {
-        gameTimer = 0;
     }
 
     @Override
