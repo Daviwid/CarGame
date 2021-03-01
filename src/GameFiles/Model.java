@@ -8,14 +8,14 @@ import javax.swing.Timer;
 import GameFiles.Controller.GameTimer;
 
 import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+/*import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;*/
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.ArrayList;
 
-public class Model implements Observable<Model>, ActionListener {
+public class Model implements Observable<Model>{//, ActionListener {
     //Instansvariabler:
     private LinkedList<Car> carList = new LinkedList<Car>();
     private int borderX;
@@ -66,7 +66,7 @@ public class Model implements Observable<Model>, ActionListener {
 
     private final Collection<Observer<Model>> observers;
     
-    private ActionListener a;
+   // private ActionListener a;
  // private Controller controller;
     public Model()
     {
