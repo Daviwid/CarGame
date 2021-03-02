@@ -10,7 +10,7 @@ import java.net.ServerSocket;
 public class ServerUI extends JFrame implements KeyListener, ActionListener {
     
     public ServerSocket serverSocket;
-    private static int port = 1767;
+    private static int port = 25565;
     private Server s;
     private UIThread t;
     private JPanel serverWindow;

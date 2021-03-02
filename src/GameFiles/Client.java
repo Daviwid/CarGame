@@ -14,23 +14,32 @@ public class Client {
     private static int port = 1767;
     private static String ip = "localhost";
 
-    public Client(){
-        try{ 
-            sendScore();
-            getHighscores();
+    public Client(int time, ArrayList<Point> positionList, ArrayList<Double> angleList){
+        try{
+            Socket socket = new Socket(ip, port);
+
+            InputStream input = socket.getInputStream();
+            InputStreamReader inputStreamReader = new InputStreamReader(input);
+            BufferedReader reader = new BufferedReader(inputStreamReader);
+
+            OutputStream outputStream = socket.getOutputStream();
+
+            sendScore(outputStream, time, positionList, angleList);
+            socket.shutdownOutput();
+            getHighscores(reader);
+
+            socket.close();
         }catch(IOException e){
             System.out.println("Client: IO exception: ip not found");
         }catch(InterruptedException e){
             System.out.println("Client: Interrupted exception: got interrupted");
         }
+        
     }
 
-    private void getHighscores() throws IOException, InterruptedException{
+    private void getHighscores(BufferedReader reader) throws IOException, InterruptedException{
        
-        Socket socket = new Socket(ip, port);
-        InputStream input = socket.getInputStream();
-        InputStreamReader inputStreamReader = new InputStreamReader(input);
-        BufferedReader reader = new BufferedReader(inputStreamReader);
+        
         FileManager fm = new FileManager();
 
         String clientScore;
@@ -40,26 +49,17 @@ public class Client {
         {
             tmp += clientScore + "\n";
         }
+        System.out.println(tmp);
+        fm.recieveHighscoreStringFromServer(tmp);
 
-        fm.recieveHighscoreStringFromServer(clientScore);
-        socket.close();
     }
 
-    public void sendScore() throws IOException, InterruptedException
+    public void sendScore(OutputStream outputStream, int time, ArrayList<Point> positionList, ArrayList<Double> angleList) throws IOException, InterruptedException
     {
-        Socket socket = new Socket(ip, port);
-        OutputStream outputStream = socket.getOutputStream();
+        
         FileManager fm = new FileManager();
 
-        ArrayList<Point> positionList = new ArrayList<Point>();
-	    ArrayList<Double> angleList = new ArrayList<Double>();
-        positionList.add(new Point(100,150));
-		positionList.add(new Point(200,250));
-		angleList.add(79.1);
-		angleList.add(108.3);
-        int time = 1;
-
-        outputStream.write((fm.sendScoreToServer(time, positionList,angleList)).getBytes());
-        socket.close();
+        outputStream.write((fm.sendScoreToServer(time,positionList,angleList)).getBytes());
+        
     }
 }

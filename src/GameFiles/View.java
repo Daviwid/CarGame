@@ -162,7 +162,7 @@ public class View extends JPanel implements Observer<Model> {
          }
      	//drawCheckpoints(g2d, m.getTrack().getCheckpointsMap());
          drawCar(g2d, carList.get(0));
-
+         drawAI(g2d,  carList.get(1));
          drawTime(g2d);
          
     }
@@ -319,8 +319,8 @@ public class View extends JPanel implements Observer<Model> {
 
     private void drawCar(Graphics2D g2d, Car car) {
 
-	    
-        /*g2d.setColor(Color.green); 
+	    /*
+        g2d.setColor(Color.green); 
         double w = car.getWidth();  //Test values of green rectangle under png
         double h = car.getHeight();
         Point2D p1 = new Point2D(h/2,-w/2).rotate(car.getAngle());
@@ -358,6 +358,44 @@ public class View extends JPanel implements Observer<Model> {
         
     }
     
+    public void drawAI(Graphics2D g2d, Car car)
+    {
+    	/*
+        g2d.setColor(Color.red); 
+        double w = car.getWidth();  //Test values of green rectangle under png
+        double h = car.getHeight();
+        Point2D p1 = new Point2D(h/2,-w/2).rotate(car.getAngle());
+        Point2D p2 = new Point2D(h/2,w/2).rotate(car.getAngle());
+        Point2D p3 = new Point2D(-h/2,w/2).rotate(car.getAngle());
+        Point2D p4 = new Point2D(-h/2,-w/2).rotate(car.getAngle());
+        double x = car.getPositionX();
+        double y = car.getPositionY();
+        double[]   dx  = {x+p1.getIntX(),x+p2.getIntX(),x+p3.getIntX(),x+p4.getIntX()};  
+        double[]   dy  = {y+p1.getIntY(),y+p2.getIntY(),y+p3.getIntY(),y+p4.getIntY()};
+        int xPts[]= new int[4];
+        int yPts[]= new int[4];
+        for(int i=0;i<4;i++)
+        {
+             xPts[i]=(int)(dx[i]+.5);
+             yPts[i]=(int)(dy[i]+.5); 
+        }
+        g2d.fillPolygon(xPts,yPts,4);
+        */
+        
+        Image resultingImage = car.getCarIMG().getScaledInstance(car.getWidth(), car.getHeight(), Image.SCALE_SMOOTH);
+        
+
+        AffineTransform backup2 = g2d.getTransform();
+
+        //Set our Graphics2D object to the transform
+       g2d.rotate(car.getAngle() + (3*Math.PI)/2, car.getPositionX(), car.getPositionY());
+        
+        g2d.drawImage(resultingImage, car.getPositionX() - (car.getWidth() / 2) , car.getPositionY() - (car.getHeight() / 2) , null);
+//      g2d.setTransform(a);
+        g2d.setTransform(backup2); 
+    }
+    
+    
     //RETURNS STRING IN min:sec:hundredths   placement is 1 to 10
     //  Remember that m.fileManager.getHighscoreForPosition(int placement)
     //  returns a string with time for that placement (placement is 1-10)
@@ -374,6 +412,7 @@ public class View extends JPanel implements Observer<Model> {
     
     //DRAWS CURRENT TIME AND HIGHSCORE TIME ON SCREEN WHILE PLAYING
     private void drawTime(Graphics2D g2d){
+    	g2d.setColor(Color.black);
     	String gameTimer = "" + m.getGameTimer();
         g2d.setFont(new Font("arial",Font.BOLD,20));
         g2d.drawString(formatScoreString(gameTimer), 20, 150);

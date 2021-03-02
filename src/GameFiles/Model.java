@@ -2,13 +2,11 @@ package GameFiles;
 
 
 import java.util.LinkedList;
-
 import javax.swing.Timer;
 
 import GameFiles.Controller.GameTimer;
 
 import java.awt.Point;
-
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -49,7 +47,7 @@ public class Model implements Observable<Model>{
 	
     private static int TOPSPEED = 10;
     private static int height = 50;
-    private static int width = 50;
+    private static int width = 30;
     private int carNumber = 1;
     private Track currentTrack,lindholmen, track2, currentCheckpoints;
     private String currentHighscore;
@@ -63,7 +61,12 @@ public class Model implements Observable<Model>{
     private ArrayList<Point> positionList = new ArrayList<Point>();
     private ArrayList<Double> angleList = new ArrayList<Double>();
 
+	private Iterator<Point> ai_point;
+	private Iterator<Double> ai_angle;
 
+	   private ArrayList<Point> aip = new ArrayList<Point>();
+	    private ArrayList<Double> aia = new ArrayList<Double>();
+	
     private final Collection<Observer<Model>> observers;
     private MainSoundEffect mainSound;
     
@@ -79,10 +82,13 @@ public class Model implements Observable<Model>{
     
     public void carsInit(int carNumber)
     {
+    	ai_point = fileManager.getHighscorePositionList().iterator();
+    	ai_angle = fileManager.getHighscoreAngleList().iterator();
         for(int i = 0; i < carNumber; i++)
         {
-        	carList.add(new Car(carColor, 0, 0, TOPSPEED, height, width));  //REDCAR
+        	carList.add(new Car(carColor, 0, 0, TOPSPEED, height, width));
         }
+        carList.add(new Car(1, 0, 0, TOPSPEED, height, width));
     }
     
     public void resetCarSpeed() {
@@ -114,12 +120,13 @@ public class Model implements Observable<Model>{
     {
         if(state==STATE.GAME)	//Kolla endast om man spelar. Genererar annars exceptions
         {
-        	/*
+        	
             checkBorder();
             if(checkpoint1==true && checkpoint2==true && checkpoint3==true && checkpoint4==true) {
+
          	   mainSound.closeAudio();
             	gameFinished();
-                new Client();
+                new Client(gameTimer,positionList,angleList);
             }
            if(point1==false) {
             checkCheckpoint1Hitboxes();
@@ -135,38 +142,42 @@ public class Model implements Observable<Model>{
            }
            checkHitboxes();
 
-           */
+           
         	moveCar();
+        	moveAI();
             savePosition(carList.get(0).getPositionX(), carList.get(0).getPositionY());  //for loop if we have more then 1 player
             saveAngle(carList.get(0).getAngle());                                           // same here...
         }
         
         updateObservers();
     }
-    
+    public void moveAI()
+    {
+    	if(ai_angle.hasNext())
+    	{
+    		Point p = ai_point.next();
+    		carList.get(1).setPositionAI(p.x,p.y);
+    		carList.get(1).setAngleAI(ai_angle.next());
+    	}
+    }
     
     private void moveCar()
     {
-    	
-        for(int i = 0; i < carList.size(); i++)
+        if(pressedUp)
         {
-            if(pressedUp)
-            {
-                carList.get(i).accelerate();
-            }
-            if(pressedDown)
-            {
-                carList.get(i).decelerate();
-            }
-            if(pressedRight)
-            {
-                carList.get(i).turnRight();
-            }
-            if(pressedLeft)
-            {
-                carList.get(i).turnLeft();
-            }
-            
+            carList.get(0).accelerate();
+        }
+        if(pressedDown)
+        {
+            carList.get(0).decelerate();
+        }
+        if(pressedRight)
+        {
+            carList.get(0).turnRight();
+        }
+        if(pressedLeft)
+        {
+            carList.get(0).turnLeft();
         }
         carList.get(0).move();
     }
@@ -218,13 +229,13 @@ public class Model implements Observable<Model>{
         Point p = it.next();
     	if( overlapsWith(p.x, p.y) ) { 
     		if(count==0) { carList.get(0).turnDirection(); count++;}
+
     		mainSound.closeAudio();
-            carList.get(0).collisionSpeed();
+        carList.get(0).collisionSpeed();
             
     		try {
     			s = new SoundEffectCarCollision();
     		} catch (Exception e1) {
-				
     			e1.printStackTrace();
     		}
     		
@@ -312,6 +323,8 @@ public class Model implements Observable<Model>{
         currentTrack = t;
         carsInit(carNumber);
         currentHighscore = fileManager.getHighscoreForPosition(1);
+        aip = fileManager.getHighscorePositionList();
+        aia = fileManager.getHighscoreAngleList();
         state = STATE.GAME;
         this.mapSelected=true;
         resetCheckBox();  //mainly for playagainbutton
@@ -338,7 +351,15 @@ public class Model implements Observable<Model>{
     private void saveAngle(Double angle){
         angleList.add(angle);
     }
-        
+    
+    public void saveAI()
+    {
+    	fileManager.recieveHighscoreStringFromServer(fileManager.sendScoreToServer(1, positionList, angleList));
+    }
+    
+    
+    
+    
     //getters
     public LinkedList<Car> getCarList()
     {
