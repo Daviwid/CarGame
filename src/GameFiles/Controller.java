@@ -10,8 +10,6 @@ public class Controller extends JFrame implements ActionListener
     private Model m;
     private View v;
     private Dimension screenSize;
-
-
     private Timer t;
     private GameTimer g;
 
@@ -55,7 +53,7 @@ public class Controller extends JFrame implements ActionListener
         m.mapInit();
         
         t = new Timer(10,this);
-       GameTimer g = new GameTimer(m);
+        g = new GameTimer(m);
        
         
 

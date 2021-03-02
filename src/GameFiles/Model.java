@@ -57,7 +57,7 @@ public class Model implements Observable<Model>, ActionListener {
     private int gameTimer;
     private Menu menu;
     private STATE state;
-    private int carColor = 0;
+    private int carColor;
     private String build = "Build v. 1.0.0.0";
     private Timer timer;
 
@@ -74,8 +74,8 @@ public class Model implements Observable<Model>, ActionListener {
     {
         this.observers = new HashSet<>();
         fileManager = new FileManager();
-        carsInit(carNumber);
         carColor = fileManager.configGetCarColor();
+        carsInit(carNumber);
     }
     
     public void carsInit(int carNumber)
@@ -112,6 +112,7 @@ public class Model implements Observable<Model>, ActionListener {
     {
         if(state==STATE.GAME)	//Kolla endast om man spelar. Genererar annars exceptions
         {
+        	/*
             checkBorder();
             if(checkpoint1==true && checkpoint2==true && checkpoint3==true && checkpoint4==true) {
          	   state= STATE.GAMEFINISHED;
@@ -130,12 +131,11 @@ public class Model implements Observable<Model>, ActionListener {
             checkCheckpoint4Hitboxes();
            }
            checkHitboxes();
-           if(freeze==false) {
-            moveCar();
+
+           */
+        	moveCar();
             savePosition(carList.get(0).getPositionX(), carList.get(0).getPositionY());  //for loop if we have more then 1 player
             saveAngle(carList.get(0).getAngle());                                           // same here...
-           }
-           
         }
         
         updateObservers();
@@ -349,7 +349,7 @@ public class Model implements Observable<Model>, ActionListener {
     {
        return currentCheckpoints;
     }
-    public int getCurrentHighscore()
+    public String getCurrentHighscore()
     {
     	return currentHighscore;
     }
@@ -434,7 +434,7 @@ public class Model implements Observable<Model>, ActionListener {
     }
     public void setCarColor(int c)
     {
-    	fileManager.configSetCarColor = c;
+    	fileManager.configSetCarColor(c);
     	carColor=c;
     	carList.clear();
     }

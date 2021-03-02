@@ -3,9 +3,7 @@ package GameFiles;
 import javax.sound.sampled.*;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.io.*;
 
 import javax.swing.*;
 
