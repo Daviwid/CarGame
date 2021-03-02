@@ -12,7 +12,7 @@ import javax.swing.ImageIcon;
 public class Menu
 {
     private Rectangle playBtn, quitBtn, configBtn,
-    redCarBtn, blueCarBtn, greenCarBtn, returnBtn,mapBtn, configReturnBtn;
+    redCarBtn, blueCarBtn, greenCarBtn, returnBtn,mapBtn, configReturnBtn, highscoreStringBtn, playagainBtn, endGameBtn;
     private ImageIcon img, crashimg, finishedimg;
     private BufferedImage redCar,greenCar,blueCar;
     private Color btnclr, btnoutclr, titleclr;
@@ -23,7 +23,11 @@ public class Menu
     	playBtn = new Rectangle(30,borderY/2-150,300,100);
         configBtn= new Rectangle(30,borderY/2,300,100);
         quitBtn = new Rectangle(30,borderY/2 + 150,300,100);
-
+        highscoreStringBtn= new Rectangle(30, borderY/2 + 300, 300, 100);  //kolla om position funkar sen
+        
+        //playagainBtn= new Rectangle(30,borderY/2-150,300,100);  //samma position som play
+        //endGameBtn= new Rectangle(30,borderY/2,300,100);        //samma position som quit
+        
         returnBtn = new Rectangle(borderX/2-150,borderY-200,300,100);
         
         redCarBtn = new Rectangle(borderX/2-550,borderY/2-220,150,80);
@@ -36,10 +40,11 @@ public class Menu
         mapBtn = new Rectangle(borderX/2-150,borderY/2-180,300,300);
         btnoutclr = Color.white;
         titleclr = Color.white;
-		img = new ImageIcon(getClass().getResource("/Resources/back.gif"));
-		crashimg= new ImageIcon(getClass().getResource("/Resources/tenor.gif"));
-		finishedimg= new ImageIcon(getClass().getResource("/Resources/finito.gif"));
+		
 		try {
+            img = new ImageIcon(getClass().getResource("/Resources/back.gif"));
+		    crashimg= new ImageIcon(getClass().getResource("/Resources/tenor.gif"));
+		    finishedimg= new ImageIcon(getClass().getResource("/Resources/finito.gif"));
 			redCar= ImageIO.read(getClass().getResource("/Resources/red.png"));		
 			greenCar=ImageIO.read(getClass().getResource("/Resources/green.png"));	
 			blueCar=ImageIO.read(getClass().getResource("/Resources/blue.png"));	
@@ -69,7 +74,15 @@ public class Menu
 		outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
 		return outputImage;
     }
-    
+    public Rectangle getHighscoreBtn() {
+    	return highscoreStringBtn;
+    }
+    public Rectangle getPlayAgainBtn() {
+    	return playBtn;
+    }
+    public Rectangle getEndGameBtn() {
+    	return quitBtn;
+    }
     public Rectangle getPlayBtn()
     {
         return playBtn;

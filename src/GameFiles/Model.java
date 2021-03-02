@@ -8,14 +8,13 @@ import javax.swing.Timer;
 import GameFiles.Controller.GameTimer;
 
 import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.ArrayList;
 
-public class Model implements Observable<Model>, ActionListener {
+public class Model implements Observable<Model>{
     //Instansvariabler:
     private LinkedList<Car> carList = new LinkedList<Car>();
     private int borderX;
@@ -31,8 +30,8 @@ public class Model implements Observable<Model>, ActionListener {
 	private boolean checkpoint3 = false;
 	private boolean checkpoint4 = false;
 	
-	private boolean sound =false;
-	private boolean freeze=false;
+    private boolean gameFinished=false;
+	private boolean carCrash=false;
 
 	private boolean point1=false;
 	private boolean point2=false;
@@ -59,7 +58,7 @@ public class Model implements Observable<Model>, ActionListener {
     private STATE state;
     private int carColor;
     private String build = "Build v. 1.0.0.0";
-    private Timer timer;
+   
 
     private ArrayList<Point> positionList = new ArrayList<Point>();
     private ArrayList<Double> angleList = new ArrayList<Double>();
@@ -86,6 +85,9 @@ public class Model implements Observable<Model>, ActionListener {
         }
     }
     
+    public void resetCarSpeed() {
+    	carList.get(0).setFirstSpeed();
+    }
 
     public void resetCarFlags()
     {
@@ -115,7 +117,8 @@ public class Model implements Observable<Model>, ActionListener {
         	/*
             checkBorder();
             if(checkpoint1==true && checkpoint2==true && checkpoint3==true && checkpoint4==true) {
-         	   state= STATE.GAMEFINISHED;
+         	   mainSound.closeAudio();
+            	gameFinished();
                 new Client();
             }
            if(point1==false) {
@@ -216,46 +219,39 @@ public class Model implements Observable<Model>, ActionListener {
     	if( overlapsWith(p.x, p.y) ) { 
     		if(count==0) { carList.get(0).turnDirection(); count++;}
     		
-    		if(sound==false) {
-    			try {
-    				s = new SoundEffectCarCollision();
-    			} catch (Exception e1) {
+    		try {
+    			s = new SoundEffectCarCollision();
+    		} catch (Exception e1) {
 				
-    				e1.printStackTrace();
-    			}
+    			e1.printStackTrace();
     		}
+    		
     		if(checkpoint1==true && checkpoint2!=true && checkpoint3!=true && checkpoint4!=true){
-    			timer= new Timer(4000, a);  //extra effekter
     			
-    			timer.addActionListener(this); 		
-    	    	timer.start();	
+    			carCrash=true;
+    			carList.get(0).setNonCheckpointPosition(currentTrack);
     			
-    			freeze=true;
-    			state=STATE.CARCRASH;
-    			
-    			carList.get(0).setCheckpointPosition(currentTrack, checkpoint1x , checkpoint1y );
-    			point1=true;
     			
     		}
     		
     		if(checkpoint1==true && checkpoint2==true && checkpoint3!=true && checkpoint4!=true) {
     			carList.get(0).setCheckpointPosition(currentTrack, checkpoint2x , checkpoint2y);
-    			point2=true;
+    			
     			
     			}
     		
     		if(checkpoint1==true && checkpoint2==true && checkpoint3==true && checkpoint4!=true) {
     			carList.get(0).setCheckpointPosition(currentTrack, checkpoint3x , checkpoint3y);
-    			point3=true;
+    			
     			
     			}
     		
     		if(checkpoint1==true && checkpoint2==true && checkpoint3==true && checkpoint4==true) {
     			carList.get(0).setCheckpointPosition(currentTrack, checkpoint4x , checkpoint4y);
-    			point4=true;
+    			
     			
     			}
-    		sound=true;
+    		
     		  
     		 
     		
@@ -320,6 +316,15 @@ public class Model implements Observable<Model>, ActionListener {
         currentHighscore = fileManager.getHighscoreForPosition(1);
         state = STATE.GAME;
         this.mapSelected=true;
+        resetCheckBox();  //added these for playagainbutton
+        resetCarFlags();
+        resetCarSpeed();
+      /*  try {
+        	mainSound = new MainSoundEffect();  //uncomment for main sound, bug: seems to crock with carcollision sound
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}*/
     }
     
     public void mapInit()
@@ -356,6 +361,12 @@ public class Model implements Observable<Model>, ActionListener {
     public STATE getState()
     {
         return this.state;
+    }
+    public boolean getCarCrash() {
+    	return carCrash;
+    }
+    public boolean getGameFinished() {
+    	return gameFinished;
     }
     public int getBorderX()
     {
@@ -455,6 +466,14 @@ public class Model implements Observable<Model>, ActionListener {
             state=STATE.CARCONFIG;
             
     }
+    public void stateHighscore()
+    {
+            state=STATE.HIGHSCORE;
+    }
+    public void stateFinished()
+    {
+            state=STATE.GAMEFINISHED;
+    }
     public void resetGameTimer(){
         gameTimer = 0;
     }
@@ -479,13 +498,6 @@ public class Model implements Observable<Model>, ActionListener {
         }
     }
 
-    @Override
-	public void actionPerformed(ActionEvent e) {
-		//System.out.println("carcrash over");
-		state=STATE.GAME;
-		freeze=false;
-		carList.get(0).collisionSpeed();
-		timer.stop();
-	}
+    
 
 }

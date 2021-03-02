@@ -32,6 +32,19 @@ public class MouseInput implements MouseListener{
         {           
         	selectMapButtons(c.getModel(), c.getModel().getMenu(),x,y);
         }
+        if(c.getModel().getState()==STATE.GAMEFINISHED) {
+        	
+        	playagainOptionButtons(c.getModel(), c.getModel().getMenu(),x,y);
+       
+        }
+       
+        if(c.getModel().getState()==STATE.HIGHSCORE)		//Funkar endast om man har meny uppe.
+        
+        {           
+        	
+        	//selectHighscorebutton(c.getModel(), c.getModel().getMenu(),x,y);
+
+        }
         
         
     }
@@ -129,6 +142,30 @@ public class MouseInput implements MouseListener{
         
         
       
+    }
+    public void playagainOptionButtons(Model model, Menu m, int x, int y) 
+    {
+    	if(x >= m.getPlayAgainBtn().getX() && x <= m.getPlayAgainBtn().getX()+m.getPlayAgainBtn().getWidth())
+        {
+            if(y >= m.getPlayAgainBtn().getY() && y <= m.getPlayAgainBtn().getY()+m.getPlayAgainBtn().getHeight())
+            {
+            	model.stateMap();
+            }
+        }
+    	if(x >= m.getReturnBtn().getX() && x <= m.getReturnBtn().getX()+m.getReturnBtn().getWidth())
+        {
+            if(y >= m.getReturnBtn().getY() && y <= m.getReturnBtn().getY()+m.getReturnBtn().getHeight())
+            {
+            	model.stateMenu();
+            }
+        }
+    	if(x >= m.getEndGameBtn().getX() && x <= m.getEndGameBtn().getX()+m.getEndGameBtn().getWidth())
+        {
+            if(y >= m.getEndGameBtn().getY() && y <= m.getEndGameBtn().getY()+m.getEndGameBtn().getHeight())
+            {
+            	System.exit(0);
+            }
+        }
     }
     
     public void mousePressed(MouseEvent e){}
