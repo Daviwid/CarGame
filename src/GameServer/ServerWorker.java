@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.concurrent.TimeUnit;
 
 public class ServerWorker extends Thread{
     private final Socket clientSocket;
@@ -26,30 +27,54 @@ public class ServerWorker extends Thread{
             //TODO: handle exception
             System.out.println("Server: Interrupted exception in worker thread");
         }
+        try {
+            clientSocket.close();
+        } catch (Exception e) {
+            //TODO: handle exception
+        }
     }
 
     public void handleClientSocket() throws IOException, InterruptedException{
-
-        OutputStream outputStream = clientSocket.getOutputStream();
-        InputStream inputStream = clientSocket.getInputStream();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-
-        String clientScore;
-        String tmp = "";
-
-        while((clientScore = reader.readLine()) != null)
-        {
-            tmp += clientScore + "\n";
-        }
-
-        FileManager fm = new FileManager();
-        fm.recieveScoreFromClient(tmp);
         
-        String tmpHighscore = fm.getHighscores();
-        outputStream.write((tmpHighscore).getBytes());
-
+        getData();
+        sendData();
         System.out.println("Client closed the connection");
-        clientSocket.close();
+        
 
+    }
+
+    private void getData(){
+        
+        try {
+            InputStream inputStream = clientSocket.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+
+            String clientScore;
+            String tmp = "";
+
+            while((clientScore = reader.readLine()) != null)
+            {
+                tmp += clientScore + "\n";
+            }
+
+            FileManager fm = new FileManager();
+            fm.recieveScoreFromClient(tmp);
+        } catch (Exception e) {
+            //TODO: handle exception
+        }
+        
+    }
+
+    private void sendData()
+    {
+        try {
+            OutputStream outputStream = clientSocket.getOutputStream();
+            FileManager fm = new FileManager();
+            String tmpHighscore = fm.getHighscores();
+            outputStream.write((tmpHighscore).getBytes());
+        } catch (Exception e) {
+            //TODO: handle exception
+        }
+        
     }
 }
