@@ -66,7 +66,7 @@ public class Model implements Observable<Model>{
 
     private final Collection<Observer<Model>> observers;
     
-    private ActionListener a;
+    
     private FileManager fileManager;
     // private Controller controller;
     public Model()
