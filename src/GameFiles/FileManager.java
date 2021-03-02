@@ -185,7 +185,7 @@ public class FileManager {
             //WRITE SORTED HIGHSCORE TIMES AND BEST DRIVER POSITION + ANGLE STRINGS, INTO TXT DOCUMENT
             writeFinishedStringsToDocument(file, scores, highscorePositionString, highscoreAngleString);
             
-        } catch (FileNotFoundException e) {
+        } catch (Exception e) {
           System.out.println("An error occurred.");
           e.printStackTrace();
         }

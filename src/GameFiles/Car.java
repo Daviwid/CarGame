@@ -65,8 +65,16 @@ public class Car {
     {
         angle = track.getStartAngle();
     }
-        
     
+    public void setPositionAI(int x, int y) 
+    {
+        positionX = x;
+        positionY = y;
+    }
+    public void setAngleAI(double a) 
+    {
+        angle = a;
+    }
 
     public void accelerate()
     {
