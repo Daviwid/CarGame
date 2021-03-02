@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class Client {
 
-    private static int port = 1767;
+    private static int port = 25565;
     private static String ip = "localhost";
 
     public Client(int time, ArrayList<Point> positionList, ArrayList<Double> angleList){

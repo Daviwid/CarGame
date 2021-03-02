@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class testclient {
 
     private static int port = 25565;
-    private static String ip = "46.239.99.69";
+    private static String ip = "";
 
     public testclient(int time, ArrayList<Point> positionList, ArrayList<Double> angleList){
         try{
