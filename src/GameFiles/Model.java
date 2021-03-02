@@ -65,7 +65,7 @@ public class Model implements Observable<Model>{
 
 
     private final Collection<Observer<Model>> observers;
-    
+    private MainSoundEffect mainSound;
     
     private FileManager fileManager;
     // private Controller controller;
@@ -218,7 +218,9 @@ public class Model implements Observable<Model>{
         Point p = it.next();
     	if( overlapsWith(p.x, p.y) ) { 
     		if(count==0) { carList.get(0).turnDirection(); count++;}
-    		
+    		mainSound.closeAudio();
+            carList.get(0).collisionSpeed();
+            
     		try {
     			s = new SoundEffectCarCollision();
     		} catch (Exception e1) {
@@ -251,11 +253,7 @@ public class Model implements Observable<Model>{
     			
     			
     			}
-    		
-    		  
-    		 
-    		
-    	}
+    		}
     	
     	}
     }
@@ -316,15 +314,15 @@ public class Model implements Observable<Model>{
         currentHighscore = fileManager.getHighscoreForPosition(1);
         state = STATE.GAME;
         this.mapSelected=true;
-        resetCheckBox();  //added these for playagainbutton
+        resetCheckBox();  //mainly for playagainbutton
         resetCarFlags();
         resetCarSpeed();
-      /*  try {
-        	mainSound = new MainSoundEffect();  //uncomment for main sound, bug: seems to crock with carcollision sound
+        try {
+        	mainSound = new MainSoundEffect();  
 		} catch (Exception e) {
 			
 			e.printStackTrace();
-		}*/
+		}
     }
     
     public void mapInit()
