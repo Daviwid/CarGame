@@ -12,12 +12,21 @@ public class View extends JPanel implements Observer<Model> {
     private Model m;
     private LinkedList<Car> carList;
 
-    
+    /**
+     * Constructor for View, needs an instans of the Model-class to function.
+     * @param m Instans of Model-class
+     * @see Model
+     */
     public View(Model m) {
         this.m = m;
         this.carList = m.getCarList();
     }
-    
+    /**
+     * extends the paintComponent() method in JComponent. Uses diffrent STATE to determain what should be drawn to the JPanel.
+     * @param g recast this Graphics to Graphics2D to be able to handle the diffrent grafic elements of the application.
+     * @see STATE
+     * @see JComponent
+     */
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
@@ -53,7 +62,16 @@ public class View extends JPanel implements Observer<Model> {
         	
         } 
     }
-    
+    /**
+     * This method is called when the application enters the Config part of the  user menu. The method gathers information for all the buttons and pictures
+     * that needs to be drawn from the menu instans and draws it to the Graphics2D.
+     * @param menu  menu-class instans that the method gathers all information for the graphics
+     * @param g2d   The Graphics2D instans that all component is drawn to
+     * @param x     X cordinate used to draw out the GIF background of the meny
+     * @param y     Y cordinate used to draw out the GIF background of the meny
+     * @see Graphics2D
+     * @see menu
+     */
   public void drawConfig(Menu menu, Graphics2D g2d, int x,int y) {
     	m.getMenu().getImg().paintIcon(this, g2d, 0, 0);
     	
@@ -101,7 +119,18 @@ public class View extends JPanel implements Observer<Model> {
                 (int)menu.getConfigReturnBtn().getY()+(int)menu.getConfigReturnBtn().getHeight()/2+20);
         //slut pa text
    }
-  
+   /**
+    * Draws the Map select part of the menu where the user inputs the map they whant to play. This method only gathers information from the menu-class and Track-class instans
+    * and draws it to the Graphics2D.
+    * @param menu  menu-class instans that the method gathers all information for the graphics
+    * @param g2d   The Graphics2D instans that all component is drawn to
+    * @param x     X cordinate used to draw out the GIF background of the meny
+    * @param y     Y cordinate used to draw out the GIF background of the meny
+    * @param l     Instant of the Track-class to acess the picture of the map
+    * @see Graphics2D
+    * @see menu
+    * @see Track 
+    */
     public void drawMapSelect(Menu menu, Graphics2D g2d, int x, int y, Track l)
     {
     	m.getMenu().getImg().paintIcon(this, g2d, 0, 0);
@@ -134,7 +163,13 @@ public class View extends JPanel implements Observer<Model> {
         
         
     }
-    
+    /**
+     * draws out all the elements that makes up the game. Draws the track, players car, "AI" car and the timer that shows the player the time it takes to drive the track.
+     * All (except for drawing the track) this is done through support methods.
+     * @param g2d   The Graphics2D instans that all component is drawn to
+     * @param map   An bufferimage that is the background an the visible track that the player drivers around
+     * @see Graphics2D 
+     */
     public void drawGame(Graphics2D g2d, BufferedImage map)
     {
     	 if(m.getMapSelected())						//Rita OM map selected == true. Typ en dubbelkoll. Mest ifall bilden inte laddas in och ger Exceptions
@@ -167,7 +202,14 @@ public class View extends JPanel implements Observer<Model> {
          
     }
     
-
+    /**
+     * Draws diffrent strings to the diffrent menu windows to convey info about the application. X and Y is used to determin for one point where all the strings
+     * should be drawn. X and Y should be the Width and Height of the frame respectively.
+     * @param g2d   The Graphics2D instans that all component is drawn to
+     * @param menu  Used to get the colour of the text
+     * @param x     X cordinate used to determin where all the text should be rendered
+     * @param y     Y cordinate used to determin where all the text should be rendered
+     */
     public void drawMenuText(Graphics2D g2d, Menu menu,int x,int y)
     {
     	 //TEXT AV MENU
@@ -182,6 +224,16 @@ public class View extends JPanel implements Observer<Model> {
         g2d.drawString(m.getBuild(), 10, y-10);											//build
     }
     
+    /**
+    * This method is called when the application enters the main-Menu part of the  user menu. The method gathers information for all the buttons and pictures
+    * that needs to be drawn from the menu instans and draws it to the Graphics2D. Also draws the overlay text on the buttons provided by the menu instans.
+    * @param menu  menu-class instans that the method gathers all information for the graphics
+    * @param g2d   The Graphics2D instans that all component is drawn to
+    * @param x     X cordinate used to draw out the GIF background of the meny
+    * @param y     Y cordinate used to draw out the GIF background of the meny
+    * @see Graphics2D
+    * @see menu
+    */
     public void drawMenu(Menu menu, Graphics2D g2d,int x,int y)
     {
     	setBackground(Color.black);
@@ -238,10 +290,21 @@ public class View extends JPanel implements Observer<Model> {
     	}
     }*/
 
+    /**
+     * this is runs the repaint() method of Component-class to update the grafics.
+     * @see Component
+     */
     public void updateView() {
         repaint();
     }
     
+    /**
+     * Draws the Checkpoint layer of the track, this is to establish where the checkpoints are on the track. Gathering this data (pixel cordinates of the checkpoints)
+     * is done in the getCheckpointsPixel-class. 
+     * @param g2d           The Graphics2D instans that all component is drawn to
+     * @param checkpoints   BufferedImage of the checkpoint layer of the track.
+     * @see getCheckpointPixel
+     */
     public void drawCheckpoints(Graphics2D g2d, BufferedImage checkpoints) {
     	
             g2d.drawImage(checkpoints, 0,0,this);					//Ritar banan
@@ -280,10 +343,22 @@ public class View extends JPanel implements Observer<Model> {
        
     }
 
-   
+   /**
+    * Draws the gif that should be drawn when the player crashes.
+    * @param g2d The Graphics2D instans that all component is drawn to
+    */
     public void drawCrash(Graphics2D g2d) {
     	m.getMenu().getCrashImg().paintIcon(this, g2d, 0, 0);
     }
+
+    /**
+    * Draws all elements when the player has finished the game, includes a "play again" button, "End Game" button and background gif. it also overalys the buttons with text
+    * that shows the player which button is which. 
+    * @param menu  menu-class instans that the method gathers all information for the graphics
+    * @param g2d   The Graphics2D instans that all component is drawn to
+    * @param x     X cordinate used to draw out the GIF background
+    * @param y     Y cordinate used to draw out the GIF background
+    */
     public void drawFinished(Menu menu, Graphics2D g2d,int x,int y) {
     	
     	m.getMenu().getFinishedImg().paintIcon(this, g2d, 0, 0);
@@ -316,7 +391,15 @@ public class View extends JPanel implements Observer<Model> {
     
 
 
-
+    /**
+     * Draws the players car, rescales the chosen car color png and rotates the image to desired angle found in the Car-class. Rescaling is done throw the Image method getScaledInstance().
+     * rotateing the image is done throw the Graphics2D method rotate().
+     *  
+     * @param g2d   The Graphics2D instans that all component is drawn to
+     * @param car   Car-class instance to get information on choosen png, cordiantes and desired size
+     * @see Image
+     * @see Graphics2D
+     */
     private void drawCar(Graphics2D g2d, Car car) {
 
 	    /*
@@ -358,6 +441,15 @@ public class View extends JPanel implements Observer<Model> {
         
     }
     
+    /**
+     * Draws the AI car, rescales the chosen car color png and rotates the image to desired angle found in the Car-class. Rescaling is done throw the Image method getScaledInstance().
+     * rotateing the image is done throw the Graphics2D method rotate().
+     *  
+     * @param g2d   The Graphics2D instans that all component is drawn to
+     * @param car   Car-class instance to get information on choosen png, cordiantes and desired size
+     * @see Image
+     * @see Graphics2D
+     */
     public void drawAI(Graphics2D g2d, Car car)
     {
     	/*
@@ -399,6 +491,11 @@ public class View extends JPanel implements Observer<Model> {
     //RETURNS STRING IN min:sec:hundredths   placement is 1 to 10
     //  Remember that m.fileManager.getHighscoreForPosition(int placement)
     //  returns a string with time for that placement (placement is 1-10)
+    /**
+     * This method is used to convert the highscore list from the server to a string that is sutible to present to the player.
+     * @param scoreString   highscore placement represented as milisecounds as a String 
+     * @return              A string that represent a Highscore time in the form min:sec:hundredths
+     */
     public String formatScoreString(String scoreString)
     {
         int highscore = Integer.parseInt(scoreString);
@@ -411,6 +508,10 @@ public class View extends JPanel implements Observer<Model> {
     
     
     //DRAWS CURRENT TIME AND HIGHSCORE TIME ON SCREEN WHILE PLAYING
+    /**
+     * Draws the current time the player has aswell as draws out the current highest highscore. 
+     * @param g2d   The Graphics2D instans that all component is drawn to
+     */
     private void drawTime(Graphics2D g2d){
     	g2d.setColor(Color.black);
     	String gameTimer = "" + m.getGameTimer();
@@ -419,6 +520,13 @@ public class View extends JPanel implements Observer<Model> {
         g2d.drawString(formatScoreString(m.getCurrentHighscore()), 20, 200);
     }
 
+
+    /**
+     * this method is part of the obeserveble pattern that is used between the Model-class and View-class for more info see the Observer interface.
+     * Because View is an observer type class, the Model-class calls this method to notify View of an change.
+     * @see Observable
+     * @see Observer
+     */
     @Override
     public void update(Model observable) {
         repaint();
