@@ -1,5 +1,7 @@
+package GameFiles;
+
+
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
@@ -34,9 +36,9 @@ public class Car {
         positionX = 400;
         positionY = 600;
         try {
-            	redCar = ImageIO.read(new File("REDCAR.png"));
-            	greenCar = ImageIO.read(new File("GREENCAR.png"));
-            	blueCar = ImageIO.read(new File("BLUECAR.png"));
+            	redCar = ImageIO.read(getClass().getResource("/Resources/REDCAR.png"));
+            	greenCar = ImageIO.read(getClass().getResource("/Resources/GREENCAR.png"));
+            	blueCar =ImageIO.read(getClass().getResource("/Resources/BLUECAR.png"));
         }
 	    catch(IOException e){}
 	    setCarIMG(color);

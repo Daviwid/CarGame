@@ -1,3 +1,5 @@
+package GameFiles;
+
 class Rotate2D {
 
     public static double getX(double x, double y, double angle) {

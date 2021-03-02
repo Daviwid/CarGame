@@ -1,3 +1,5 @@
+package GameFiles;
+
 public enum STATE
 {
        MENU,

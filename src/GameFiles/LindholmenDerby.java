@@ -1,3 +1,5 @@
+package GameFiles;
+
 public class LindholmenDerby extends Track {
 	
 	private String map, map2, checkpointmap;
@@ -15,9 +17,9 @@ public class LindholmenDerby extends Track {
 	{
 		
 
-		map = "s2_pixelerad.png";		//bilbanans sarg
-		map2 = "s1.jpg";   //bilbanan vi kommer se
-		checkpointmap= "checkpoints.png";  //png fil med alla checkpoints
+		map = "/Resources/s2_pixelerad.png";		//bilbanans sarg
+		map2 = "/Resources/s1.jpg";   //bilbanan vi kommer se
+		checkpointmap= "/Resources/checkpoints.png";  //png fil med alla checkpoints
 		
     color = 0xFFed1c24;			//Color som ska vara sarg
 		lcolor = 0xFFed1c24;		//Low shade av color som ska vara sarg

@@ -1,7 +1,8 @@
+package GameFiles;
+
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.util.Iterator;
 import java.util.LinkedList;
 import javax.swing.*;
 
@@ -40,10 +41,7 @@ public class View extends JPanel implements Observer<Model> {
       
         if(m.getState()==STATE.GAME)				//Rita OM game
         {
-        	//drawCheckpoints(g2d, m.getTrack().getCheckpointsMap());
             drawGame(g2d,m.getTrack().getMap());
-            //drawCheckpoints(g2d, m.getTrack().getCheckpointsMap());
-            drawCar(g2d, carList.get(0));
             
         }
         if(m.getState()== STATE.CARCRASH) {
@@ -162,7 +160,7 @@ public class View extends JPanel implements Observer<Model> {
              */ //End of debug code.
 
          }
-
+     	//drawCheckpoints(g2d, m.getTrack().getCheckpointsMap());
          drawCar(g2d, carList.get(0));
 
          drawTime(g2d);
@@ -284,7 +282,7 @@ public class View extends JPanel implements Observer<Model> {
     private void drawCar(Graphics2D g2d, Car car) {
 
 	    
-        g2d.setColor(Color.green); 
+        /*g2d.setColor(Color.green); 
         double w = car.getWidth();  //Test values of green rectangle under png
         double h = car.getHeight();
         Point2D p1 = new Point2D(h/2,-w/2).rotate(car.getAngle());
@@ -303,7 +301,7 @@ public class View extends JPanel implements Observer<Model> {
              yPts[i]=(int)(dy[i]+.5); 
         }
         g2d.fillPolygon(xPts,yPts,4);
-        
+        */
 
         // end debug
 
@@ -322,15 +320,26 @@ public class View extends JPanel implements Observer<Model> {
         
     }
     
+    //RETURNS STRING IN min:sec:hundredths   placement is 1 to 10
+    //  Remember that m.fileManager.getHighscoreForPosition(int placement)
+    //  returns a string with time for that placement (placement is 1-10)
+    public String formatScoreString(String scoreString)
+    {
+        int highscore = Integer.parseInt(scoreString);
+        int minutes = highscore / 6000;
+        int seconds = (highscore % 6000)/100;
+        int hundredths = highscore % 100;
+        String formatScoreString = minutes + ":" + seconds + ":" + hundredths;
+        return formatScoreString;
+    }
+    
+    
+    //DRAWS CURRENT TIME AND HIGHSCORE TIME ON SCREEN WHILE PLAYING
     private void drawTime(Graphics2D g2d){
-        
-        int min = m.getGameTimer() / 60;
-        int sec = m.getGameTimer() % 60;
-
-        String s = (String.valueOf(min) + ":" + String.valueOf(sec));
+    	String gameTimer = "" + m.getGameTimer();
         g2d.setFont(new Font("arial",Font.BOLD,20));
-        g2d.drawString(s, 20, 150);
-        
+        g2d.drawString(formatScoreString(gameTimer), 20, 150);
+        g2d.drawString(formatScoreString(m.getCurrentHighscore()), 20, 200);
     }
 
     @Override

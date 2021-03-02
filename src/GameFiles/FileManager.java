@@ -1,3 +1,5 @@
+package GameFiles;
+
 import java.awt.Point;
 import java.io.File;
 import java.io.IOException;
@@ -231,6 +233,14 @@ public class FileManager {
     {
     	String[] splitString = getHighscores().split("\n");
     	return splitString;
+    }
+    
+    // RETURNS HIGHSCORE FOR POSITION placement AS A STRING IN HUNDREDTHS OF A SECOND
+    public String getHighscoreForPosition(int placement)
+    {
+    	String[] highscoreStringArray = getHighscoreStringArray();
+    	String score = highscoreStringArray[placement - 1];
+    	return score;
     }
     
 }

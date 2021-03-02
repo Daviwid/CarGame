@@ -1,6 +1,11 @@
+package GameFiles;
+
+
 import java.util.LinkedList;
 
 import javax.swing.Timer;
+
+import GameFiles.Controller.GameTimer;
 
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -48,21 +53,29 @@ public class Model implements Observable<Model>, ActionListener {
     private static int width = 50;
     private int carNumber = 1;
     private Track currentTrack,lindholmen, track2, currentCheckpoints;
-    
+    private String currentHighscore;
+    private int gameTimer;
     private Menu menu;
     private STATE state;
-    private int carColor = 0;
+    private int carColor;
     private String build = "Build v. 1.0.0.0";
     private Timer timer;
+
+    private ArrayList<Point> positionList = new ArrayList<Point>();
+    private ArrayList<Double> angleList = new ArrayList<Double>();
+
+
     private final Collection<Observer<Model>> observers;
     
     private ActionListener a;
- // private Controller controller;
+    private FileManager fileManager;
+    // private Controller controller;
     public Model()
     {
         this.observers = new HashSet<>();
+        fileManager = new FileManager();
+        carColor = fileManager.configGetCarColor();
         carsInit(carNumber);
-        
     }
     
     public void carsInit(int carNumber)
@@ -99,9 +112,11 @@ public class Model implements Observable<Model>, ActionListener {
     {
         if(state==STATE.GAME)	//Kolla endast om man spelar. Genererar annars exceptions
         {
+        	/*
             checkBorder();
             if(checkpoint1==true && checkpoint2==true && checkpoint3==true && checkpoint4==true) {
          	   state= STATE.GAMEFINISHED;
+                new Client();
             }
            if(point1==false) {
             checkCheckpoint1Hitboxes();
@@ -116,10 +131,11 @@ public class Model implements Observable<Model>, ActionListener {
             checkCheckpoint4Hitboxes();
            }
            checkHitboxes();
-           if(freeze==false) {
-            moveCar();
-           }
-           
+
+           */
+        	moveCar();
+            savePosition(carList.get(0).getPositionX(), carList.get(0).getPositionY());  //for loop if we have more then 1 player
+            saveAngle(carList.get(0).getAngle());                                           // same here...
         }
         
         updateObservers();
@@ -301,6 +317,7 @@ public class Model implements Observable<Model>, ActionListener {
     {
         currentTrack = t;
         carsInit(carNumber);
+        currentHighscore = fileManager.getHighscoreForPosition(1);
         state = STATE.GAME;
         this.mapSelected=true;
     }
@@ -309,6 +326,14 @@ public class Model implements Observable<Model>, ActionListener {
     {
     	lindholmen = new LindholmenDerby(borderX,borderY);
     	
+    }
+
+    private void savePosition( int xPosition, int yPosition){
+        positionList.add(new Point(xPosition, yPosition));
+    }
+    
+    private void saveAngle(Double angle){
+        angleList.add(angle);
     }
         
     //getters
@@ -323,6 +348,10 @@ public class Model implements Observable<Model>, ActionListener {
     public Track getCheckpoints()
     {
        return currentCheckpoints;
+    }
+    public String getCurrentHighscore()
+    {
+    	return currentHighscore;
     }
     public STATE getState()
     {
@@ -361,7 +390,9 @@ public class Model implements Observable<Model>, ActionListener {
     {
     	return mapSelected;
     }
-    
+    public int getGameTimer(){
+        return gameTimer;
+    }
     //setters
     public void setPressedUp()
     {
@@ -401,6 +432,12 @@ public class Model implements Observable<Model>, ActionListener {
     public void setBorderY(int y) { 
         borderY = y;
     }
+    public void setCarColor(int c)
+    {
+    	fileManager.configSetCarColor(c);
+    	carColor=c;
+    	carList.clear();
+    }
     public void stateGame()
     {
             state=STATE.GAME;
@@ -418,10 +455,12 @@ public class Model implements Observable<Model>, ActionListener {
             state=STATE.CARCONFIG;
             
     }
-    public void setCarColor(int c)
+    public void resetGameTimer(){
+        gameTimer = 0;
+    }
+    public void setGameTimer()
     {
-    	carColor=c;
-    	carList.clear();
+        gameTimer++;
     }
 
     @Override

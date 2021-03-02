@@ -1,3 +1,6 @@
+package GameServer;
+
+
 public class UIThread extends Thread{
 
     private Server s;

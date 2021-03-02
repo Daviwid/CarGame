@@ -1,8 +1,9 @@
+package GameFiles;
+
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -35,13 +36,13 @@ public class Menu
         mapBtn = new Rectangle(borderX/2-150,borderY/2-180,300,300);
         btnoutclr = Color.white;
         titleclr = Color.white;
-		img = new ImageIcon("back.gif");
-		crashimg= new ImageIcon("tenor.gif");
-		finishedimg= new ImageIcon("finito.gif");
+		img = new ImageIcon(getClass().getResource("/Resources/back.gif"));
+		crashimg= new ImageIcon(getClass().getResource("/Resources/tenor.gif"));
+		finishedimg= new ImageIcon(getClass().getResource("/Resources/finito.gif"));
 		try {
-			redCar= ImageIO.read(new File("red.png"));
-			greenCar=ImageIO.read(new File("green.png"));
-			blueCar=ImageIO.read(new File("blue.png"));
+			redCar= ImageIO.read(getClass().getResource("/Resources/red.png"));		
+			greenCar=ImageIO.read(getClass().getResource("/Resources/green.png"));	
+			blueCar=ImageIO.read(getClass().getResource("/Resources/blue.png"));	
 		}
 		catch(IOException e) {}
 		img.setImage(img.getImage().getScaledInstance(borderX, borderY, Image.SCALE_DEFAULT));	
