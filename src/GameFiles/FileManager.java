@@ -11,14 +11,14 @@ import java.io.FileWriter;
 public class FileManager {
 	
     private int nbHighscores = 10;
-    private String filename = "Highscore.txt";
+    private String highscoreFile = "Highscore.txt";
     private String configFile = "Config.txt";
 	
 	public FileManager(){
 		
     }
 	
-	//HELPER FUNCTIONS:
+	//HELPER METHODS:
     private void sortHighscores(int playerScore, int[] scores)
     {
     	int oldscore;
@@ -50,39 +50,60 @@ public class FileManager {
     }
 
     
+    //--------------------
     //PUBLIC METHODS
+    //--------------------
     
-    public int configGetCarColor() 
+    //RETURNS A STRING CONTAINING THE CONTENTS OF THE ENTIRE TXT-FILE
+    //Ten rows of best times
+    //One row of position x and y-values in  x,y-x,y-x,y-... format
+    //One row of angles in angle-angle-angle-... format
+    public String getHighscores()
     {
-    	int carColor = 0;
-    	try {
-    		File file = new File(configFile);
+    	String highScoreFileString = "";
+    	try 
+    	{
+            File file = new File(highscoreFile);
             Scanner reader = new Scanner(file);
-            carColor = reader.nextInt();
+            int i = 0;
+            while (reader.hasNextLine()) {
+            	if(i < nbHighscores + 2)
+            	{
+            		highScoreFileString = highScoreFileString + reader.nextLine() + "\n";
+                    i++;
+            	}
+            }
             reader.close();
-    	}catch(FileNotFoundException e){
-    		System.out.println("writer exception");
-    	}
-    	return carColor;
-    	
-    }
-    
-    public void configSetCarColor(int carColor) 
-    {
-    	try{
-        	File file = new File(configFile);
-            FileWriter writer = new FileWriter(file);
-            writer.write(Integer.toString(carColor));
-            writer.close();
-        }catch(FileNotFoundException e){
-            System.out.println("FileNotFoundException");
-        }catch(IOException e) {
-        	System.out.println("IOExeption");
+        } catch (FileNotFoundException e) {
+        	System.out.println("An error occurred.");
+        	e.printStackTrace();
         }
+    	return highScoreFileString;
     }
     
+    // RETURNS A STRING-ARRAY OF HIGHSCORE.TXT WHERE:
+    // Element 0-9 is top 10 times
+    // Element 10 is the position-string
+    // Element 11 is the angle-string
+    public String[] getHighscoreStringArray()
+    {
+    	String[] splitString = getHighscores().split("\n");
+    	return splitString;
+    }
     
-    //CLIENT USES THIS TO SEND RACE RESULTS TO SERVER AFTER FINISHED RACE
+    // RETURNS HIGHSCORE FOR POSITION int placement AS A STRING
+    // Placement is 1-10
+    public String getHighscoreForPosition(int placement)
+    {
+    	String[] highscoreStringArray = getHighscoreStringArray();
+    	String score = highscoreStringArray[placement - 1];
+    	return score;
+    }
+    
+    //CLIENT USES THIS TO SEND RACE RESULTS AND DRIVING PATH TO SERVER AFTER FINISHED RACE
+    // One row with time
+    // One row of position x and y-values in  x,y-x,y-x,y-... format
+    // One row of angles in angle-angle-angle-... format
     public String sendScoreToServer(int time, ArrayList<Point> positions, ArrayList<Double> angles)
     {
     	String positionString = "";
@@ -95,22 +116,41 @@ public class FileManager {
     	return time + "\n" + positionString + "\n"  + angleString;
     }
     
-    
-    // AFTER RACE, SERVER RECIEVES STRING WITH TIME, AND PATH THE DRIVER WENT
+    // AFTER RACE, SERVER RECIEVES STRING WITH RACE RESULTS FROM CLIENT
     // One row with time
     // One row of position x and y-values in  x,y-x,y-x,y-... format
     // One row of angles in angle-angle-angle-... format
     public void recieveScoreFromClient(String clientScoreString) {
     	try {
     		//TEMP VALUES
-            String[] splitString = clientScoreString.split("\n");
-            int playerScore = Integer.parseInt(splitString[0]);
+    		File file = new File(highscoreFile);
+            String[] clientScoreArray = clientScoreString.split("\n");
+            String[] serverScoreArray = getHighscoreStringArray();
             String highscorePositionString = "";
             String highscoreAngleString = "";
+            int playerScore = Integer.parseInt(clientScoreArray[0]);
             int[] scores = new int[nbHighscores];
     		
-            //READ TXT FILE, COLLECT DATA
-            File file = new File(filename);
+            //COLLECT TOP TEN TIMES FROM SERVER HIGHSCORES
+            for(int i = 0; i < nbHighscores; i++)
+            {
+            	scores[i] = Integer.parseInt(serverScoreArray[i]);
+            }
+            
+            // IF PLAYER TIME IS NEW BEST TIME, SAVE PLAYER'S DRIVING PATH
+            // ELSE, KEEP OLD DRIVING PATH
+            if(playerScore < scores[0])
+            {
+            	highscorePositionString = clientScoreArray[1];
+            	highscoreAngleString = clientScoreArray[2];
+            } else {
+            	highscorePositionString = serverScoreArray[nbHighscores];
+            	highscoreAngleString = serverScoreArray[nbHighscores + 1];
+            }
+            
+            //Förfinar kod / Erik
+            /*
+            File file = new File(highscoreFile);
             Scanner reader = new Scanner(file);
             int i = 0;
             while (reader.hasNextLine()) {
@@ -136,13 +176,8 @@ public class FileManager {
             	}
             }
             reader.close();
+            */
             
-            //IF TIME IS NEW TOP SCORE, OVERWRITE POSITION AND ANGLE STRINGS
-            if(playerScore < scores[0])
-            {
-            	highscorePositionString = splitString[1];
-            	highscoreAngleString = splitString[2];
-            }
             
             //SORT SUBMITTED TIME INTO HIGHSCORE ARRAY
             sortHighscores(playerScore, scores);
@@ -156,38 +191,14 @@ public class FileManager {
         }
     }
     
-    //RETURNS A STRING CONTAINING THE CONTENTS OF THE ENTIRE TXT-FILE
+    //CLIENT RECIEVES A STRING FROM SERVER CONTAINING THE UPDATED HIGHSCORE FILE
     //Ten rows of best times
     //One row of position x and y-values in  x,y-x,y-x,y-... format
     //One row of angles in angle-angle-angle-... format
-    public String getHighscores()
-    {
-    	String highScoreFileString = "";
-    	try 
-    	{
-            File file = new File(filename);
-            Scanner reader = new Scanner(file);
-            int i = 0;
-            while (reader.hasNextLine()) {
-            	if(i < nbHighscores + 2)
-            	{
-            		highScoreFileString = highScoreFileString + reader.nextLine() + "\n";
-                    i++;
-            	}
-            }
-            reader.close();
-        } catch (FileNotFoundException e) {
-        	System.out.println("An error occurred.");
-        	e.printStackTrace();
-        }
-    	return highScoreFileString;
-    }
-    
-    //CLIENT USES THIS TO OVERWRITE CLIENT TXT-FILE WITH NEW HIGHSCORE LIST FROM SERVER
     public void recieveHighscoreStringFromServer(String highscoreString)
     {
             try{
-            	File file = new File(filename);
+            	File file = new File(highscoreFile);
                 FileWriter writer = new FileWriter(file);
                 writer.write(highscoreString);
                 writer.close();
@@ -225,22 +236,33 @@ public class FileManager {
     	return list;
     }
     
-    // RETURNS A STRING-ARRAY OF HIGHSCORE.TXT WHERE:
-    // Element 0-9 is top 10 times
-    // Element 10 is the position-string
-    // Element 11 is the angle-string
-    public String[] getHighscoreStringArray()
+    public int configGetCarColor() 
     {
-    	String[] splitString = getHighscores().split("\n");
-    	return splitString;
+    	int carColor = 0;
+    	try {
+    		File file = new File(configFile);
+            Scanner reader = new Scanner(file);
+            carColor = reader.nextInt();
+            reader.close();
+    	}catch(FileNotFoundException e){
+    		System.out.println("writer exception");
+    	}
+    	return carColor;
+    	
     }
     
-    // RETURNS HIGHSCORE FOR POSITION placement AS A STRING IN HUNDREDTHS OF A SECOND
-    public String getHighscoreForPosition(int placement)
+    public void configSetCarColor(int carColor) 
     {
-    	String[] highscoreStringArray = getHighscoreStringArray();
-    	String score = highscoreStringArray[placement - 1];
-    	return score;
+    	try{
+        	File file = new File(configFile);
+            FileWriter writer = new FileWriter(file);
+            writer.write(Integer.toString(carColor));
+            writer.close();
+        }catch(FileNotFoundException e){
+            System.out.println("FileNotFoundException");
+        }catch(IOException e) {
+        	System.out.println("IOExeption");
+        }
     }
     
 }
