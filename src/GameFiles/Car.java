@@ -22,7 +22,7 @@ public class Car {
     public Car(int color, int xOffset, int yOffset, int topspeed, int height, int width)
     {
 
-    	this.speed = 0;
+    	setFirstSpeed();
 
         this.color = color;
         this.xOffset = xOffset;
@@ -61,10 +61,19 @@ public class Car {
         positionX = x + xOffset;
         positionY = y + yOffset;
     }
+    public void setNonCheckpointPosition(Track track) {
+    	positionX = 400;
+        positionY = 600;
+    }
     public void setAngle(Track track)
     {
         angle = track.getStartAngle();
     }
+
+    public void setFirstSpeed() {
+    	this.speed = 0;
+    }    
+
     
     public void setPositionAI(int x, int y) 
     {
