@@ -106,14 +106,19 @@ public class FileManager {
     // One row of angles in angle-angle-angle-... format
     public String sendScoreToServer(int time, ArrayList<Point> positions, ArrayList<Double> angles)
     {
-    	String positionString = "";
-    	String angleString = "";
-    	for(int j = 0; j < positions.size(); j++)
-    	{
-    		positionString = positionString + positions.get(j).x + "," + positions.get(j).y + "-";
-    		angleString = angleString + angles.get(j).toString() + "-";
-    	}
-    	return time + "\n" + positionString + "\n"  + angleString;
+        String positionString = "";
+        String angleString = "";
+        for(int j = 0; j < positions.size(); j++)
+        {
+            positionString = positionString + positions.get(j).x + "," + positions.get(j).y + "-";
+            if(angles.get(j).toString().contains("E"))
+            {
+                angleString = angleString + "0.0" + "-";
+            }else {
+                angleString = angleString + angles.get(j).toString() + "-";
+            }
+        }
+        return time + "\n" + positionString + "\n"  + angleString;
     }
     
     // AFTER RACE, SERVER RECIEVES STRING WITH RACE RESULTS FROM CLIENT
