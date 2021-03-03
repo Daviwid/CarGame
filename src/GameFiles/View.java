@@ -45,7 +45,7 @@ public class View extends JPanel implements Observer<Model> {
             
         }
         if(m.getState()==STATE.HIGHSCORE) {
-        	//drawHighscore(m.getMenu(), g2d);
+        	drawHighscore(m.getMenu(), g2d);
         }
      
         if(m.getState()==STATE.GAMEFINISHED){//m.getGameFinished()== true) {
@@ -231,12 +231,12 @@ public class View extends JPanel implements Observer<Model> {
         
     }
 
-/*  public void drawHighscore(Menu menu, Graphics2D g2d) { //målar ut 10 strängar
+  public void drawHighscore(Menu menu, Graphics2D g2d) { //målar ut 10 strängar
     	for(int i=0; i< 10; i++) {
-    	g2d.drawString(formatScoreString(m.fileManager.getHighscoreForPosition(i+1)), m.getBorderX()/2 + 20, m.getBorderY()/2 + 20 + 30*i);
+    	g2d.drawString(formatScoreString(m.getFileManager().getHighscoreForPosition(i+1)), m.getBorderX()/2 + 20, m.getBorderY()/2 + 20 + 30*i);
     	//g2d.setFont(getFont());
     	}
-    }*/
+    }
 
     public void updateView() {
         repaint();

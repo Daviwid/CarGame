@@ -380,6 +380,9 @@ public class Model implements Observable<Model>{
     {
     	return currentHighscore;
     }
+    public FileManager getFileManager(){
+        return fileManager;
+    }
     public STATE getState()
     {
         return this.state;
