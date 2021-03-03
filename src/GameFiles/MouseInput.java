@@ -41,7 +41,7 @@ public class MouseInput implements MouseListener{
         
         {           
         	
-        	//selectHighscorebutton(c.getModel(), c.getModel().getMenu(),x,y);
+        	selectHighscoreButtons(c.getModel(), c.getModel().getMenu(),x,y);
 
         }
         
@@ -78,6 +78,15 @@ public class MouseInput implements MouseListener{
                 System.exit(0);
             }
         }
+        
+        if(x >= m.getHighscoreBtn().getX() && x <= m.getHighscoreBtn().getX()+m.getHighscoreBtn().getWidth())
+        {
+            if(y >= m.getHighscoreBtn().getY() && y <= m.getHighscoreBtn().getY()+m.getHighscoreBtn().getHeight())
+            {
+                model.stateHighscore();
+            }
+        }
+        
     }
     
     public void carConfigButtons(Model model, Menu m, int x, int y)
@@ -151,18 +160,24 @@ public class MouseInput implements MouseListener{
             	model.stateMap();
             }
         }
+
+    	if(x >= m.getEndGameBtn().getX() && x <= m.getEndGameBtn().getX()+m.getEndGameBtn().getWidth())
+        {
+            if(y >= m.getEndGameBtn().getY() && y <= m.getEndGameBtn().getY()+m.getEndGameBtn().getHeight())
+            {
+            	model.stateMenu();
+            }
+        }
+    }
+    
+    public void selectHighscoreButtons(Model model, Menu m, int x, int y)
+    {
+        //Kollar om klick on returnBtn
     	if(x >= m.getReturnBtn().getX() && x <= m.getReturnBtn().getX()+m.getReturnBtn().getWidth())
         {
             if(y >= m.getReturnBtn().getY() && y <= m.getReturnBtn().getY()+m.getReturnBtn().getHeight())
             {
             	model.stateMenu();
-            }
-        }
-    	if(x >= m.getEndGameBtn().getX() && x <= m.getEndGameBtn().getX()+m.getEndGameBtn().getWidth())
-        {
-            if(y >= m.getEndGameBtn().getY() && y <= m.getEndGameBtn().getY()+m.getEndGameBtn().getHeight())
-            {
-            	System.exit(0);
             }
         }
     }

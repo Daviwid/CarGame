@@ -11,7 +11,7 @@ import java.io.FileWriter;
 public class FileManager {
 	
     private int nbHighscores = 10;
-    private int[] factoryPresetScores = new int[nbHighscores] {3000, 4000, 5000, 10000, 20000, 30000, 50000, 80000, 100000, 200000};
+    private int[] factoryPresetScores = {3000, 4000, 5000, 10000, 20000, 30000, 50000, 80000, 100000, 200000};
     private String highscoreFile = "Highscore.txt";
     private String configFile = "Config.txt";
 	
@@ -70,9 +70,6 @@ public class FileManager {
     	}catch(IOException e) {
     		e.printStackTrace();
     	}
-    	catch(FileNotFoundException e) {
-    		e.printStackTrace();
-    	}
     }
     
     //IF NO CONFIG FILE EXISTS, CREATE ONE
@@ -91,9 +88,7 @@ public class FileManager {
     	}catch(IOException e) {
     		e.printStackTrace();
     	}
-    	catch(FileNotFoundException e) {
-    		e.printStackTrace();
-    	}
+    	
     }
 
     

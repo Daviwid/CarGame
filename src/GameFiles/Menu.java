@@ -28,9 +28,9 @@ public class Menu
         
         returnBtn = new Rectangle(borderX/2-150,borderY-200,300,100);
         
-        redCarBtn = new Rectangle(borderX/2-550,borderY/2-220,150,80);
-        greenCarBtn = new Rectangle(borderX/2-100,borderY/2-220,180,80);
-        blueCarBtn= new Rectangle(borderX/2+200,borderY/2-220,150,80);
+        redCarBtn = new Rectangle(borderX/2-550,borderY/2-120,150,80);
+        greenCarBtn = new Rectangle(borderX/2-160,borderY/2-120,180,80);
+        blueCarBtn= new Rectangle(borderX/2+200,borderY/2-120,150,80);
        
         configReturnBtn= new Rectangle(borderX/2-150,borderY/2 + 260,250,100);
     	

@@ -16,7 +16,7 @@ public class Car {
       private double topspeed;
       private int height;
 	  private int width;
-	  private BufferedImage currentCarIMG,redCar,blueCar,greenCar;
+	  private BufferedImage currentCarIMG,redCar,blueCar,greenCar,aiCar;
 
     //Konstruktor
     public Car(int color, int xOffset, int yOffset, int topspeed, int height, int width)
@@ -35,6 +35,7 @@ public class Car {
             	redCar = ImageIO.read(getClass().getResource("/Resources/REDCAR.png"));
             	greenCar = ImageIO.read(getClass().getResource("/Resources/GREENCAR.png"));
             	blueCar =ImageIO.read(getClass().getResource("/Resources/BLUECAR.png"));
+            	aiCar = ImageIO.read(getClass().getResource("/Resources/AICAR.png"));
         }
 	    catch(IOException e){}
 	    setCarIMG(color);
@@ -128,6 +129,7 @@ public class Car {
 		if(c==0) {currentCarIMG=redCar;}
 		if(c==1) {currentCarIMG=greenCar;}
 		if(c==2) {currentCarIMG=blueCar;}
+		if(c==3) {currentCarIMG=aiCar;}
 	}
 	
 	

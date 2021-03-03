@@ -51,7 +51,7 @@ public class Model implements Observable<Model>{
     private Menu menu;
     private STATE state;
     private int carColor;
-    private String build = "Build v. 1.0.0.0";
+    private String build = "Build v. 2.1.3.0";
    
 
     private ArrayList<Point> positionList = new ArrayList<Point>();
@@ -86,7 +86,7 @@ public class Model implements Observable<Model>{
         {
         	carList.add(new Car(carColor, 0, 0, TOPSPEED, height, width));
         }
-        carList.add(new Car(1, 0, 0, TOPSPEED, height, width));
+        carList.add(new Car(3, 0, 0, TOPSPEED, height, width));
     }
     
 
@@ -479,11 +479,7 @@ public class Model implements Observable<Model>{
     }
     public void stateMenu()
     {
-            mainSound.stopAudio(); 
-            mainSound.closeAudio();
             state=STATE.MENU;
-            mainSound.stopAudio();
-            mainSound.closeAudio();
     }  
     public void stateMap()
     {
