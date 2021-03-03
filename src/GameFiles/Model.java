@@ -477,6 +477,8 @@ public class Model implements Observable<Model>{
     }
     public void stateMenu()
     {
+            mainSound.stopAudio(); 
+            mainSound.closeAudio();
             state=STATE.MENU;
     }  
     public void stateMap()
