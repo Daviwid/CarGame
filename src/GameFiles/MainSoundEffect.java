@@ -20,6 +20,10 @@ private Clip clip;
 		   	        AudioInputStream ais = AudioSystem.getAudioInputStream( url );
 		   	        
 		   	        clip.open(ais);
+					   FloatControl gainControl = 
+					 (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);      
+			   	gainControl.setValue(-20.0f); // Reduce volume by 10 decibels.
+
 		   	        clip.loop(clip.LOOP_CONTINUOUSLY);
 		   	        SwingUtilities.invokeLater(new Runnable() {
 		   	            public void run() {
