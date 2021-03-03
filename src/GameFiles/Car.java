@@ -11,7 +11,7 @@ public class Car {
       private double speed;
       private double angle;
       private int color;
-      private int xOffset;
+      private int xOffset;		//In case of 2 players
       private int yOffset;
       private double topspeed;
       private int height;
@@ -22,7 +22,7 @@ public class Car {
     public Car(int color, int xOffset, int yOffset, int topspeed, int height, int width)
     {
 
-    	setFirstSpeed();
+    	this.speed=0;
 
         this.color = color;
         this.xOffset = xOffset;
@@ -31,10 +31,6 @@ public class Car {
         this.height = height;
 		this.width = width;
 
-        angle = 0;
-
-        positionX = 400;
-        positionY = 600;
         try {
             	redCar = ImageIO.read(getClass().getResource("/Resources/REDCAR.png"));
             	greenCar = ImageIO.read(getClass().getResource("/Resources/GREENCAR.png"));
@@ -51,29 +47,20 @@ public class Car {
     }
 
     //getters&setters
-    public void setPosition(Track track) 
+    public void setStartPosition(Track track) 
     {
-        positionX = track.getStartPositionX() + xOffset;
-        positionY = track.getStartPositionY() + yOffset;
+        positionX = track.getStartPositions().x + xOffset;
+        positionY = track.getStartPositions().y + yOffset;
     }
-    public void setCheckpointPosition(Track track, int x,int y) 
+    public void setCheckpointPosition(int x,int y) 
     {
         positionX = x + xOffset;
         positionY = y + yOffset;
     }
-    public void setNonCheckpointPosition(Track track) {
-    	positionX = 400;
-        positionY = 600;
-    }
-    public void setAngle(Track track)
+    public void setStartAngle(Track track)
     {
         angle = track.getStartAngle();
     }
-
-    public void setFirstSpeed() {
-    	this.speed = 0;
-    }    
-
     
     public void setPositionAI(int x, int y) 
     {
