@@ -11,10 +11,11 @@ import java.io.FileWriter;
 public class FileManager {
 	
     private int nbHighscores = 10;
+    private int[] factoryPresetScores = new int[nbHighscores] {3000, 4000, 5000, 10000, 20000, 30000, 50000, 80000, 100000, 200000};
     private String highscoreFile = "Highscore.txt";
     private String configFile = "Config.txt";
 	
-	public FileManager(){
+    public FileManager(){
 		
     }
 	
@@ -37,7 +38,6 @@ public class FileManager {
             String newScore = "";
             for(int j = 0; j < nbHighscores; j++){
                 newScore = newScore + scores[j]+"\n";
-                System.out.println("newScore = \n" + newScore);
             }
             
             newScore = newScore + highscorePositionString + "\n";
@@ -48,11 +48,65 @@ public class FileManager {
             System.out.println("writer exception");
         }
     }
+    
+    //IF NO HIGHSCORE FILE EXISTS, THIS METHOD CREATES ONE AND FILLS IT WITH FACTORY PRESET SCORES
+    private void createNewHighscoreFile()
+    {
+    	try {
+    		File file = new File(highscoreFile);
+    		if (file.createNewFile()) {
+    	        System.out.println("Highscore file created.");
+    	        FileWriter writer = new FileWriter(file);
+    	        String newScore = "";
+            	for(int i = 0; i < nbHighscores; i++){
+                    newScore = newScore + factoryPresetScores[i]+"\n";
+                }
+            	newScore = newScore + "0,0-" + "\n" + "0-" + "\n";
+            	writer.write(newScore);
+            	writer.close();
+    	      } else {
+    	        System.out.println("Highscore file already exists.");
+    	      }
+    	}catch(IOException e) {
+    		e.printStackTrace();
+    	}
+    	catch(FileNotFoundException e) {
+    		e.printStackTrace();
+    	}
+    }
+    
+    //IF NO CONFIG FILE EXISTS, CREATE ONE
+    private void createNewConfigFile()
+    {
+    	try {
+    		File file = new File(configFile);
+    		if (file.createNewFile()) {
+    	        System.out.println("Config file created.");
+    	        FileWriter writer = new FileWriter(file);
+            	writer.write("1");
+            	writer.close();
+    	      } else {
+    	        System.out.println("Config file already exists.");
+    	      }
+    	}catch(IOException e) {
+    		e.printStackTrace();
+    	}
+    	catch(FileNotFoundException e) {
+    		e.printStackTrace();
+    	}
+    }
 
     
     //--------------------
     //PUBLIC METHODS
     //--------------------
+    
+    // CREATES NEW 
+    public void createNewFiles()
+    {
+    	createNewHighscoreFile();
+    	createNewConfigFile();
+    }
     
     //RETURNS A STRING CONTAINING THE CONTENTS OF THE ENTIRE TXT-FILE
     //Ten rows of best times
@@ -153,7 +207,7 @@ public class FileManager {
             	highscoreAngleString = serverScoreArray[nbHighscores + 1];
             }
             
-            //Förfinar kod / Erik
+            //FÃ¶rfinar kod / Erik
             /*
             File file = new File(highscoreFile);
             Scanner reader = new Scanner(file);
