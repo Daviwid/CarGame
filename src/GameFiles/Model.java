@@ -2,20 +2,15 @@ package GameFiles;
 
 
 import java.util.LinkedList;
-
-import javax.swing.Timer;
-
 import GameFiles.Controller.GameTimer;
-
 import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Toolkit;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.ArrayList;
 
-public class Model implements Observable<Model>, ActionListener {
+public class Model implements Observable<Model>{
     //Instansvariabler:
     private LinkedList<Car> carList = new LinkedList<Car>();
     private int borderX;
@@ -31,8 +26,8 @@ public class Model implements Observable<Model>, ActionListener {
 	private boolean checkpoint3 = false;
 	private boolean checkpoint4 = false;
 	
-	private boolean sound =false;
-	private boolean freeze=false;
+    private boolean gameFinished=false;
+	private boolean carCrash=false;
 
 	private boolean point1=false;
 	private boolean point2=false;
@@ -45,45 +40,53 @@ public class Model implements Observable<Model>, ActionListener {
 	private int checkpoint2y;
 	private int checkpoint3x;
 	private int checkpoint3y;
-	private int checkpoint4x;
-	private int checkpoint4y;
 	
     private static int TOPSPEED = 10;
     private static int height = 50;
-    private static int width = 50;
+    private static int width = 30;
     private int carNumber = 1;
-    private Track currentTrack,lindholmen, track2, currentCheckpoints;
+    private Track currentTrack,lindholmen;
     private String currentHighscore;
     private int gameTimer;
     private Menu menu;
     private STATE state;
     private int carColor;
     private String build = "Build v. 1.0.0.0";
-    private Timer timer;
+   
 
     private ArrayList<Point> positionList = new ArrayList<Point>();
     private ArrayList<Double> angleList = new ArrayList<Double>();
 
+	private Iterator<Point> ai_point;
+	private Iterator<Double> ai_angle;
 
+	private ArrayList<Point> aip = new ArrayList<Point>();
+	private ArrayList<Double> aia = new ArrayList<Double>();
+	
     private final Collection<Observer<Model>> observers;
     
-    private ActionListener a;
+    
     private FileManager fileManager;
+
+    private MainSoundEffect mainSound;
+    private SoundEffectCarCollision s;
     // private Controller controller;
     public Model()
     {
         this.observers = new HashSet<>();
         fileManager = new FileManager();
         carColor = fileManager.configGetCarColor();
-        carsInit(carNumber);
     }
     
     public void carsInit(int carNumber)
     {
+    	ai_point = aip.iterator();
+    	ai_angle = aia.iterator();
         for(int i = 0; i < carNumber; i++)
         {
-        	carList.add(new Car(carColor, 0, 0, TOPSPEED, height, width));  //REDCAR
+        	carList.add(new Car(carColor, 0, 0, TOPSPEED, height, width));
         }
+        carList.add(new Car(1, 0, 0, TOPSPEED, height, width));
     }
     
 
@@ -112,11 +115,14 @@ public class Model implements Observable<Model>, ActionListener {
     {
         if(state==STATE.GAME)	//Kolla endast om man spelar. Genererar annars exceptions
         {
-        	/*
+        	
             checkBorder();
-            if(checkpoint1==true && checkpoint2==true && checkpoint3==true && checkpoint4==true) {
-         	   state= STATE.GAMEFINISHED;
-                new Client();
+            if(checkpoint4) {
+
+         	   mainSound.closeAudio();
+            	gameFinished();
+            	mainSound.stopAudio();
+                new Client(gameTimer,positionList,angleList);
             }
            if(point1==false) {
             checkCheckpoint1Hitboxes();
@@ -132,38 +138,42 @@ public class Model implements Observable<Model>, ActionListener {
            }
            checkHitboxes();
 
-           */
+           
         	moveCar();
+        	moveAI();
             savePosition(carList.get(0).getPositionX(), carList.get(0).getPositionY());  //for loop if we have more then 1 player
             saveAngle(carList.get(0).getAngle());                                           // same here...
         }
-        
+
         updateObservers();
     }
-    
+    public void moveAI()
+    {
+    	if(ai_angle.hasNext())
+    	{
+    		Point p = ai_point.next();
+    		carList.get(1).setPositionAI(p.x,p.y);
+    		carList.get(1).setAngleAI(ai_angle.next());
+    	}
+    }
     
     private void moveCar()
     {
-    	
-        for(int i = 0; i < carList.size(); i++)
+        if(pressedUp)
         {
-            if(pressedUp)
-            {
-                carList.get(i).accelerate();
-            }
-            if(pressedDown)
-            {
-                carList.get(i).decelerate();
-            }
-            if(pressedRight)
-            {
-                carList.get(i).turnRight();
-            }
-            if(pressedLeft)
-            {
-                carList.get(i).turnLeft();
-            }
-            
+            carList.get(0).accelerate();
+        }
+        if(pressedDown)
+        {
+            carList.get(0).decelerate();
+        }
+        if(pressedRight)
+        {
+            carList.get(0).turnRight();
+        }
+        if(pressedLeft)
+        {
+            carList.get(0).turnLeft();
         }
         carList.get(0).move();
     }
@@ -208,58 +218,47 @@ public class Model implements Observable<Model>, ActionListener {
    public void checkHitboxes() {  //checks if objects position overlaps with one of the tracks
     Iterator<Point> it = currentTrack.getHitbox().iterator();
     int count=0;
-    
-    SoundEffectCarCollision s; 
-        while(it.hasNext()) {
-       
-        Point p = it.next();
-    	if( overlapsWith(p.x, p.y) ) { 
-    		if(count==0) { carList.get(0).turnDirection(); count++;}
-    		
-    		if(sound==false) {
-    			try {
-    				s = new SoundEffectCarCollision();
-    			} catch (Exception e1) {
-				
-    				e1.printStackTrace();
-    			}
-    		}
-    		if(checkpoint1==true && checkpoint2!=true && checkpoint3!=true && checkpoint4!=true){
-    			timer= new Timer(4000, a);  //extra effekter
-    			
-    			timer.addActionListener(this); 		
-    	    	timer.start();	
-    			
-    			freeze=true;
-    			state=STATE.CARCRASH;
-    			
-    			carList.get(0).setCheckpointPosition(currentTrack, checkpoint1x , checkpoint1y );
-    			point1=true;
-    			
-    		}
-    		
-    		if(checkpoint1==true && checkpoint2==true && checkpoint3!=true && checkpoint4!=true) {
-    			carList.get(0).setCheckpointPosition(currentTrack, checkpoint2x , checkpoint2y);
-    			point2=true;
-    			
-    			}
-    		
-    		if(checkpoint1==true && checkpoint2==true && checkpoint3==true && checkpoint4!=true) {
-    			carList.get(0).setCheckpointPosition(currentTrack, checkpoint3x , checkpoint3y);
-    			point3=true;
-    			
-    			}
-    		
-    		if(checkpoint1==true && checkpoint2==true && checkpoint3==true && checkpoint4==true) {
-    			carList.get(0).setCheckpointPosition(currentTrack, checkpoint4x , checkpoint4y);
-    			point4=true;
-    			
-    			}
-    		sound=true;
-    		  
-    		 
-    		
-    	}
+        while(it.hasNext())
+        {   
+	        Point p = it.next();
+	    	if( overlapsWith(p.x, p.y) )
+	    	{ 
+	    		if(count==0)
+	    		{ 
+	    			carList.get(0).turnDirection(); count++;
+	    		}
+	    		//mainSound.closeAudio();       
+	    		try {
+	    			//s = new SoundEffectCarCollision();
+	    		} catch (Exception e1) {
+	    			e1.printStackTrace();
+	    		}
+	    		Toolkit.getDefaultToolkit().beep();
+	    		if(checkpoint1){
+	    			carList.get(0).setCheckpointPosition(checkpoint1x, checkpoint1y);
+	    			carList.get(0).collisionSpeed();
+	    			carList.get(0).turnDirection();
+	    		}
+	    		else if(checkpoint2)
+	    		{
+	    			carList.get(0).setCheckpointPosition(checkpoint2x , checkpoint2y);
+	    			carList.get(0).collisionSpeed();
+	    			carList.get(0).turnDirection();
+	    		}
+	    		
+	    		else if(checkpoint3)
+	    		{
+	    			carList.get(0).setCheckpointPosition(checkpoint3x , checkpoint3y);
+	    			carList.get(0).collisionSpeed();
+	    			carList.get(0).turnDirection();
+	    		}
+	    		else
+	    		{
+	    			carList.get(0).setStartPosition(currentTrack);
+	    			carList.get(0).setStartAngle(currentTrack);
+	    		}
+	    		
+	    	}
     	
     	}
     }
@@ -280,22 +279,32 @@ public class Model implements Observable<Model>, ActionListener {
     public void checkCheckpoint2Hitboxes() {  
         Iterator<Point> it = currentTrack.getCheckpoints2Hitbox().iterator();
             while(it.hasNext()) {
-            Point p = it.next();
-            if( overlapsWith(p.x, p.y) ) { 
-        		checkpoint2= true;
-        		checkpoint2x= p.x;
-        		checkpoint2y= p.y;
-        	}
+	            Point p = it.next();
+	            if( overlapsWith(p.x, p.y) )
+	            { 
+	            	if(checkpoint1)
+	            	{
+	            		checkpoint1=false;
+		        		checkpoint2= true;
+		        		checkpoint2x= p.x;
+		        		checkpoint2y= p.y;
+	            	}
+	            }
         	}
         }
     public void checkCheckpoint3Hitboxes() {  
         Iterator<Point> it = currentTrack.getCheckpoints3Hitbox().iterator();
             while(it.hasNext()) {
             Point p = it.next();
-            if( overlapsWith(p.x, p.y)) { 
-        		checkpoint3= true;
-        		checkpoint3x= p.x;
-        		checkpoint3y= p.y;
+            if( overlapsWith(p.x, p.y))
+            { 
+            	if(checkpoint2)
+            	{
+            		checkpoint2=false;
+	        		checkpoint3= true;
+	        		checkpoint3x= p.x;
+	        		checkpoint3y= p.y;
+            	}
         	}
         	}
         }
@@ -304,9 +313,11 @@ public class Model implements Observable<Model>, ActionListener {
             while(it.hasNext()) {
             Point p = it.next();
             if( overlapsWith(p.x, p.y) ) { 
-        		checkpoint4= true;
-        		checkpoint4x= p.x;
-        		checkpoint4y= p.y;
+            	if(checkpoint3)
+            	{
+            		checkpoint3=false;
+            		checkpoint4= true;
+            	}
         	}
         	}
         }
@@ -316,10 +327,24 @@ public class Model implements Observable<Model>, ActionListener {
     public void selectMap(Track t)			
     {
         currentTrack = t;
+        aip = fileManager.getHighscorePositionList();
+        aia = fileManager.getHighscoreAngleList();
+        carList.clear();
         carsInit(carNumber);
         currentHighscore = fileManager.getHighscoreForPosition(1);
+        carList.get(0).setStartPosition(currentTrack);
+        carList.get(0).setStartAngle(currentTrack);
         state = STATE.GAME;
         this.mapSelected=true;
+        resetCheckBox();  //mainly for playagainbutton
+        resetCarFlags();
+        resetGameTimer();
+        try {
+        	mainSound = new MainSoundEffect();  
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
     }
     
     public void mapInit()
@@ -335,7 +360,15 @@ public class Model implements Observable<Model>, ActionListener {
     private void saveAngle(Double angle){
         angleList.add(angle);
     }
-        
+    
+    public void saveAI()
+    {
+    	fileManager.recieveHighscoreStringFromServer(fileManager.sendScoreToServer(1, positionList, angleList));
+    }
+    
+    
+    
+    
     //getters
     public LinkedList<Car> getCarList()
     {
@@ -345,10 +378,6 @@ public class Model implements Observable<Model>, ActionListener {
     {
        return currentTrack;
     }
-    public Track getCheckpoints()
-    {
-       return currentCheckpoints;
-    }
     public String getCurrentHighscore()
     {
     	return currentHighscore;
@@ -356,6 +385,12 @@ public class Model implements Observable<Model>, ActionListener {
     public STATE getState()
     {
         return this.state;
+    }
+    public boolean getCarCrash() {
+    	return carCrash;
+    }
+    public boolean getGameFinished() {
+    	return gameFinished;
     }
     public int getBorderX()
     {
@@ -381,10 +416,7 @@ public class Model implements Observable<Model>, ActionListener {
     {
     	return lindholmen;
     }
-    public Track getTrack2()
-    {
-    	return track2;
-    }
+
     
     public boolean getMapSelected()
     {
@@ -445,6 +477,8 @@ public class Model implements Observable<Model>, ActionListener {
     public void stateMenu()
     {
             state=STATE.MENU;
+            mainSound.stopAudio();
+            mainSound.closeAudio();
     }  
     public void stateMap()
     {
@@ -454,6 +488,14 @@ public class Model implements Observable<Model>, ActionListener {
     {
             state=STATE.CARCONFIG;
             
+    }
+    public void stateHighscore()
+    {
+            state=STATE.HIGHSCORE;
+    }
+    public void stateFinished()
+    {
+            state=STATE.GAMEFINISHED;
     }
     public void resetGameTimer(){
         gameTimer = 0;
@@ -479,13 +521,6 @@ public class Model implements Observable<Model>, ActionListener {
         }
     }
 
-    @Override
-	public void actionPerformed(ActionEvent e) {
-		//System.out.println("carcrash over");
-		state=STATE.GAME;
-		freeze=false;
-		carList.get(0).collisionSpeed();
-		timer.stop();
-	}
+    
 
 }

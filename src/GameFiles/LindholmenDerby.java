@@ -13,6 +13,8 @@ public class LindholmenDerby extends Track {
 	
 	private int checkpointcolor4;
 	
+	private double angle;
+	
 	public LindholmenDerby(int x, int y)
 	{
 		
@@ -21,20 +23,23 @@ public class LindholmenDerby extends Track {
 		map2 = "/Resources/s1.jpg";   //bilbanan vi kommer se
 		checkpointmap= "/Resources/checkpoints.png";  //png fil med alla checkpoints
 		
-    color = 0xFFed1c24;			//Color som ska vara sarg
+		color = 0xFFed1c24;			//Color som ska vara sarg
 		lcolor = 0xFFed1c24;		//Low shade av color som ska vara sarg
+		
+		angle = 0.0;
+		
 		setMap(map,map2, checkpointmap, x,y);			//Skapar bana och scale till screensize
 		setHitbox(color,lcolor);	//Skapar hitbox-lista
 		
-		
+		setStartAngle(angle);
 
-		checkpointcolor1 = 0xFFffaec9;			//Color som ska tillhöra checkpoint1
-		checkpointcolor2 = 0xFF22b14c;			//Color som ska tillhöra checkpoint2
-		checkpointcolor3= 0xFFff7f27;          ////Color som ska tillhöra checkpoint3
-		checkpointcolor4 = 0xFFfff200;         //Color som ska tillhöra checkpoint4
+		checkpointcolor1 = 0xFFfff200;         //Color som ska tillhöra checkpoint1	Gul
+		checkpointcolor2= 0xFFff7f27;          ////Color som ska tillhöra checkpoint2	orange
+		checkpointcolor3 = 0xFF22b14c;			//Color som ska tillhöra checkpoint3	green
+		checkpointcolor4 = 0xFFffaec9;			//Color som ska tillhöra checkpoint4	pink
 		
 		setCheckpointHitbox(checkpointcolor1, checkpointcolor2, checkpointcolor3, checkpointcolor4);
-		
+		createStartPositions();
 	}
 }
 

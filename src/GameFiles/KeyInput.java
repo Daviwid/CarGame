@@ -39,9 +39,10 @@ public class KeyInput implements KeyListener
                 }
                 if(c.getModel().getState()==STATE.GAME)		//Open menu
                 {
-                	c.getModel().getCarList().clear();
                 	c.getModel().resetCarFlags();
                     c.getModel().stateMenu();
+                    
+                    //c.getModel().saveAI();
                 }
                 if(c.getModel().getState()==STATE.MAP_SELECTION)
                 {

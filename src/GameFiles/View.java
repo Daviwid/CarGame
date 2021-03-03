@@ -44,12 +44,12 @@ public class View extends JPanel implements Observer<Model> {
             drawGame(g2d,m.getTrack().getMap());
             
         }
-        if(m.getState()== STATE.CARCRASH) {
-        	drawCrash(g2d);
-        	
-        } 
-        if(m.getState()== STATE.GAMEFINISHED) {
-        	drawFinished(g2d);
+        if(m.getState()==STATE.HIGHSCORE) {
+        	//drawHighscore(m.getMenu(), g2d);
+        }
+     
+        if(m.getState()==STATE.GAMEFINISHED){//m.getGameFinished()== true) {
+        	drawFinished(m.getMenu(),g2d,m.getBorderX(),m.getBorderY());
         	
         } 
     }
@@ -154,15 +154,12 @@ public class View extends JPanel implements Observer<Model> {
              
              //End of debug code.
          }
-    	 
-         //drawCar(g2d, carList.get(0));
-
              */ //End of debug code.
 
          }
      	//drawCheckpoints(g2d, m.getTrack().getCheckpointsMap());
          drawCar(g2d, carList.get(0));
-
+         drawAI(g2d,  carList.get(1));
          drawTime(g2d);
          
     }
@@ -205,6 +202,11 @@ public class View extends JPanel implements Observer<Model> {
         g2d.fill(menu.getQuitBtn());					//quitBtn med outline
         g2d.setColor(menu.getBtnOutClr());
         g2d.draw(menu.getQuitBtn());
+
+        g2d.setColor(menu.getBtnClr());
+        g2d.fill(menu.getHighscoreBtn());					
+        g2d.setColor(menu.getBtnOutClr());
+        g2d.drawString("HIGHSCORE", menu.getHighscoreBtn().x + 10, menu.getHighscoreBtn().y + 10);
         //Slutet av buttons
         
         
@@ -222,9 +224,17 @@ public class View extends JPanel implements Observer<Model> {
                 (int)menu.getQuitBtn().getX()+(int)menu.getQuitBtn().getWidth()/2-60,
                 (int)menu.getQuitBtn().getY()+(int)menu.getQuitBtn().getHeight()/2+20);
         //Slutet av text
+
+        
     }
 
-    
+/*  public void drawHighscore(Menu menu, Graphics2D g2d) { //målar ut 10 strängar
+    	for(int i=0; i< 10; i++) {
+    	g2d.drawString(formatScoreString(m.fileManager.getHighscoreForPosition(i+1)), m.getBorderX()/2 + 20, m.getBorderY()/2 + 20 + 30*i);
+    	//g2d.setFont(getFont());
+    	}
+    }*/
+
     public void updateView() {
         repaint();
     }
@@ -266,14 +276,34 @@ public class View extends JPanel implements Observer<Model> {
            //End of debug code.
        
     }
+
    
-    public void drawCrash(Graphics2D g2d) {
-    	m.getMenu().getCrashImg().paintIcon(this, g2d, 0, 0);
-    }
-    public void drawFinished(Graphics2D g2d) {
-    	m.getMenu().getFinishedImg().paintIcon(this, g2d, 0, 0);
+
+    public void drawFinished(Menu menu, Graphics2D g2d,int x,int y) {
     	
-    	g2d.drawString("GAME FINISHED", 500, 600);
+    	m.getMenu().getFinishedImg().paintIcon(this, g2d, 0, 0);
+    	g2d.setFont(new Font("arial",Font.BOLD,100));
+    	g2d.drawString("GAME FINISHED", x/2-400, 150);
+    	
+    	g2d.setColor(menu.getBtnClr());
+        g2d.fill(menu.getPlayAgainBtn());					//playBtn med outline
+        g2d.setColor(menu.getBtnOutClr());
+        g2d.draw(menu.getPlayAgainBtn());
+        
+        g2d.setColor(menu.getBtnClr());
+        g2d.fill(menu.getEndGameBtn());					//playBtn med outline
+        g2d.setColor(menu.getBtnOutClr());
+        g2d.draw(menu.getEndGameBtn());
+        
+        g2d.setFont(new Font("arial",Font.BOLD,50));											//Playbtn text
+        g2d.drawString("PLAY AGAIN",
+                (int)menu.getPlayAgainBtn().getX()+(int)menu.getPlayAgainBtn().getWidth()/2-152,
+                (int)menu.getPlayAgainBtn().getY()+(int)menu.getPlayAgainBtn().getHeight()/2+20);
+        
+        
+        g2d.drawString("END GAME",																	//Quitbtn text
+                (int)menu.getQuitBtn().getX()+(int)menu.getQuitBtn().getWidth()/2-135,
+                (int)menu.getQuitBtn().getY()+(int)menu.getQuitBtn().getHeight()/2+20);
     }
     
 
@@ -281,8 +311,8 @@ public class View extends JPanel implements Observer<Model> {
 
     private void drawCar(Graphics2D g2d, Car car) {
 
-	    
-        /*g2d.setColor(Color.green); 
+	    /*
+        g2d.setColor(Color.green); 
         double w = car.getWidth();  //Test values of green rectangle under png
         double h = car.getHeight();
         Point2D p1 = new Point2D(h/2,-w/2).rotate(car.getAngle());
@@ -320,6 +350,44 @@ public class View extends JPanel implements Observer<Model> {
         
     }
     
+    public void drawAI(Graphics2D g2d, Car car)
+    {
+    	/*
+        g2d.setColor(Color.red); 
+        double w = car.getWidth();  //Test values of green rectangle under png
+        double h = car.getHeight();
+        Point2D p1 = new Point2D(h/2,-w/2).rotate(car.getAngle());
+        Point2D p2 = new Point2D(h/2,w/2).rotate(car.getAngle());
+        Point2D p3 = new Point2D(-h/2,w/2).rotate(car.getAngle());
+        Point2D p4 = new Point2D(-h/2,-w/2).rotate(car.getAngle());
+        double x = car.getPositionX();
+        double y = car.getPositionY();
+        double[]   dx  = {x+p1.getIntX(),x+p2.getIntX(),x+p3.getIntX(),x+p4.getIntX()};  
+        double[]   dy  = {y+p1.getIntY(),y+p2.getIntY(),y+p3.getIntY(),y+p4.getIntY()};
+        int xPts[]= new int[4];
+        int yPts[]= new int[4];
+        for(int i=0;i<4;i++)
+        {
+             xPts[i]=(int)(dx[i]+.5);
+             yPts[i]=(int)(dy[i]+.5); 
+        }
+        g2d.fillPolygon(xPts,yPts,4);
+        */
+        
+        Image resultingImage = car.getCarIMG().getScaledInstance(car.getWidth(), car.getHeight(), Image.SCALE_SMOOTH);
+        
+
+        AffineTransform backup2 = g2d.getTransform();
+
+        //Set our Graphics2D object to the transform
+       g2d.rotate(car.getAngle() + (3*Math.PI)/2, car.getPositionX(), car.getPositionY());
+        
+        g2d.drawImage(resultingImage, car.getPositionX() - (car.getWidth() / 2) , car.getPositionY() - (car.getHeight() / 2) , null);
+//      g2d.setTransform(a);
+        g2d.setTransform(backup2); 
+    }
+    
+    
     //RETURNS STRING IN min:sec:hundredths   placement is 1 to 10
     //  Remember that m.fileManager.getHighscoreForPosition(int placement)
     //  returns a string with time for that placement (placement is 1-10)
@@ -336,6 +404,7 @@ public class View extends JPanel implements Observer<Model> {
     
     //DRAWS CURRENT TIME AND HIGHSCORE TIME ON SCREEN WHILE PLAYING
     private void drawTime(Graphics2D g2d){
+    	g2d.setColor(Color.black);
     	String gameTimer = "" + m.getGameTimer();
         g2d.setFont(new Font("arial",Font.BOLD,20));
         g2d.drawString(formatScoreString(gameTimer), 20, 150);
