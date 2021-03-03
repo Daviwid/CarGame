@@ -488,11 +488,9 @@ public class View extends JPanel implements Observer<Model> {
     }
     
     
-    //RETURNS STRING IN min:sec:hundredths   placement is 1 to 10
-    //  Remember that m.fileManager.getHighscoreForPosition(int placement)
-    //  returns a string with time for that placement (placement is 1-10)
+   
     /**
-     * This method is used to convert the highscore list from the server to a string that is sutible to present to the player.
+     * This method is used to convert time of centiseconds i form of a string to a more presenteble string in the format min:sec:centisec.
      * @param scoreString   highscore placement represented as milisecounds as a String 
      * @return              A string that represent a Highscore time in the form min:sec:hundredths
      */
