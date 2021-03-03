@@ -68,9 +68,12 @@ public class Model implements Observable<Model>{
 	    private ArrayList<Double> aia = new ArrayList<Double>();
 	
     private final Collection<Observer<Model>> observers;
-    private MainSoundEffect mainSound;
+    
     
     private FileManager fileManager;
+
+    private MainSoundEffect mainSound;
+    private SoundEffectCarCollision s;
     // private Controller controller;
     public Model()
     {
@@ -223,7 +226,7 @@ public class Model implements Observable<Model>{
     Iterator<Point> it = currentTrack.getHitbox().iterator();
     int count=0;
     
-    SoundEffectCarCollision s; 
+    
         while(it.hasNext()) {
        
         Point p = it.next();

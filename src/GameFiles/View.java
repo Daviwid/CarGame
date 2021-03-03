@@ -305,9 +305,6 @@ public class View extends JPanel implements Observer<Model> {
                 (int)menu.getPlayAgainBtn().getX()+(int)menu.getPlayAgainBtn().getWidth()/2-60,
                 (int)menu.getPlayAgainBtn().getY()+(int)menu.getPlayAgainBtn().getHeight()/2+20);
         
-        g2d.drawString("PLAY AGAIN",
-                (int)menu.getPlayAgainBtn().getX()+(int)menu.getPlayAgainBtn().getWidth()/2-60,
-                (int)menu.getPlayAgainBtn().getY()+(int)menu.getPlayAgainBtn().getHeight()/2+20);
         
         g2d.drawString("END GAME",																	//Quitbtn text
                 (int)menu.getQuitBtn().getX()+(int)menu.getQuitBtn().getWidth()/2-60,
