@@ -25,13 +25,7 @@ public class getPixel
                 }
             }
 		}
-		
-        //debug
-//		System.out.println("color " +color);
-//		System.out.println("lowcolor " +lcolor);
-//		System.out.println("grey " +bi.getRGB(0,0));	//I.e background color
-//      System.out.println("antal " +list.size());
-		//end of debug
+	
     }
     
     

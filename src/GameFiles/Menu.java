@@ -5,7 +5,6 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
@@ -23,7 +22,7 @@ public class Menu
     	playBtn = new Rectangle(30,borderY/2-150,300,100);
         configBtn= new Rectangle(30,borderY/2,300,100);
         quitBtn = new Rectangle(30,borderY/2 + 150,300,100);
-        highscoreStringBtn= new Rectangle(30, borderY/2 + 300, 300, 100);  //kolla om position funkar sen
+        highscoreStringBtn= new Rectangle(30, borderY/2 + 300, 300, 100);  
         
         
         returnBtn = new Rectangle(borderX/2-150,borderY-200,300,100);
@@ -52,7 +51,7 @@ public class Menu
     }
     
     
-
+    //getters
 	public BufferedImage getRedCar()
     {
     	return redCar;
