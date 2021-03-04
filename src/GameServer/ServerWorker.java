@@ -7,7 +7,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.util.concurrent.TimeUnit;
+
+/*
+The thread that client comminucation is done on. 
+
+The thread gets a connection with a client and does all the handeling
+*/
 
 public class ServerWorker extends Thread{
     private final Socket clientSocket;
@@ -37,6 +42,9 @@ public class ServerWorker extends Thread{
         }
     }
 
+    /*
+    this method is used to get data and send data to the client.
+    */
     public void handleClientSocket() throws IOException, InterruptedException{
         
         getData();
@@ -45,7 +53,10 @@ public class ServerWorker extends Thread{
         
 
     }
-
+    /*
+    this method takes the inputstream from a client and reads it and then checks if the data on the inputstream is a highscore
+    if it is, then the server will update the highscore text file, otherwise nothing will happen
+    */
     private void getData(){
         
         try {
@@ -53,27 +64,30 @@ public class ServerWorker extends Thread{
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
             String clientScore;
-            String tmp = "";
+            String totScore = "";
 
             while((clientScore = reader.readLine()) != null)
             {
-                tmp += clientScore + "\n";
+                totScore += clientScore + "\n";
             }
 
-            FileManager fm = new FileManager();
-            fm.recieveScoreFromClient(tmp);
+            FileManager fileManager = new FileManager();
+            fileManager.recieveScoreFromClient(totScore);
         } catch (Exception e) {
             //TODO: handle exception
         }
         
     }
-
+    /*
+    this method gets the outputstream from the client and then send the textfile with updated highscores so that the client
+    can read the data and overwrite its own highscore file.
+    */
     private void sendData()
     {
         try {
             OutputStream outputStream = clientSocket.getOutputStream();
-            FileManager fm = new FileManager();
-            String tmpHighscore = fm.getHighscores();
+            FileManager fileManager = new FileManager();
+            String tmpHighscore = fileManager.getHighscoreString();
             outputStream.write((tmpHighscore).getBytes());
         } catch (Exception e) {
             //TODO: handle exception

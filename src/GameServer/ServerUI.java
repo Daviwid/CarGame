@@ -7,14 +7,21 @@ import  java.awt.event.*;
 import  javax.swing.*;
 import java.net.ServerSocket;
 
-public class ServerUI extends JFrame implements KeyListener, ActionListener {
+/*
+ServerUI manages the visual UI and starts an instance of the server class with the port that the client will connect to
+
+It also has a button that will close the serversocket so that the server will not have an open serversocket while the
+application is closed
+*/
+
+public class ServerUI extends JFrame implements ActionListener {
     
     public ServerSocket serverSocket;
     private static int port = 25565;
-    private Server s;
-    private UIThread t;
+    private Server server;
+    private UIThread uiThread;
     private JPanel serverWindow;
-    private JButton[] buttons  = new JButton[3];
+    private JButton[] buttons  = new JButton[1];
 
     public ServerUI(){
         try {
@@ -24,12 +31,14 @@ public class ServerUI extends JFrame implements KeyListener, ActionListener {
         }
 
         this.setTitle("Server");
-        s = new Server(serverSocket);
+        server = new Server(serverSocket);
         createFrame();
-        t = new UIThread(s);
-        t.start();
+        uiThread = new UIThread(server);
+        uiThread.start();
     }
-
+    /*
+    this method creates the frame with the button that closes the serversocket
+    */
     public void createFrame()
     {
         GridLayout layout = new GridLayout(4,4,2,2);
@@ -40,12 +49,12 @@ public class ServerUI extends JFrame implements KeyListener, ActionListener {
         serverWindow.setBackground(Color.WHITE);
         serverWindow.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "CarGame - Server Menu"));
 
-        JButton sButton = new JButton("Close Server");
-        sButton.addActionListener(this);
-        buttons[0] = sButton;
+        JButton closeServerBTN = new JButton("Close Server");
+        closeServerBTN.addActionListener(this);
+        buttons[0] = closeServerBTN;
         
         add(serverWindow);
-        serverWindow.add(sButton);
+        serverWindow.add(closeServerBTN);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
         pack();
@@ -53,10 +62,12 @@ public class ServerUI extends JFrame implements KeyListener, ActionListener {
         setVisible(true);
          
     }
-
+    /*
+    checks if the button is pressed, then the serversocket will close - making connection to the server impossible
+    */
     public void actionPerformed(ActionEvent e){
-        Object b = e.getSource();
-        if(b == buttons[0]){
+        Object button = e.getSource();
+        if(button == buttons[0]){
             try {
                 serverSocket.close();
             } catch (Exception ex) {
@@ -64,8 +75,4 @@ public class ServerUI extends JFrame implements KeyListener, ActionListener {
             }
         }
     }
-
-    public void keyPressed(KeyEvent e){}
-    public void keyTyped(KeyEvent e){}
-    public void keyReleased(KeyEvent e){}
 }
