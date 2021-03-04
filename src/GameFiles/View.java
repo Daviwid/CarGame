@@ -173,32 +173,19 @@ public class View extends JPanel implements Observer<Model> {
      */
     public void drawGame(Graphics2D g2d, BufferedImage map)
     {
-    	 if(m.getMapSelected())						//Rita OM map selected == true. Typ en dubbelkoll. Mest ifall bilden inte laddas in och ger Exceptions
+    	 if(m.getMapSelected())						//checks so the image is loaded in with out exeptions
          {
-             g2d.drawImage(map, 0,0,this);					//Ritar banan
-            
-
-            /* //Debug code. visar sargen.
-             Iterator<Point> it = m.getTrack().getHitbox().iterator();
-             g2d.setColor(Color.red);
-             while(it.hasNext())
-             {
-                 Point p = it.next();
-                 g2d.drawLine(p.x,p.y,p.x,p.y);
-             }
-
-             
-             //End of debug code.
-         }
-             */ //End of debug code.
+             g2d.drawImage(map, 0,0,this);
 
          }
-     	//drawCheckpoints(g2d, m.getTrack().getCheckpointsMap());
+
+         //For loop based on carlist length here if more then 1 Car.
          drawCar(g2d, carList.get(0));
-         drawAI(g2d,  carList.get(1));
+         drawCar(g2d,  carList.get(1)); //draws the AI
          drawTime(g2d);
          
     }
+    
     
     /**
      * Draws diffrent strings to the diffrent menu windows to convey info about the application. X and Y is used to determin for one point where all the strings
@@ -332,38 +319,6 @@ public class View extends JPanel implements Observer<Model> {
     public void drawCheckpoints(Graphics2D g2d, BufferedImage checkpoints) {
     	
             g2d.drawImage(checkpoints, 0,0,this);					//Ritar banan
-           
-            //Debug code. visar checkpoints
-          /*  Iterator<Point> it = m.getTrack().getCheckpoints4Hitbox().iterator();
-            g2d.setColor(Color.yellow);
-            while(it.hasNext())
-            {
-                Point p = it.next();
-                g2d.drawLine(p.x,p.y,p.x,p.y);
-            }
-            
-            Iterator<Point> it2 = m.getTrack().getCheckpoints3Hitbox().iterator();
-            g2d.setColor(Color.red);
-            while(it2.hasNext())
-            {
-                Point p = it2.next();
-                g2d.drawLine(p.x,p.y,p.x,p.y);
-            }
-            Iterator<Point> it3 = m.getTrack().getCheckpoints2Hitbox().iterator();
-            g2d.setColor(Color.green);
-            while(it3.hasNext())
-            {
-                Point p = it3.next();
-                g2d.drawLine(p.x,p.y,p.x,p.y);
-            }
-            Iterator<Point> it4 = m.getTrack().getCheckpoints1Hitbox().iterator();
-            g2d.setColor(Color.RED);
-            while(it4.hasNext())
-            {
-                Point p = it4.next();
-                g2d.drawLine(p.x,p.y,p.x,p.y);
-            }*/
-           //End of debug code.
        
     }
 
@@ -398,99 +353,27 @@ public class View extends JPanel implements Observer<Model> {
 
 
     /**
-     * Draws the players car, rescales the chosen car color png and rotates the image to desired angle found in the Car-class. Rescaling is done throw the Image method getScaledInstance().
+     * Draws a car based on the Car-class, rescales the chosen car color png and rotates the image to desired angle found in the Car-class. Rescaling is done throw the Image method getScaledInstance().
      * rotateing the image is done throw the Graphics2D method rotate().
      *  
      * @param g2d   The Graphics2D instans that all component is drawn to
      * @param car   Car-class instance to get information on choosen png, cordiantes and desired size
      * @see Image
      * @see Graphics2D
+     * @see Car
      */
     private void drawCar(Graphics2D g2d, Car car) {
-
-	    /*
-        g2d.setColor(Color.green); 
-        double w = car.getWidth();  //Test values of green rectangle under png
-        double h = car.getHeight();
-        Point2D p1 = new Point2D(h/2,-w/2).rotate(car.getAngle());
-        Point2D p2 = new Point2D(h/2,w/2).rotate(car.getAngle());
-        Point2D p3 = new Point2D(-h/2,w/2).rotate(car.getAngle());
-        Point2D p4 = new Point2D(-h/2,-w/2).rotate(car.getAngle());
-        double x = car.getPositionX();
-        double y = car.getPositionY();
-        double[]   dx  = {x+p1.getIntX(),x+p2.getIntX(),x+p3.getIntX(),x+p4.getIntX()};  
-        double[]   dy  = {y+p1.getIntY(),y+p2.getIntY(),y+p3.getIntY(),y+p4.getIntY()};
-        int xPts[]= new int[4];
-        int yPts[]= new int[4];
-        for(int i=0;i<4;i++)
-        {
-             xPts[i]=(int)(dx[i]+.5);
-             yPts[i]=(int)(dy[i]+.5); 
-        }
-        g2d.fillPolygon(xPts,yPts,4);
-        */
-
-        // end debug
-
-        
+       
+        //rescales Car img to prefferd size
         Image resultingImage = car.getCarIMG().getScaledInstance(car.getWidth(), car.getHeight(), Image.SCALE_SMOOTH);
-        
+        //Before changing our Graphic2D we need to make a backup of everything else
+        AffineTransform backup2 = g2d.getTransform(); 
 
-        AffineTransform backup = g2d.getTransform();
-
-        //Set our Graphics2D object to the transform
-       g2d.rotate(car.getAngle() + (3*Math.PI)/2, car.getPositionX(), car.getPositionY());
+       g2d.rotate(car.getAngle() + (3*Math.PI)/2, car.getPositionX(), car.getPositionY()); //rotate the car image
         
         g2d.drawImage(resultingImage, car.getPositionX() - (car.getWidth() / 2) , car.getPositionY() - (car.getHeight() / 2) , null);
-//      g2d.setTransform(a);
-        g2d.setTransform(backup); 
+        g2d.setTransform(backup2);
         
-    }
-    
-    /**
-     * Draws the AI car, rescales the chosen car color png and rotates the image to desired angle found in the Car-class. Rescaling is done throw the Image method getScaledInstance().
-     * rotateing the image is done throw the Graphics2D method rotate().
-     *  
-     * @param g2d   The Graphics2D instans that all component is drawn to
-     * @param car   Car-class instance to get information on choosen png, cordiantes and desired size
-     * @see Image
-     * @see Graphics2D
-     */
-    public void drawAI(Graphics2D g2d, Car car)
-    {
-    	/*
-        g2d.setColor(Color.red); 
-        double w = car.getWidth();  //Test values of green rectangle under png
-        double h = car.getHeight();
-        Point2D p1 = new Point2D(h/2,-w/2).rotate(car.getAngle());
-        Point2D p2 = new Point2D(h/2,w/2).rotate(car.getAngle());
-        Point2D p3 = new Point2D(-h/2,w/2).rotate(car.getAngle());
-        Point2D p4 = new Point2D(-h/2,-w/2).rotate(car.getAngle());
-        double x = car.getPositionX();
-        double y = car.getPositionY();
-        double[]   dx  = {x+p1.getIntX(),x+p2.getIntX(),x+p3.getIntX(),x+p4.getIntX()};  
-        double[]   dy  = {y+p1.getIntY(),y+p2.getIntY(),y+p3.getIntY(),y+p4.getIntY()};
-        int xPts[]= new int[4];
-        int yPts[]= new int[4];
-        for(int i=0;i<4;i++)
-        {
-             xPts[i]=(int)(dx[i]+.5);
-             yPts[i]=(int)(dy[i]+.5); 
-        }
-        g2d.fillPolygon(xPts,yPts,4);
-        */
-        
-        Image resultingImage = car.getCarIMG().getScaledInstance(car.getWidth(), car.getHeight(), Image.SCALE_SMOOTH);
-        
-
-        AffineTransform backup2 = g2d.getTransform();
-
-        //Set our Graphics2D object to the transform
-       g2d.rotate(car.getAngle() + (3*Math.PI)/2, car.getPositionX(), car.getPositionY());
-        
-        g2d.drawImage(resultingImage, car.getPositionX() - (car.getWidth() / 2) , car.getPositionY() - (car.getHeight() / 2) , null);
-//      g2d.setTransform(a);
-        g2d.setTransform(backup2); 
     }
     
     
@@ -511,9 +394,9 @@ public class View extends JPanel implements Observer<Model> {
     }
     
     
-    //DRAWS CURRENT TIME AND HIGHSCORE TIME ON SCREEN WHILE PLAYING
+    
     /**
-     * Draws the current time the player has aswell as draws out the current highest highscore. 
+     * Draws the current time the player has aswell as draws out the current highest highscore on screen. 
      * @param g2d   The Graphics2D instans that all component is drawn to
      */
     private void drawTime(Graphics2D g2d){
