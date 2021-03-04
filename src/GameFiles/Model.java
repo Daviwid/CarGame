@@ -337,7 +337,11 @@ public class Model implements Observable<Model>{
         	}
         }
     
-    
+    private void resetGame(){
+        resetCheckBox();  //mainly for playagainbutton, reset all flags so the game is resetted for next game
+        resetCarFlags();
+        resetGameTimer();
+    }
     
     public void selectMap(Track t)			
     {
@@ -351,9 +355,7 @@ public class Model implements Observable<Model>{
         carList.get(0).setStartAngle(currentTrack);
         state = STATE.GAME;
         this.mapSelected=true;
-        resetCheckBox();  //mainly for playagainbutton, reset all flags so the game is resetted for next game
-        resetCarFlags();
-        resetGameTimer();
+        resetGame();
         try {
         	mainSound = new MainSoundEffect();  //call on new audio thread to play
 		} catch (Exception e) {
