@@ -234,5 +234,7 @@ public class FileManager {
     	String[] splitString = getHighscores().split("\n");
     	return splitString;
     }
+
+    
     
 }

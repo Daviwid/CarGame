@@ -18,20 +18,16 @@ public class Menu
     private Color btnclr, btnoutclr, titleclr;
     
     public Menu(int borderX, int borderY)
-    { 
-    	
+    {  	
     	playBtn = new Rectangle(30,borderY/2-150,300,100);
         configBtn= new Rectangle(30,borderY/2,300,100);
         quitBtn = new Rectangle(30,borderY/2 + 150,300,100);
-        highscoreStringBtn= new Rectangle(30, borderY/2 + 300, 300, 100);  //kolla om position funkar sen
-        
-        
+        highscoreStringBtn= new Rectangle(30, borderY/2 + 300, 300, 100);  
         returnBtn = new Rectangle(borderX/2-150,borderY-200,300,100);
-        
-        redCarBtn = new Rectangle(borderX/2-550,borderY/2-220,150,80);
-        greenCarBtn = new Rectangle(borderX/2-100,borderY/2-220,180,80);
-        blueCarBtn= new Rectangle(borderX/2+200,borderY/2-220,150,80);
-       
+
+        redCarBtn = new Rectangle(borderX/2-550,borderY/2-120,150,80);
+        greenCarBtn = new Rectangle(borderX/2-160,borderY/2-120,180,80);
+        blueCarBtn= new Rectangle(borderX/2+200,borderY/2-120,150,80);
         configReturnBtn= new Rectangle(borderX/2-150,borderY/2 + 260,250,100);
     	
         btnclr = new Color(1F, 0F, 0F, .5F);
@@ -40,18 +36,17 @@ public class Menu
         titleclr = Color.white;
 		
 		try {
-            img = new ImageIcon(getClass().getResource("/Resources/back.gif"));
-		    finishedimg= new ImageIcon(getClass().getResource("/Resources/finito.gif"));
+            img = new ImageIcon(getClass().getResource("/Resources/back.gif"));				//Gif background
+		    finishedimg= new ImageIcon(getClass().getResource("/Resources/finito.gif"));	//Gif when finished
 			redCar= ImageIO.read(getClass().getResource("/Resources/red.png"));		
 			greenCar=ImageIO.read(getClass().getResource("/Resources/green.png"));	
 			blueCar=ImageIO.read(getClass().getResource("/Resources/blue.png"));	
 		}
 		catch(IOException e) {}
-		img.setImage(img.getImage().getScaledInstance(borderX, borderY, Image.SCALE_DEFAULT));	
+		//Scale the gifs
+		img.setImage(img.getImage().getScaledInstance(borderX, borderY, Image.SCALE_DEFAULT));		
 		finishedimg.setImage(finishedimg.getImage().getScaledInstance(borderX, borderY, Image.SCALE_DEFAULT));	
     }
-    
-    
 
 	public BufferedImage getRedCar()
     {
@@ -65,6 +60,7 @@ public class Menu
     {
     	return blueCar;
     }
+    //Method to resize images in car config
     public BufferedImage resize(BufferedImage bi,int x,int y)
     {
     	Image resultingImage = bi.getScaledInstance(x, y, Image.SCALE_DEFAULT);				//scale to desired size

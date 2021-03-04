@@ -45,7 +45,8 @@ public class View extends JPanel implements Observer<Model> {
             
         }
         if(m.getState()==STATE.HIGHSCORE) {
-        	//drawHighscore(m.getMenu(), g2d);
+        	drawHighscore(m.getMenu(), g2d,m.getBorderX(),m.getBorderY(),m.getHighscoreList());
+        	drawMenuText(g2d,m.getMenu(),m.getBorderX(),m.getBorderY());
         }
      
         if(m.getState()==STATE.GAMEFINISHED){//m.getGameFinished()== true) {
@@ -81,9 +82,9 @@ public class View extends JPanel implements Observer<Model> {
         g2d.draw(menu.getConfigReturnBtn());
         //Slutet av buttons
         
-        g2d.drawImage(menu.resize(menu.getRedCar(),280,300),(int)menu.getredCarBtn().getX()+10,(int)menu.getredCarBtn().getY()+10,null);
-        g2d.drawImage(menu.resize(menu.getGreenCar(),280,300),(int)menu.getgreenCarBtn().getX()+10,(int)menu.getgreenCarBtn().getY()+10,null);
-        g2d.drawImage(menu.resize(menu.getBlueCar(),280,300),(int)menu.getblueCarBtn().getX()+10,(int)menu.getblueCarBtn().getY()+10,null);
+        g2d.drawImage(menu.resize(menu.getRedCar(),350,240),(int)menu.getredCarBtn().getX()+10,(int)menu.getredCarBtn().getY()+10,null);
+        g2d.drawImage(menu.resize(menu.getGreenCar(),350,240),(int)menu.getgreenCarBtn().getX()+10,(int)menu.getgreenCarBtn().getY()+10,null);
+        g2d.drawImage(menu.resize(menu.getBlueCar(),350,240),(int)menu.getblueCarBtn().getX()+10,(int)menu.getblueCarBtn().getY()+10,null);
         
         //text knappar carconfig
         g2d.setFont(new Font("arial",Font.BOLD,50));											
@@ -206,7 +207,7 @@ public class View extends JPanel implements Observer<Model> {
         g2d.setColor(menu.getBtnClr());
         g2d.fill(menu.getHighscoreBtn());					
         g2d.setColor(menu.getBtnOutClr());
-        g2d.drawString("HIGHSCORE", menu.getHighscoreBtn().x + 10, menu.getHighscoreBtn().y + 10);
+        g2d.draw(menu.getHighscoreBtn());
         //Slutet av buttons
         
         
@@ -223,17 +224,41 @@ public class View extends JPanel implements Observer<Model> {
         g2d.drawString("QUIT",																	//Quitbtn text
                 (int)menu.getQuitBtn().getX()+(int)menu.getQuitBtn().getWidth()/2-60,
                 (int)menu.getQuitBtn().getY()+(int)menu.getQuitBtn().getHeight()/2+20);
+        
+        g2d.setFont(new Font("arial",Font.BOLD,40));
+        g2d.drawString("HIGHSCORES", menu.getHighscoreBtn().x + 15, menu.getHighscoreBtn().y + 65);
         //Slutet av text
 
         
     }
 
-/*  public void drawHighscore(Menu menu, Graphics2D g2d) { //målar ut 10 strängar
-    	for(int i=0; i< 10; i++) {
-    	g2d.drawString(formatScoreString(m.fileManager.getHighscoreForPosition(i+1)), m.getBorderX()/2 + 20, m.getBorderY()/2 + 20 + 30*i);
-    	//g2d.setFont(getFont());
+  public void drawHighscore(Menu menu, Graphics2D g2d,int x,int y, String[] list) { //målar ut 10 strängar
+	  
+		m.getMenu().getImg().paintIcon(this, g2d, 0, 0);
+	  
+	  //BUTTON
+	  g2d.setColor(menu.getBtnClr());
+      g2d.fill(menu.getReturnBtn());				
+      g2d.setColor(menu.getBtnOutClr());
+      g2d.draw(menu.getReturnBtn());
+	  
+      //TEXT
+      g2d.setColor(menu.getTitleClr());
+      g2d.setFont(new Font("arial",Font.BOLD,50));
+      g2d.drawString("RETURN",																	
+              (int)menu.getReturnBtn().getX()+(int)menu.getReturnBtn().getWidth()/2-100,
+              (int)menu.getReturnBtn().getY()+(int)menu.getReturnBtn().getHeight()/2+20);	
+      
+      
+      g2d.drawString("HIGHSCORE LIST", x/2-200, 300);
+      
+      
+      
+	  for(int i=0; i< 10; i++) {
+		  g2d.setFont(new Font("arial",Font.BOLD,30));
+    	g2d.drawString((i+1)+":		 "+formatScoreString(list[i]), m.getBorderX()/2-100, m.getBorderY()/2-120 + 40*i);
     	}
-    }*/
+    }
 
     public void updateView() {
         repaint();

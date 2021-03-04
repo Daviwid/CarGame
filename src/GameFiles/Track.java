@@ -11,11 +11,8 @@ public class Track {
 	private int startPositionX;
 	private int startPositionY;
 	private double startAngle;
-	private BufferedImage bi, bi2;
-	private BufferedImage checkbi;
-	
+	private BufferedImage bi, bi2,checkbi,tmp;
 	private BufferedImage icon;
-
 	private getPixel pixels;
 	private getCheckpointsPixel cpixels;
 	private ArrayList<Point> list;
@@ -23,57 +20,34 @@ public class Track {
 	private ArrayList<Point> checkpointlist2;
 	private ArrayList<Point> checkpointlist3;
 	private ArrayList<Point> checkpointlist4;
+	private int firstX, lastX, firstY, lastY;
 	
 	
 	//getters&setters
-
-	public double getStartAngle()
-	{
-		return startAngle;
-	}
-
     public void createStartPositions()
     {
-        int firstX, lastX;
         firstX = checkpointlist1.get(0).x;
         lastX = checkpointlist1.get(checkpointlist1.size() - 1).x;
         startPositionX = ((lastX - firstX) / 2) + firstX;
     	
-        int firstY, lastY;
         firstY = checkpointlist1.get(0).y;
         lastY = checkpointlist1.get(checkpointlist1.size() - 1).y;
         startPositionY = ((lastY - firstY) / 2) + firstY;
     }
-	
-    public Point getStartPositions()
-    {
-    	return new Point(startPositionX,startPositionY);
-    }
-	
+    
 	public void setMap(String map_name,String map_name2, String checkpointfile, int x, int y)
 	{
+		//Find the images in resource folder and scale them to the screensize window x,y
 		 try
 	        {
-				this.icon= ImageIO.read(getClass().getResource(map_name));											//local jpg/png
-				Image resultingImage = icon.getScaledInstance(x, y, Image.SCALE_DEFAULT);				//scale to desired size
-				BufferedImage outputImage = new BufferedImage(x,y, BufferedImage.TYPE_INT_RGB);			
-				outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
-				this.bi = outputImage;																	
+				tmp= ImageIO.read(getClass().getResource(map_name));								
+				this.bi = scaleIMG(tmp,x,y);																	
 				
-				this.icon= ImageIO.read(getClass().getResource(map_name2));											//local jpg/png
-				resultingImage = icon.getScaledInstance(x, y, Image.SCALE_DEFAULT);				//scale to desired size
-				outputImage = new BufferedImage(x,y, BufferedImage.TYPE_INT_RGB);				
-				outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
-				this.bi2 = outputImage;		
+				this.icon= ImageIO.read(getClass().getResource(map_name2));		//Save unscaled image as icon for map-selection					
+				this.bi2 = scaleIMG(icon,x,y);									
 				
-				/* reads and set the png file with checkpoints*/
-				BufferedImage tmp= ImageIO.read(getClass().getResource(checkpointfile));											
-				resultingImage = tmp.getScaledInstance(x, y, Image.SCALE_DEFAULT);				
-				outputImage = new BufferedImage(x,y, BufferedImage.TYPE_INT_RGB);
-				outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
-				this.checkbi = outputImage;
-				
-				//Visas i view
+				tmp= ImageIO.read(getClass().getResource(checkpointfile));											
+				this.checkbi = scaleIMG(tmp,x,y);
 	        } 
 	        catch (IOException e)
 	        {
@@ -81,31 +55,12 @@ public class Track {
 	        }
 	}
 	
-	
-	public BufferedImage getIcon(int x, int y)
-	{
-		Image resultingImage = icon.getScaledInstance(x, y, Image.SCALE_DEFAULT);				//scale to desired size
-		BufferedImage outputImage = new BufferedImage(x,y, BufferedImage.TYPE_INT_RGB);
-		outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
-		return outputImage;
-	}
-
-	public BufferedImage getMap()		//Return image, mostly needed in view.
-	{
-		return bi2;
-	}
-	
-	public BufferedImage getCheckpointsMap()		//Return image, mostly needed in view.
-	{
-		return checkbi;
-	}
-
 	public void setHitbox(int color,int lcolor)		//Set hitbox-list once. 
 	{
 		pixels = new getPixel(bi,color,lcolor);
 		this.list = pixels.getList();
 	}
-	public void setStartAngle(double a)
+	public void setStartAngle(double a)				//Set start-angle
 	{
 		startAngle = a;
 	}
@@ -123,9 +78,41 @@ public class Track {
 		
 		cpixels = new getCheckpointsPixel(checkbi,color1, color2, color3, color4, 4); 
 		this.checkpointlist4 = cpixels.getCheckpointList4();
-		
 	}
 	
+	//Scales the images to x,y
+	public BufferedImage scaleIMG(BufferedImage b, int x, int y)
+	{
+		Image resultingImage = b.getScaledInstance(x, y, Image.SCALE_DEFAULT);					//scale to desired size
+		BufferedImage outputImage = new BufferedImage(x,y, BufferedImage.TYPE_INT_RGB);			
+		outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
+		return outputImage;
+	}
+	
+    public Point getStartPositions()
+    {
+    	return new Point(startPositionX,startPositionY);
+    }
+	
+	public double getStartAngle()
+	{
+		return startAngle;
+	}
+	
+	public BufferedImage getIcon(int x, int y)
+	{
+		return scaleIMG(icon,x,y);
+	}
+
+	public BufferedImage getMap()		//Return image, mostly needed in view.
+	{
+		return bi2;
+	}
+	
+	public BufferedImage getCheckpointsMap()		//Return image, mostly needed in view.
+	{
+		return checkbi;
+	}	
 
 	public ArrayList<Point> getHitbox()		//Get hitbox-list. Kallas hela tiden.
 	{

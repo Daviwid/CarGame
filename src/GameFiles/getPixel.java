@@ -25,25 +25,19 @@ public class getPixel
                 }
             }
 		}
-		
-        //debug
-//		System.out.println("color " +color);
-//		System.out.println("lowcolor " +lcolor);
-//		System.out.println("grey " +bi.getRGB(0,0));	//I.e background color
-//      System.out.println("antal " +list.size());
-		//end of debug
     }
     
     
-    
+    //Comparison method. Compares color c with a and b.
+    //Returns a boolean if the color c is acceptable.
     public boolean clr(int a, int b, int c)
     {
         double A = (double)a;
         double B = (double)b;
-        double C = (double)c;	//Color to be compared with
+        double C = (double)c;			//Color to be compared with
         double ac = A/C;
         double bc = B/C;
-        if(ac >=0.5 && ac<=1.5)
+        if(ac >=0.5 && ac<=1.5)			//Range of 50%
         {
             return true;
         }

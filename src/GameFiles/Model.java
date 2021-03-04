@@ -51,8 +51,9 @@ public class Model implements Observable<Model>{
     private Menu menu;
     private STATE state;
     private int carColor;
-    private String build = "Build v. 1.0.0.0";
-   
+    private String build = "Build v. 2.1.3.0";
+    
+    private String[] highscoreList = new String[10];
 
     private ArrayList<Point> positionList = new ArrayList<Point>();
     private ArrayList<Double> angleList = new ArrayList<Double>();
@@ -86,9 +87,21 @@ public class Model implements Observable<Model>{
         {
         	carList.add(new Car(carColor, 0, 0, TOPSPEED, height, width));
         }
-        carList.add(new Car(1, 0, 0, TOPSPEED, height, width));
+        carList.add(new Car(3, 0, 0, TOPSPEED, height, width));
     }
     
+    public void makeHighscoreList()
+    {
+    	for(int i=0;i<10;i++)
+    	{
+    		highscoreList[i] = fileManager.getHighscoreForPosition(i+1);
+    	}
+    }
+    
+    public String[] getHighscoreList()
+    {
+    	return highscoreList;
+    }
 
     public void resetCarFlags()
     {
@@ -382,6 +395,9 @@ public class Model implements Observable<Model>{
     {
     	return currentHighscore;
     }
+    public FileManager getFileManager(){
+        return fileManager;
+    }
     public STATE getState()
     {
         return this.state;
@@ -477,8 +493,6 @@ public class Model implements Observable<Model>{
     public void stateMenu()
     {
             state=STATE.MENU;
-            mainSound.stopAudio();
-            mainSound.closeAudio();
     }  
     public void stateMap()
     {
@@ -491,6 +505,7 @@ public class Model implements Observable<Model>{
     }
     public void stateHighscore()
     {
+    		makeHighscoreList();
             state=STATE.HIGHSCORE;
     }
     public void stateFinished()
