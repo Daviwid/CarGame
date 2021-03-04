@@ -73,7 +73,7 @@ public class View extends JPanel implements Observer<Model> {
      * @see Graphics2D
      * @see menu
      */
-  public void drawConfig(Menu menu, Graphics2D g2d, int x,int y) {
+  private void drawConfig(Menu menu, Graphics2D g2d, int x,int y) {
     	m.getMenu().getImg().paintIcon(this, g2d, 0, 0);
     	
     	//BUTTONS
@@ -132,7 +132,7 @@ public class View extends JPanel implements Observer<Model> {
     * @see menu
     * @see Track 
     */
-    public void drawMapSelect(Menu menu, Graphics2D g2d, int x, int y, Track l)
+    private void drawMapSelect(Menu menu, Graphics2D g2d, int x, int y, Track l)
     {
     	m.getMenu().getImg().paintIcon(this, g2d, 0, 0);
     	
@@ -171,7 +171,7 @@ public class View extends JPanel implements Observer<Model> {
      * @param map   An bufferimage that is the background an the visible track that the player drivers around
      * @see Graphics2D 
      */
-    public void drawGame(Graphics2D g2d, BufferedImage map)
+    private void drawGame(Graphics2D g2d, BufferedImage map)
     {
     	 if(m.getMapSelected())						//checks so the image is loaded in with out exeptions
          {
@@ -195,7 +195,7 @@ public class View extends JPanel implements Observer<Model> {
      * @param x     X cordinate used to determin where all the text should be rendered
      * @param y     Y cordinate used to determin where all the text should be rendered
      */
-    public void drawMenuText(Graphics2D g2d, Menu menu,int x,int y)
+    private void drawMenuText(Graphics2D g2d, Menu menu,int x,int y)
     {
     	 //TEXT AV MENU
         g2d.setColor(menu.getTitleClr());
@@ -219,7 +219,7 @@ public class View extends JPanel implements Observer<Model> {
     * @see Graphics2D
     * @see menu
     */
-    public void drawMenu(Menu menu, Graphics2D g2d,int x,int y)
+    private void drawMenu(Menu menu, Graphics2D g2d,int x,int y)
     {
     	setBackground(Color.black);
         
@@ -271,7 +271,7 @@ public class View extends JPanel implements Observer<Model> {
         
     }
 
-  public void drawHighscore(Menu menu, Graphics2D g2d,int x,int y) { //målar ut 10 strängar
+  private void drawHighscore(Menu menu, Graphics2D g2d,int x,int y) { //målar ut 10 strängar
 	  
 		m.getMenu().getImg().paintIcon(this, g2d, 0, 0);
 	  
@@ -301,13 +301,6 @@ public class View extends JPanel implements Observer<Model> {
     	}
     }
 
-    /**
-     * this is runs the repaint() method of Component-class to update the grafics.
-     * @see Component
-     */
-    public void updateView() {
-        repaint();
-    }
     
     /**
      * Draws the Checkpoint layer of the track, this is to establish where the checkpoints are on the track. Gathering this data (pixel cordinates of the checkpoints)
@@ -323,7 +316,7 @@ public class View extends JPanel implements Observer<Model> {
     }
 
 
-    public void drawFinished(Menu menu, Graphics2D g2d,int x,int y) {
+    private void drawFinished(Menu menu, Graphics2D g2d,int x,int y) {
     	
     	m.getMenu().getFinishedImg().paintIcon(this, g2d, 0, 0);
     	g2d.setFont(new Font("arial",Font.BOLD,100));
@@ -383,7 +376,7 @@ public class View extends JPanel implements Observer<Model> {
      * @param scoreString   highscore placement represented as milisecounds as a String 
      * @return              A string that represent a Highscore time in the form min:sec:hundredths
      */
-    public String formatScoreString(String scoreString)
+    private String formatScoreString(String scoreString)
     {
         int highscore = Integer.parseInt(scoreString);
         int minutes = highscore / 6000;
