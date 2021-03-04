@@ -11,18 +11,18 @@ public class Car {
       private double speed;
       private double angle;
       private int color;
-      private int xOffset;
+      private int xOffset;		//In case of 2 players
       private int yOffset;
       private double topspeed;
       private int height;
 	  private int width;
-	  private BufferedImage currentCarIMG,redCar,blueCar,greenCar;
+	  private BufferedImage currentCarIMG,redCar,blueCar,greenCar,aiCar;
 
     //Konstruktor
     public Car(int color, int xOffset, int yOffset, int topspeed, int height, int width)
     {
 
-    	this.speed = 0;
+    	this.speed=0;
 
         this.color = color;
         this.xOffset = xOffset;
@@ -31,14 +31,11 @@ public class Car {
         this.height = height;
 		this.width = width;
 
-        angle = 0;
-
-        positionX = 400;
-        positionY = 600;
         try {
             	redCar = ImageIO.read(getClass().getResource("/Resources/REDCAR.png"));
             	greenCar = ImageIO.read(getClass().getResource("/Resources/GREENCAR.png"));
             	blueCar =ImageIO.read(getClass().getResource("/Resources/BLUECAR.png"));
+            	aiCar = ImageIO.read(getClass().getResource("/Resources/AICAR.png"));
         }
 	    catch(IOException e){}
 	    setCarIMG(color);
@@ -51,22 +48,30 @@ public class Car {
     }
 
     //getters&setters
-    public void setPosition(Track track) 
+    public void setStartPosition(Track track) 
     {
-        positionX = track.getStartPositionX() + xOffset;
-        positionY = track.getStartPositionY() + yOffset;
+        positionX = track.getStartPositions().x + xOffset;
+        positionY = track.getStartPositions().y + yOffset;
     }
-    public void setCheckpointPosition(Track track, int x,int y) 
+    public void setCheckpointPosition(int x,int y) 
     {
         positionX = x + xOffset;
         positionY = y + yOffset;
     }
-    public void setAngle(Track track)
+    public void setStartAngle(Track track)
     {
         angle = track.getStartAngle();
     }
-        
     
+    public void setPositionAI(int x, int y) 
+    {
+        positionX = x;
+        positionY = y;
+    }
+    public void setAngleAI(double a) 
+    {
+        angle = a;
+    }
 
     public void accelerate()
     {
@@ -124,6 +129,7 @@ public class Car {
 		if(c==0) {currentCarIMG=redCar;}
 		if(c==1) {currentCarIMG=greenCar;}
 		if(c==2) {currentCarIMG=blueCar;}
+		if(c==3) {currentCarIMG=aiCar;}
 	}
 	
 	

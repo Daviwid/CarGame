@@ -11,7 +11,7 @@ import java.io.FileWriter;
 public class FileManager {
 	
     private int nbHighscores = 10;
-    private int[] factoryPresetScores = new int[nbHighscores] {3000, 4000, 5000, 10000, 20000, 30000, 50000, 80000, 100000, 200000};
+    private int[] factoryPresetScores = {3000, 4000, 5000, 10000, 20000, 30000, 50000, 80000, 100000, 200000};
     private String highscoreFile = "Highscore.txt";
     private String configFile = "Config.txt";
 	
@@ -76,9 +76,6 @@ public class FileManager {
     	}catch(IOException e) {
     		e.printStackTrace();
     	}
-    	catch(FileNotFoundException e) {
-    		e.printStackTrace();
-    	}
     }
     
     //IF NO CONFIG FILE EXISTS, CREATE ONE
@@ -97,9 +94,7 @@ public class FileManager {
     	}catch(IOException e) {
     		e.printStackTrace();
     	}
-    	catch(FileNotFoundException e) {
-    		e.printStackTrace();
-    	}
+    	
     }
 
     //--------------------
@@ -169,19 +164,19 @@ public class FileManager {
     // One row of angles in angle-angle-angle-... format
     public String sendScoreToServer(int time, ArrayList<Point> positions, ArrayList<Double> angles)
     {
-    	String positionString = "";
-    	String angleString = "";
-    	for(int j = 0; j < positions.size(); j++)
-    	{
-    		positionString = positionString + positions.get(j).x + "," + positions.get(j).y + "-";
-    		if(angles.get(j).toString().contains("E"))
-    		{
-    			angleString = angleString + "0.0" + "-";
-    		}else {
-    			angleString = angleString + angles.get(j).toString() + "-";
-    		}
-    	}
-    	return time + "\n" + positionString + "\n"  + angleString;
+        String positionString = "";
+        String angleString = "";
+        for(int j = 0; j < positions.size(); j++)
+        {
+            positionString = positionString + positions.get(j).x + "," + positions.get(j).y + "-";
+            if(angles.get(j).toString().contains("E"))
+            {
+                angleString = angleString + "0.0" + "-";
+            }else {
+                angleString = angleString + angles.get(j).toString() + "-";
+            }
+        }
+        return time + "\n" + positionString + "\n"  + angleString;
     }
     
     // CONVERTS STRING ARGUMENT INTO TIME AND DRIVER'S PATH,
@@ -223,7 +218,7 @@ public class FileManager {
             // UPDATE HIGHSCORE-FILE WITH SORTED TIMES AND BEST DRIVER POSITION + ANGLE STRINGS
             writeFinishedStrings(file, scores, highscorePositionString, highscoreAngleString);
             
-        } catch (FileNotFoundException e) {
+        } catch (Exception e) {
           System.out.println("An error occurred.");
           e.printStackTrace();
         }

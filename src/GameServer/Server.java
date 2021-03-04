@@ -4,10 +4,11 @@ package GameServer;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-
+/* 
+Checks if the serversocket gets a connection from a client and then puts the client on a separate thread
+*/
 public class Server{
 
-    private int nbClients = 0;
     private ServerSocket serverSocket;
 
     public Server(ServerSocket serverSocket){
@@ -22,16 +23,11 @@ public class Server{
                 Socket clientSocket = serverSocket.accept();
                 ServerWorker worker = new ServerWorker(clientSocket);
                 worker.start();
-                nbClients++;
                 System.out.println("Server: Client connected");
             }
         } catch (Exception e) {
             System.out.println("Server: Server socket closed.");
             //TODO: handle exception
         }
-    }
-
-    public int getClients(){
-        return nbClients;
     }
 }
