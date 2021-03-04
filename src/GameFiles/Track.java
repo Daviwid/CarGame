@@ -55,9 +55,9 @@ public class Track {
 	        }
 	}
 	
-	public void setHitbox(int color,int lcolor)		//Set hitbox-list once. 
+	public void setHitbox(int color)		//Set hitbox-list once. 
 	{
-		pixels = new getPixel(bi,color,lcolor);
+		pixels = new getPixel(bi,color);
 		this.list = pixels.getList();
 	}
 	public void setStartAngle(double a)				//Set start-angle
