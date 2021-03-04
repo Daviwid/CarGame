@@ -10,7 +10,6 @@ public enum STATE
        CARCONFIG,
        MAP_SELECTION,
        HIGHSCORE,
-       GAMEFINISHED
-       
+       GAMEFINISHED    
 }
 

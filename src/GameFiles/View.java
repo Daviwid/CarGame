@@ -54,7 +54,7 @@ public class View extends JPanel implements Observer<Model> {
             
         }
         if(m.getState()==STATE.HIGHSCORE) {
-        	drawHighscore(m.getMenu(), g2d,m.getBorderX(),m.getBorderY());
+        	drawHighscore(m.getMenu(), g2d,m.getBorderX(),m.getBorderY(),m.getHighscoreList());
         	drawMenuText(g2d,m.getMenu(),m.getBorderX(),m.getBorderY());
         }
      
@@ -233,18 +233,18 @@ public class View extends JPanel implements Observer<Model> {
         
        //BUTTONS
         g2d.setColor(menu.getBtnClr());
-        g2d.fill(menu.getPlayBtn());					//playBtn med outline
+        g2d.fill(menu.getPlayBtn());					//playBtn outline
         g2d.setColor(menu.getBtnOutClr());
         g2d.draw(menu.getPlayBtn());
 
         g2d.setColor(menu.getBtnClr());
-        g2d.fill(menu.getConfigBtn());					//playBtn med outline
+        g2d.fill(menu.getConfigBtn());					//playBtn outline
         g2d.setColor(menu.getBtnOutClr());
         g2d.draw(menu.getConfigBtn());
        
         
         g2d.setColor(menu.getBtnClr());
-        g2d.fill(menu.getQuitBtn());					//quitBtn med outline
+        g2d.fill(menu.getQuitBtn());					//quitBtn outline
         g2d.setColor(menu.getBtnOutClr());
         g2d.draw(menu.getQuitBtn());
 
@@ -252,10 +252,10 @@ public class View extends JPanel implements Observer<Model> {
         g2d.fill(menu.getHighscoreBtn());					
         g2d.setColor(menu.getBtnOutClr());
         g2d.draw(menu.getHighscoreBtn());
-        //Slutet av buttons
+        //End of buttons
         
         
-        //TEXT AV MENU
+        //TEXT FOR MENU
         g2d.setFont(new Font("arial",Font.BOLD,50));											//Playbtn text
         g2d.drawString("PLAY",
                 (int)menu.getPlayBtn().getX()+(int)menu.getPlayBtn().getWidth()/2-60,
@@ -271,48 +271,48 @@ public class View extends JPanel implements Observer<Model> {
         
         g2d.setFont(new Font("arial",Font.BOLD,40));
         g2d.drawString("HIGHSCORES", menu.getHighscoreBtn().x + 15, menu.getHighscoreBtn().y + 65);
-        //Slutet av text
+        //End of text
 
         
     }
-    /**
-    * Draws out the top 10 times in the world, gathers all information from menu and draws all the nessesery components of the interface.
-    * @param menu  menu-class instans that the method gathers all information for the graphics
-    * @param g2d   The Graphics2D instans that all component is drawn to
-    * @param x     X cordinate used to draw out the GIF background of the meny
-    * @param y     Y cordinate used to draw out the GIF background of the meny
-    */
-  private void drawHighscore(Menu menu, Graphics2D g2d,int x,int y) {
+
+  
+  /**
+  * Draws out the top 10 times in the world, gathers all information from menu and draws all the nessesery components of the interface.
+  * @param menu  menu-class instans that the method gathers all information for the graphics
+  * @param g2d   The Graphics2D instans that all component is drawn to
+  * @param x     X cordinate used to draw out the GIF background of the meny
+  * @param y     Y cordinate used to draw out the GIF background of the meny
+  */
+  public void drawHighscore(Menu menu, Graphics2D g2d,int x,int y, String[] list) { 
+    
 	  
 		m.getMenu().getImg().paintIcon(this, g2d, 0, 0);
 	  
 	  //BUTTON
 	  g2d.setColor(menu.getBtnClr());
-      g2d.fill(menu.getReturnBtn());				
-      g2d.setColor(menu.getBtnOutClr());
-      g2d.draw(menu.getReturnBtn());
+    g2d.fill(menu.getReturnBtn());				
+    g2d.setColor(menu.getBtnOutClr());
+    g2d.draw(menu.getReturnBtn());
 	  
-      //TEXT
-      g2d.setColor(menu.getTitleClr());
-      g2d.setFont(new Font("arial",Font.BOLD,50));
-      g2d.drawString("RETURN",																	
-              (int)menu.getReturnBtn().getX()+(int)menu.getReturnBtn().getWidth()/2-100,
-              (int)menu.getReturnBtn().getY()+(int)menu.getReturnBtn().getHeight()/2+20);	
-      
-      
-      g2d.drawString("HIGHSCORE LIST", x/2-200, 300);
-      
+    //TEXT
+    g2d.setColor(menu.getTitleClr());
+    g2d.setFont(new Font("arial",Font.BOLD,50));
+    g2d.drawString("RETURN",																	
+            (int)menu.getReturnBtn().getX()+(int)menu.getReturnBtn().getWidth()/2-100,
+            (int)menu.getReturnBtn().getY()+(int)menu.getReturnBtn().getHeight()/2+20);	
+
+
+    g2d.drawString("HIGHSCORE LIST", x/2-200, 300);
+
       
       
 	  for(int i=0; i< 10; i++) {
-		  
 		  g2d.setFont(new Font("arial",Font.BOLD,30));
-    	g2d.drawString((i+1)+":		 "+formatScoreString(m.getFileManager().getHighscoreForPosition(i+1)), m.getBorderX()/2-100, m.getBorderY()/2-120 + 40*i);
-    	//g2d.setFont(getFont());
+    	g2d.drawString((i+1)+":		 "+formatScoreString(list[i]), m.getBorderX()/2-100, m.getBorderY()/2-120 + 40*i);
     	}
     }
-
-    
+   
     /**
      * Draws the Checkpoint layer of the track, this is to establish where the checkpoints are on the track. Gathering this data (pixel cordinates of the checkpoints)
      * is done in the getCheckpointsPixel-class. 

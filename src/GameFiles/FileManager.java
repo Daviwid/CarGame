@@ -112,6 +112,7 @@ public class FileManager {
     // PUBLIC METHODS
     //--------------------
     
+
     // RETURNS A STRING CONTAINING THE CONTENTS OF THE ENTIRE HIGHSCORE-FILE
     // Ten rows of best times
     // One row of position x and y-values in  x,y-x,y-x,y-... format

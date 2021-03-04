@@ -10,7 +10,7 @@ public class getPixel
 {
      private ArrayList<Point> list;
     
-    public getPixel(BufferedImage bi,int color,int lcolor)
+    public getPixel(BufferedImage bi,int color)
     {
         list = new ArrayList<Point>();
         
@@ -19,35 +19,23 @@ public class getPixel
 		{
             for (int y=0;y<bi.getHeight();y++)
             {
-                if(clr(color,lcolor,bi.getRGB(x,y)))
+                if(clr(color,bi.getRGB(x,y)))
                 {
                     list.add(new Point(x,y));
                 }
             }
 		}
-		
-        //debug
-//		System.out.println("color " +color);
-//		System.out.println("lowcolor " +lcolor);
-//		System.out.println("grey " +bi.getRGB(0,0));	//I.e background color
-//      System.out.println("antal " +list.size());
-		//end of debug
     }
     
     
-    
-    public boolean clr(int a, int b, int c)
+    //Comparison method. Compares color c with a.
+    //Returns a boolean if the color c is acceptable.
+    public boolean clr(int a, int c)
     {
         double A = (double)a;
-        double B = (double)b;
-        double C = (double)c;	//Color to be compared with
+        double C = (double)c;			//Color to be compared with
         double ac = A/C;
-        double bc = B/C;
-        if(ac >=0.5 && ac<=1.5)
-        {
-            return true;
-        }
-        if(bc>=0.5 && bc<=1.5)
+        if(ac >=0.5 && ac<=1.5)			//Range of 50%
         {
             return true;
         }
