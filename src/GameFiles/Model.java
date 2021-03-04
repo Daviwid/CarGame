@@ -22,24 +22,24 @@ public class Model implements Observable<Model>{
     private boolean pressedLeft = false;
     
     private boolean checkpoint1 = false;
-	private boolean checkpoint2 = false;
-	private boolean checkpoint3 = false;
-	private boolean checkpoint4 = false;
+	  private boolean checkpoint2 = false;
+	  private boolean checkpoint3 = false;
+	  private boolean checkpoint4 = false;
 	
     private boolean gameFinished=false;
-	private boolean carCrash=false;
+	  private boolean carCrash=false;
 
-	private boolean point1=false;
-	private boolean point2=false;
-	private boolean point3=false;
-	private boolean point4=false;
-	
-	private int checkpoint1x;
-	private int checkpoint1y;
-	private int checkpoint2x;
-	private int checkpoint2y;
-	private int checkpoint3x;
-	private int checkpoint3y;
+    private boolean point1=false;
+    private boolean point2=false;
+    private boolean point3=false;
+    private boolean point4=false;
+
+    private int checkpoint1x;
+    private int checkpoint1y;
+    private int checkpoint2x;
+    private int checkpoint2y;
+    private int checkpoint3x;
+    private int checkpoint3y;
 	
     private static int TOPSPEED = 10;
     private static int height = 50;
@@ -52,16 +52,17 @@ public class Model implements Observable<Model>{
     private STATE state;
     private int carColor;
     private String build = "Build v. 2.1.3.0";
-   
-
+    
+    private String[] highscoreList = new String[10];
+  
     private ArrayList<Point> positionList = new ArrayList<Point>();
     private ArrayList<Double> angleList = new ArrayList<Double>();
 
-	private Iterator<Point> ai_point;
-	private Iterator<Double> ai_angle;
+    private Iterator<Point> ai_point;
+    private Iterator<Double> ai_angle;
 
-	private ArrayList<Point> aip = new ArrayList<Point>();
-	private ArrayList<Double> aia = new ArrayList<Double>();
+    private ArrayList<Point> aip = new ArrayList<Point>();
+    private ArrayList<Double> aia = new ArrayList<Double>();
 	
     private final Collection<Observer<Model>> observers;
     
@@ -102,6 +103,18 @@ public class Model implements Observable<Model>{
         carList.add(new Car(3, 0, 0, TOPSPEED, height, width));
     }
     
+    public void makeHighscoreList()
+    {
+    	for(int i=0;i<10;i++)
+    	{
+    		highscoreList[i] = fileManager.getHighscoreForPosition(i+1);
+    	}
+    }
+    
+    public String[] getHighscoreList()
+    {
+    	return highscoreList;
+    }
 
     public void resetCarFlags()
     {
@@ -505,6 +518,7 @@ public class Model implements Observable<Model>{
     }
     public void stateHighscore()
     {
+    		makeHighscoreList();
             state=STATE.HIGHSCORE;
     }
     public void stateFinished()
