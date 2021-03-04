@@ -154,7 +154,7 @@ public class MouseInput implements MouseListener{
     
     public void selectHighscoreButtons(Model model, Menu m, int x, int y)
     {
-        //Check returnBtn
+      //Check returnBtn
     	if(x >= m.getReturnBtn().getX() && x <= m.getReturnBtn().getX()+m.getReturnBtn().getWidth())
         {
             if(y >= m.getReturnBtn().getY() && y <= m.getReturnBtn().getY()+m.getReturnBtn().getHeight())
