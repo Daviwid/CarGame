@@ -31,7 +31,7 @@ public class View extends JPanel implements Observer<Model> {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         setBackground(Color.gray);
-        if(m.getState()==STATE.MENU)					//Rita upp OM meny
+        if(m.getState()==STATE.MENU)
         {
         	drawMenu(m.getMenu(),g2d,m.getBorderX(),m.getBorderY());
         	drawMenuText(g2d,m.getMenu(),m.getBorderX(),m.getBorderY());
@@ -42,13 +42,13 @@ public class View extends JPanel implements Observer<Model> {
         	drawMenuText(g2d,m.getMenu(),m.getBorderX(),m.getBorderY());
         }
   
-        if(m.getState()==STATE.CARCONFIG)				//Rita OM game
+        if(m.getState()==STATE.CARCONFIG)				
         {
             drawConfig(m.getMenu(), g2d,m.getBorderX(),m.getBorderY());
             drawMenuText(g2d,m.getMenu(),m.getBorderX(),m.getBorderY());
         }
       
-        if(m.getState()==STATE.GAME)				//Rita OM game
+        if(m.getState()==STATE.GAME)				
         {
             drawGame(g2d,m.getTrack().getMap());
             
@@ -58,7 +58,7 @@ public class View extends JPanel implements Observer<Model> {
         	drawMenuText(g2d,m.getMenu(),m.getBorderX(),m.getBorderY());
         }
      
-        if(m.getState()==STATE.GAMEFINISHED){//m.getGameFinished()== true) {
+        if(m.getState()==STATE.GAMEFINISHED){
         	drawFinished(m.getMenu(),g2d,m.getBorderX(),m.getBorderY());
         	
         } 
@@ -98,13 +98,14 @@ public class View extends JPanel implements Observer<Model> {
         g2d.fill(menu.getConfigReturnBtn());				
         g2d.setColor(menu.getBtnOutClr());
         g2d.draw(menu.getConfigReturnBtn());
-        //Slutet av buttons
+        //end of buttons
         
+        //draw image of difffrent cars
         g2d.drawImage(menu.resize(menu.getRedCar(),350,240),(int)menu.getredCarBtn().getX()+10,(int)menu.getredCarBtn().getY()+10,null);
         g2d.drawImage(menu.resize(menu.getGreenCar(),350,240),(int)menu.getgreenCarBtn().getX()+10,(int)menu.getgreenCarBtn().getY()+10,null);
         g2d.drawImage(menu.resize(menu.getBlueCar(),350,240),(int)menu.getblueCarBtn().getX()+10,(int)menu.getblueCarBtn().getY()+10,null);
         
-        //text knappar carconfig
+        //text buttons carconfig
         g2d.setFont(new Font("arial",Font.BOLD,50));											
         g2d.drawString("RED",
                 (int)menu.getredCarBtn().getX()+(int)menu.getredCarBtn().getWidth()/2-50,
@@ -118,8 +119,10 @@ public class View extends JPanel implements Observer<Model> {
         g2d.drawString("RETURN",																	
                 (int)menu.getConfigReturnBtn().getX()+(int)menu.getConfigReturnBtn().getWidth()/2-100,
                 (int)menu.getConfigReturnBtn().getY()+(int)menu.getConfigReturnBtn().getHeight()/2+20);
-        //slut pa text
+        //end of text
    }
+
+
    /**
     * Draws the Map select part of the menu where the user inputs the map they whant to play. This method only gathers information from the menu-class and Track-class instans
     * and draws it to the Graphics2D.
@@ -136,26 +139,28 @@ public class View extends JPanel implements Observer<Model> {
     {
     	m.getMenu().getImg().paintIcon(this, g2d, 0, 0);
     	
-    	
+    	//Draws Return button
         g2d.setColor(menu.getBtnClr());
         g2d.fill(menu.getReturnBtn());				
         g2d.setColor(menu.getBtnOutClr());
         g2d.draw(menu.getReturnBtn());
     	
+        //draws Map button
         g2d.setColor(menu.getBtnClr());
         g2d.fill(menu.getMapBtn());
         g2d.setColor(menu.getBtnOutClr());
         g2d.draw(menu.getMapBtn());
         
-        
+        //fix image overlay of map button
         g2d.drawImage(l.getIcon(250, 200),(int)menu.getMapBtn().getX()+25,(int)menu.getMapBtn().getY()+25,null);
         
+        //draws the name of the track
         g2d.setColor(menu.getTitleClr());
         g2d.setFont(new Font("arial",Font.BOLD,30));
         g2d.drawString("LindholmenDerby", (int)menu.getMapBtn().getX()+25, (int)menu.getMapBtn().getY()+(int)menu.getMapBtn().getHeight()-25);
         
         
-        
+        //sets text on return button
         g2d.setColor(menu.getTitleClr());
         g2d.setFont(new Font("arial",Font.BOLD,50));
         g2d.drawString("RETURN",																	
@@ -204,9 +209,9 @@ public class View extends JPanel implements Observer<Model> {
         
         g2d.setColor(menu.getTitleClr());
         g2d.setFont(new Font("arial",Font.BOLD,20));
-        g2d.drawString("Team: Ingen Aning", x-200, y-35);										//Gruppnamn
+        g2d.drawString("Team: Ingen Aning", x-200, y-35);										//Group name
         g2d.drawString("Devs: David J, Erik L, Jacob W, Kevin P, Victoria B", x-500, y-10);		//Developers
-        g2d.drawString(m.getBuild(), 10, y-10);											//build
+        g2d.drawString(m.getBuild(), 10, y-10);											        //build
     }
     
     /**
@@ -270,8 +275,14 @@ public class View extends JPanel implements Observer<Model> {
 
         
     }
-
-  private void drawHighscore(Menu menu, Graphics2D g2d,int x,int y) { //målar ut 10 strängar
+    /**
+    * Draws out the top 10 times in the world, gathers all information from menu and draws all the nessesery components of the interface.
+    * @param menu  menu-class instans that the method gathers all information for the graphics
+    * @param g2d   The Graphics2D instans that all component is drawn to
+    * @param x     X cordinate used to draw out the GIF background of the meny
+    * @param y     Y cordinate used to draw out the GIF background of the meny
+    */
+  private void drawHighscore(Menu menu, Graphics2D g2d,int x,int y) {
 	  
 		m.getMenu().getImg().paintIcon(this, g2d, 0, 0);
 	  
