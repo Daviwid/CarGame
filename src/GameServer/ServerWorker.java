@@ -26,6 +26,7 @@ public class ServerWorker extends Thread{
         try {
             handleClientSocket();
             System.out.println("Server: handled the socket");
+            clientSocket.close();
         } catch (IOException e) {
             //TODO: handle exception
             e.printStackTrace();
@@ -33,32 +34,23 @@ public class ServerWorker extends Thread{
             //System.out.println("Server: IO exception in worker thread");
         } catch(InterruptedException e){
             //TODO: handle exception
-            System.out.println("Server: Interrupted exception in worker thread");
-        }
-        try {
-            clientSocket.close();
-        } catch (Exception e) {
-            //TODO: handle exception
+            e.printStackTrace();
         }
     }
 
     /*
     this method is used to get data and send data to the client.
     */
-    public void handleClientSocket() throws IOException, InterruptedException{
-        
+    public void handleClientSocket() throws IOException, InterruptedException{   
         getData();
         sendData();
         System.out.println("Client closed the connection");
-        
-
     }
     /*
     this method takes the inputstream from a client and reads it and then checks if the data on the inputstream is a highscore
     if it is, then the server will update the highscore text file, otherwise nothing will happen
     */
-    private void getData(){
-        
+    private void getData(){       
         try {
             InputStream inputStream = clientSocket.getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -73,10 +65,9 @@ public class ServerWorker extends Thread{
 
             FileManager fileManager = new FileManager();
             fileManager.recieveScoreFromClient(totScore);
-        } catch (Exception e) {
-            //TODO: handle exception
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        
     }
     /*
     this method gets the outputstream from the client and then send the textfile with updated highscores so that the client
@@ -89,9 +80,8 @@ public class ServerWorker extends Thread{
             FileManager fileManager = new FileManager();
             String tmpHighscore = fileManager.getHighscoreString();
             outputStream.write((tmpHighscore).getBytes());
-        } catch (Exception e) {
-            //TODO: handle exception
-        }
-        
+        } catch (IOException e) {
+            e.printStackTrace();
+        }   
     }
 }
