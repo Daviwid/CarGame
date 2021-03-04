@@ -410,7 +410,8 @@ public class View extends JPanel implements Observer<Model> {
 
     /**
      * this method is part of the obeserveble pattern that is used between the Model-class and View-class for more info see the Observer interface.
-     * Because View is an observer type class, the Model-class calls this method to notify View of an change.
+     * Because View is an observer type class, the Model-class calls this method to notify View of an change. When View is notifyed repaint() is called,
+     * This causes all grafics to be updated.
      * @see Observable
      * @see Observer
      */
