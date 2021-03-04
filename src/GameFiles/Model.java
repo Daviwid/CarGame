@@ -71,6 +71,10 @@ public class Model implements Observable<Model>{
     private MainSoundEffect mainSound;
     private SoundEffectCarCollision s;
     // private Controller controller;
+
+    /**
+     * Constructor that initiates the obeserver pattern, it also sets the base color of the car aswell as initate the player Car instans.
+     */
     public Model()
     {
         this.observers = new HashSet<>();
@@ -78,6 +82,15 @@ public class Model implements Observable<Model>{
         carColor = fileManager.configGetCarColor();
     }
     
+
+    /**
+     * creates an instans of a Car-class and adds it to a arraylist that holds all the instanses. The parameter carNumber is where in the arraylist the Car-instans is 
+     * added to, so if it is called agian with the same value of carNumber the old instant will be overwriten. The method also adds the "AI Car" to the position after
+     * the Car-instans is added (carNumber + 1). If u add several cars in a row the last index of the arraylist will always be the "AI Car".
+     * 
+     * @param carNumber The index for where the the car will be added to the arraylist of car instanses.
+     * @see Car 
+     */
     public void carsInit(int carNumber)
     {
     	ai_point = aip.iterator();
