@@ -59,7 +59,6 @@ public class Client {
         {
             totalScore += clientScore + "\n";
         }
-        System.out.println(totalScore);
         fileManager.recieveStringFromServer(totalScore);
 
     }
