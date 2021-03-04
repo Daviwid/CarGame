@@ -15,22 +15,28 @@ public class SoundEffectCarCollision{
 	   
 	   }
 	   public void openAudio() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
-		   URL url = new URL(
-	   	            "https://wavlist.com/wav/car-crash2.wav");
-	   	         clip = AudioSystem.getClip();
-	   	        // getAudioInputStream() also accepts a File or InputStream
-	   	        AudioInputStream ais = AudioSystem.getAudioInputStream( url );
-	   	        
-	   	        clip.open(ais);
-	   	        clip.loop(1);
-	   	        SwingUtilities.invokeLater(new Runnable() {
-	   	            public void run() {
-	   	               
-	   	            
-	   	            	}
-	   	            
-	   	        });
-	   }
+		URL url = new URL(
+					"https://wavlist.com/wav/car-crash2.wav");
+		  clip = AudioSystem.getClip();
+		  // getAudioInputStream() also accepts a File or InputStream
+		  AudioInputStream ais = AudioSystem.getAudioInputStream( url );
+		  
+		  
+		  
+				clip.open(ais);
+			 FloatControl gainControl = 
+					 (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);      
+			   gainControl.setValue(-20.0f); // Reduce volume by 10 decibels.
+				clip.loop(0);
+				SwingUtilities.invokeLater(new Runnable() {
+					public void run() {
+					   
+					
+						}
+					
+				});
+				
+	}
 	   public void closeAudio() {
 		   clip.close();
 	   }

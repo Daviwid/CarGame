@@ -54,7 +54,8 @@ public class View extends JPanel implements Observer<Model> {
             
         }
         if(m.getState()==STATE.HIGHSCORE) {
-        	//drawHighscore(m.getMenu(), g2d);
+        	drawHighscore(m.getMenu(), g2d,m.getBorderX(),m.getBorderY());
+        	drawMenuText(g2d,m.getMenu(),m.getBorderX(),m.getBorderY());
         }
      
         if(m.getState()==STATE.GAMEFINISHED){//m.getGameFinished()== true) {
@@ -99,9 +100,9 @@ public class View extends JPanel implements Observer<Model> {
         g2d.draw(menu.getConfigReturnBtn());
         //Slutet av buttons
         
-        g2d.drawImage(menu.resize(menu.getRedCar(),280,300),(int)menu.getredCarBtn().getX()+10,(int)menu.getredCarBtn().getY()+10,null);
-        g2d.drawImage(menu.resize(menu.getGreenCar(),280,300),(int)menu.getgreenCarBtn().getX()+10,(int)menu.getgreenCarBtn().getY()+10,null);
-        g2d.drawImage(menu.resize(menu.getBlueCar(),280,300),(int)menu.getblueCarBtn().getX()+10,(int)menu.getblueCarBtn().getY()+10,null);
+        g2d.drawImage(menu.resize(menu.getRedCar(),350,240),(int)menu.getredCarBtn().getX()+10,(int)menu.getredCarBtn().getY()+10,null);
+        g2d.drawImage(menu.resize(menu.getGreenCar(),350,240),(int)menu.getgreenCarBtn().getX()+10,(int)menu.getgreenCarBtn().getY()+10,null);
+        g2d.drawImage(menu.resize(menu.getBlueCar(),350,240),(int)menu.getblueCarBtn().getX()+10,(int)menu.getblueCarBtn().getY()+10,null);
         
         //text knappar carconfig
         g2d.setFont(new Font("arial",Font.BOLD,50));											
@@ -189,9 +190,6 @@ public class View extends JPanel implements Observer<Model> {
              
              //End of debug code.
          }
-    	 
-         //drawCar(g2d, carList.get(0));
-
              */ //End of debug code.
 
          }
@@ -261,7 +259,7 @@ public class View extends JPanel implements Observer<Model> {
         g2d.setColor(menu.getBtnClr());
         g2d.fill(menu.getHighscoreBtn());					
         g2d.setColor(menu.getBtnOutClr());
-        g2d.drawString("HIGHSCORE", menu.getHighscoreBtn().x + 10, menu.getHighscoreBtn().y + 10);
+        g2d.draw(menu.getHighscoreBtn());
         //Slutet av buttons
         
         
@@ -278,17 +276,43 @@ public class View extends JPanel implements Observer<Model> {
         g2d.drawString("QUIT",																	//Quitbtn text
                 (int)menu.getQuitBtn().getX()+(int)menu.getQuitBtn().getWidth()/2-60,
                 (int)menu.getQuitBtn().getY()+(int)menu.getQuitBtn().getHeight()/2+20);
+        
+        g2d.setFont(new Font("arial",Font.BOLD,40));
+        g2d.drawString("HIGHSCORES", menu.getHighscoreBtn().x + 15, menu.getHighscoreBtn().y + 65);
         //Slutet av text
 
         
     }
 
-/*  public void drawHighscore(Menu menu, Graphics2D g2d) { //målar ut 10 strängar
-    	for(int i=0; i< 10; i++) {
-    	g2d.drawString(formatScoreString(m.fileManager.getHighscoreForPosition(i+1)), m.getBorderX()/2 + 20, m.getBorderY()/2 + 20 + 30*i);
+  public void drawHighscore(Menu menu, Graphics2D g2d,int x,int y) { //målar ut 10 strängar
+	  
+		m.getMenu().getImg().paintIcon(this, g2d, 0, 0);
+	  
+	  //BUTTON
+	  g2d.setColor(menu.getBtnClr());
+      g2d.fill(menu.getReturnBtn());				
+      g2d.setColor(menu.getBtnOutClr());
+      g2d.draw(menu.getReturnBtn());
+	  
+      //TEXT
+      g2d.setColor(menu.getTitleClr());
+      g2d.setFont(new Font("arial",Font.BOLD,50));
+      g2d.drawString("RETURN",																	
+              (int)menu.getReturnBtn().getX()+(int)menu.getReturnBtn().getWidth()/2-100,
+              (int)menu.getReturnBtn().getY()+(int)menu.getReturnBtn().getHeight()/2+20);	
+      
+      
+      g2d.drawString("HIGHSCORE LIST", x/2-200, 300);
+      
+      
+      
+	  for(int i=0; i< 10; i++) {
+		  
+		  g2d.setFont(new Font("arial",Font.BOLD,30));
+    	g2d.drawString((i+1)+":		 "+formatScoreString(m.getFileManager().getHighscoreForPosition(i+1)), m.getBorderX()/2-100, m.getBorderY()/2-120 + 40*i);
     	//g2d.setFont(getFont());
     	}
-    }*/
+    }
 
     /**
      * this is runs the repaint() method of Component-class to update the grafics.
@@ -343,27 +367,12 @@ public class View extends JPanel implements Observer<Model> {
        
     }
 
-   /**
-    * Draws the gif that should be drawn when the player crashes.
-    * @param g2d The Graphics2D instans that all component is drawn to
-    */
-    public void drawCrash(Graphics2D g2d) {
-    	m.getMenu().getCrashImg().paintIcon(this, g2d, 0, 0);
-    }
 
-    /**
-    * Draws all elements when the player has finished the game, includes a "play again" button, "End Game" button and background gif. it also overalys the buttons with text
-    * that shows the player which button is which. 
-    * @param menu  menu-class instans that the method gathers all information for the graphics
-    * @param g2d   The Graphics2D instans that all component is drawn to
-    * @param x     X cordinate used to draw out the GIF background
-    * @param y     Y cordinate used to draw out the GIF background
-    */
     public void drawFinished(Menu menu, Graphics2D g2d,int x,int y) {
     	
     	m.getMenu().getFinishedImg().paintIcon(this, g2d, 0, 0);
-    	g2d.setFont(new Font("arial",Font.BOLD,30));
-    	g2d.drawString("GAME FINISHED", 500, 600);
+    	g2d.setFont(new Font("arial",Font.BOLD,100));
+    	g2d.drawString("GAME FINISHED", x/2-400, 150);
     	
     	g2d.setColor(menu.getBtnClr());
         g2d.fill(menu.getPlayAgainBtn());					//playBtn med outline
@@ -377,15 +386,12 @@ public class View extends JPanel implements Observer<Model> {
         
         g2d.setFont(new Font("arial",Font.BOLD,50));											//Playbtn text
         g2d.drawString("PLAY AGAIN",
-                (int)menu.getPlayAgainBtn().getX()+(int)menu.getPlayAgainBtn().getWidth()/2-60,
+                (int)menu.getPlayAgainBtn().getX()+(int)menu.getPlayAgainBtn().getWidth()/2-152,
                 (int)menu.getPlayAgainBtn().getY()+(int)menu.getPlayAgainBtn().getHeight()/2+20);
         
-        g2d.drawString("PLAY AGAIN",
-                (int)menu.getPlayAgainBtn().getX()+(int)menu.getPlayAgainBtn().getWidth()/2-60,
-                (int)menu.getPlayAgainBtn().getY()+(int)menu.getPlayAgainBtn().getHeight()/2+20);
         
         g2d.drawString("END GAME",																	//Quitbtn text
-                (int)menu.getQuitBtn().getX()+(int)menu.getQuitBtn().getWidth()/2-60,
+                (int)menu.getQuitBtn().getX()+(int)menu.getQuitBtn().getWidth()/2-135,
                 (int)menu.getQuitBtn().getY()+(int)menu.getQuitBtn().getHeight()/2+20);
     }
     

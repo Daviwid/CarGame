@@ -12,8 +12,8 @@ import javax.swing.ImageIcon;
 public class Menu
 {
     private Rectangle playBtn, quitBtn, configBtn,
-    redCarBtn, blueCarBtn, greenCarBtn, returnBtn,mapBtn, configReturnBtn, highscoreStringBtn, playagainBtn, endGameBtn;
-    private ImageIcon img, crashimg, finishedimg;
+    redCarBtn, blueCarBtn, greenCarBtn, returnBtn,mapBtn, configReturnBtn, highscoreStringBtn;
+    private ImageIcon img, finishedimg;
     private BufferedImage redCar,greenCar,blueCar;
     private Color btnclr, btnoutclr, titleclr;
     
@@ -25,25 +25,22 @@ public class Menu
         quitBtn = new Rectangle(30,borderY/2 + 150,300,100);
         highscoreStringBtn= new Rectangle(30, borderY/2 + 300, 300, 100);  //kolla om position funkar sen
         
-        //playagainBtn= new Rectangle(30,borderY/2-150,300,100);  //samma position som play
-        //endGameBtn= new Rectangle(30,borderY/2,300,100);        //samma position som quit
         
         returnBtn = new Rectangle(borderX/2-150,borderY-200,300,100);
         
-        redCarBtn = new Rectangle(borderX/2-550,borderY/2-220,150,80);
-        greenCarBtn = new Rectangle(borderX/2-100,borderY/2-220,180,80);
-        blueCarBtn= new Rectangle(borderX/2+200,borderY/2-220,150,80);
+        redCarBtn = new Rectangle(borderX/2-550,borderY/2-120,150,80);
+        greenCarBtn = new Rectangle(borderX/2-160,borderY/2-120,180,80);
+        blueCarBtn= new Rectangle(borderX/2+200,borderY/2-120,150,80);
        
         configReturnBtn= new Rectangle(borderX/2-150,borderY/2 + 260,250,100);
     	
-       btnclr = new Color(1F, 0F, 0F, .5F);
+        btnclr = new Color(1F, 0F, 0F, .5F);
         mapBtn = new Rectangle(borderX/2-150,borderY/2-180,300,300);
         btnoutclr = Color.white;
         titleclr = Color.white;
 		
 		try {
             img = new ImageIcon(getClass().getResource("/Resources/back.gif"));
-		    crashimg= new ImageIcon(getClass().getResource("/Resources/tenor.gif"));
 		    finishedimg= new ImageIcon(getClass().getResource("/Resources/finito.gif"));
 			redCar= ImageIO.read(getClass().getResource("/Resources/red.png"));		
 			greenCar=ImageIO.read(getClass().getResource("/Resources/green.png"));	
@@ -51,6 +48,7 @@ public class Menu
 		}
 		catch(IOException e) {}
 		img.setImage(img.getImage().getScaledInstance(borderX, borderY, Image.SCALE_DEFAULT));	
+		finishedimg.setImage(finishedimg.getImage().getScaledInstance(borderX, borderY, Image.SCALE_DEFAULT));	
     }
     
     
@@ -124,10 +122,6 @@ public class Menu
     public ImageIcon getImg()
     {
     	return img;
-    }
-    public ImageIcon getCrashImg()
-    {
-    	return crashimg;
     }
     public ImageIcon getFinishedImg()
     {

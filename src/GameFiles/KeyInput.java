@@ -37,22 +37,13 @@ public class KeyInput implements KeyListener
                 {
                     System.exit(0);
                 }
-                if(c.getModel().getState()==STATE.GAME)		//Open menu
+                if(c.getModel().getState()==STATE.GAME || c.getModel().getState()==STATE.MAP_SELECTION ||
+                		c.getModel().getState()==STATE.CARCONFIG || c.getModel().getState()==STATE.HIGHSCORE ||
+                		c.getModel().getState()==STATE.GAMEFINISHED)		//Open menu
                 {
-                	c.getModel().getCarList().clear();
-                	c.getModel().resetCarFlags();
                     c.getModel().stateMenu();
-                    
-                    //c.getModel().saveAI();
                 }
-                if(c.getModel().getState()==STATE.MAP_SELECTION)
-                {
-                	c.getModel().stateMenu();
-                }
-                if(c.getModel().getState()==STATE.CARCONFIG)
-                {
-                	c.getModel().stateMenu();
-                }
+
             }
     } 
 
