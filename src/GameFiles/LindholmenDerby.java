@@ -2,30 +2,29 @@ package GameFiles;
 
 public class LindholmenDerby extends Track {
 	
-	private String map, map2, checkpointmap;
+	private String mapHitbox, map, checkpointmap;
 	private int color;
-	private int lcolor;
 	private int checkpointcolor1;
 	private int checkpointcolor2;
 	private int checkpointcolor3;
 	private int checkpointcolor4;
+
 	private double angle;
 	
+	//Creates the map LindholmenDerby
 	public LindholmenDerby(int x, int y)
 	{
+		mapHitbox = "/Resources/s2_pixelerad.png";		//rim of the map
+		map = "/Resources/s1.jpg"; 					  //the jpg to be drawn as map
+		checkpointmap= "/Resources/checkpoints.png";  //png containing the checkpoints
 		
 
-		map = "/Resources/s2_pixelerad.png";		//track rim
-		map2 = "/Resources/s1.jpg";   //current track we will be able to see
-		checkpointmap= "/Resources/checkpoints.png";  //png file containing all checkpoints
-		
-		color = 0xFFed1c24;			//track rim color
-		lcolor = 0xFFed1c24;		//track rim low shade color
+		color = 0xFFed1c24;								//Color of the rim
 		
 		angle = 0.0;
 		
-		setMap(map,map2, checkpointmap, x,y);			//Creates track and scale it to screensize
-		setHitbox(color,lcolor);	//Creates hitbox list
+		setMap(mapHitbox,map, checkpointmap, x,y);			//Initiate the map scaled to x,y
+		setHitbox(color);									//Makes the hitbox list
 		
 		setStartAngle(angle);
 

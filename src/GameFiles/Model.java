@@ -22,24 +22,24 @@ public class Model implements Observable<Model>{
     private boolean pressedLeft = false;
     
     private boolean checkpoint1 = false;
-	private boolean checkpoint2 = false;
-	private boolean checkpoint3 = false;
-	private boolean checkpoint4 = false;
+	  private boolean checkpoint2 = false;
+	  private boolean checkpoint3 = false;
+	  private boolean checkpoint4 = false;
 	
     private boolean gameFinished=false;
-	private boolean carCrash=false;
+	  private boolean carCrash=false;
 
-	private boolean point1=false;
-	private boolean point2=false;
-	private boolean point3=false;
-	private boolean point4=false;
-	
-	private int checkpoint1x;
-	private int checkpoint1y;
-	private int checkpoint2x;
-	private int checkpoint2y;
-	private int checkpoint3x;
-	private int checkpoint3y;
+    private boolean point1=false;
+    private boolean point2=false;
+    private boolean point3=false;
+    private boolean point4=false;
+
+    private int checkpoint1x;
+    private int checkpoint1y;
+    private int checkpoint2x;
+    private int checkpoint2y;
+    private int checkpoint3x;
+    private int checkpoint3y;
 	
     private static int TOPSPEED = 10;
     private static int height = 50;
@@ -52,16 +52,17 @@ public class Model implements Observable<Model>{
     private STATE state;
     private int carColor;
     private String build = "Build v. 2.1.3.0";
-   
-
+    
+    private String[] highscoreList = new String[10];
+  
     private ArrayList<Point> positionList = new ArrayList<Point>();
     private ArrayList<Double> angleList = new ArrayList<Double>();
 
-	private Iterator<Point> ai_point;
-	private Iterator<Double> ai_angle;
+    private Iterator<Point> ai_point;
+    private Iterator<Double> ai_angle;
 
-	private ArrayList<Point> aip = new ArrayList<Point>();
-	private ArrayList<Double> aia = new ArrayList<Double>();
+    private ArrayList<Point> aip = new ArrayList<Point>();
+    private ArrayList<Double> aia = new ArrayList<Double>();
 	
     private final Collection<Observer<Model>> observers;
     
@@ -70,7 +71,10 @@ public class Model implements Observable<Model>{
 
     private MainSoundEffect mainSound;
     private SoundEffectCarCollision s;
-    
+
+    /**
+     * Constructor that initiates the obeserver pattern, it also sets the base color of the car aswell as initate the player Car instans.
+     */
     public Model()
     {
         this.observers = new HashSet<>();
@@ -78,6 +82,15 @@ public class Model implements Observable<Model>{
         carColor = fileManager.configGetCarColor();
     }
     
+
+    /**
+     * creates an instans of a Car-class and adds it to a arraylist that holds all the instanses. The parameter carNumber is where in the arraylist the Car-instans is 
+     * added to, so if it is called agian with the same value of carNumber the old instant will be overwriten. The method also adds the "AI Car" to the position after
+     * the Car-instans is added (carNumber + 1). If u add several cars in a row the last index of the arraylist will always be the "AI Car".
+     * 
+     * @param carNumber The index for where the the car will be added to the arraylist of car instanses.
+     * @see Car 
+     */
     public void carsInit(int carNumber)
     {
     	ai_point = aip.iterator();
@@ -89,6 +102,18 @@ public class Model implements Observable<Model>{
         carList.add(new Car(3, 0, 0, TOPSPEED, height, width));
     }
     
+    public void makeHighscoreList()
+    {
+    	for(int i=0;i<10;i++)
+    	{
+    		highscoreList[i] = fileManager.getHighscoreForPosition(i+1);
+    	}
+    }
+    
+    public String[] getHighscoreList()
+    {
+    	return highscoreList;
+    }
 
     public void resetCarFlags()  //reset all car keys flags
     {
@@ -193,19 +218,17 @@ public class Model implements Observable<Model>{
     	double cary= carList.get(0).getPositionY();
     	
     	double rectarea = (2*height)*(2*width);
+      //creates  4 triangles
     	double APD = Math.abs((px * (cary - height) - (carx - width) * py) + ((carx + width) * py - px * (cary + height)) + ((carx - width) * (cary + height) - (carx + width) * (cary - height)))/2;
     	double DPC = Math.abs((px * (cary + height) - (carx + width) * py) + ((carx - width) * py - px * (cary + height)) + ((carx + width) * (cary + height) - (carx - width) * (cary + height)))/2;
     	double CPB = Math.abs((px * (cary + height) - (carx - width) * py) + ((carx + width) * py - px * (cary - height)) + ((carx - width) * (cary - height) - (carx + width) * (cary + height)))/2;  
     	double PBA = Math.abs(((carx + width) * py - px * (cary - height)) + ((carx - width) * (cary - height) - (carx + width) * (cary - height)) + (px * (cary - height) - (carx - width) * py))/2;
-    	double sum = APD + DPC + CPB + PBA; 
+    	double sum = APD + DPC + CPB + PBA; // total area sum of all 4 triangles
     	
     	if(sum > rectarea ) return false;  
         return true; //returns true if car is on a hitbox or checkpoint cordinate
     	} 
     
-    public void gameFinished() {
-    	state= STATE.GAMEFINISHED;
-    }
    public void checkHitboxes() {  //checks if objects position overlaps with one of the tracks
     Iterator<Point> it = currentTrack.getHitbox().iterator();
     int count=0;
@@ -484,6 +507,7 @@ public class Model implements Observable<Model>{
     }
     public void stateHighscore()
     {
+    		makeHighscoreList();
             state=STATE.HIGHSCORE;
     }
     public void stateFinished()

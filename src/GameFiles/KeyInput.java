@@ -12,7 +12,7 @@ public class KeyInput implements KeyListener
     public void keyPressed(KeyEvent e)
     {   
     	int k = e.getKeyCode(); 
-        if(c.getModel().getState()==STATE.GAME)		//Funkar endast om man ska spela.
+        if(c.getModel().getState()==STATE.GAME)		//Activate specifik keyinput only if state is game
         {
             if(k == KeyEvent.VK_UP)
             {
@@ -31,15 +31,17 @@ public class KeyInput implements KeyListener
                 c.getModel().setPressedDown(); 
             }
         }
-            if(k == KeyEvent.VK_ESCAPE)					//Funkar alltid.
+            if(k == KeyEvent.VK_ESCAPE)					//Allways activated
             {
                 if(c.getModel().getState()==STATE.MENU)		//Quit Application
                 {
                     System.exit(0);
                 }
+                
+                //Open menu
                 if(c.getModel().getState()==STATE.GAME || c.getModel().getState()==STATE.MAP_SELECTION ||
                 		c.getModel().getState()==STATE.CARCONFIG || c.getModel().getState()==STATE.HIGHSCORE ||
-                		c.getModel().getState()==STATE.GAMEFINISHED)		//Open menu
+                		c.getModel().getState()==STATE.GAMEFINISHED)		
                 {
                     c.getModel().stateMenu();
                 }

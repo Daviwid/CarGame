@@ -7,7 +7,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.util.concurrent.TimeUnit;
+
+/*
+The thread that client comminucation is done on. 
+
+The thread gets a connection with a client and does all the handeling
+*/
 
 public class ServerWorker extends Thread{
     private final Socket clientSocket;
@@ -21,6 +26,7 @@ public class ServerWorker extends Thread{
         try {
             handleClientSocket();
             System.out.println("Server: handled the socket");
+            clientSocket.close();
         } catch (IOException e) {
             //TODO: handle exception
             e.printStackTrace();
@@ -28,56 +34,54 @@ public class ServerWorker extends Thread{
             //System.out.println("Server: IO exception in worker thread");
         } catch(InterruptedException e){
             //TODO: handle exception
-            System.out.println("Server: Interrupted exception in worker thread");
-        }
-        try {
-            clientSocket.close();
-        } catch (Exception e) {
-            //TODO: handle exception
+            e.printStackTrace();
         }
     }
 
-    public void handleClientSocket() throws IOException, InterruptedException{
-        
+    /*
+    this method is used to get data and send data to the client.
+    */
+    private void handleClientSocket() throws IOException, InterruptedException{   
         getData();
         sendData();
         System.out.println("Client closed the connection");
-        
-
     }
-
-    private void getData(){
-        
+    /*
+    this method takes the inputstream from a client and reads it and then checks if the data on the inputstream is a highscore
+    if it is, then the server will update the highscore text file, otherwise nothing will happen
+    */
+    private void getData(){       
         try {
             InputStream inputStream = clientSocket.getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
             String clientScore;
-            String tmp = "";
+            String totScore = "";
 
             while((clientScore = reader.readLine()) != null)
             {
-                tmp += clientScore + "\n";
+                totScore += clientScore + "\n";
             }
 
-            FileManager fm = new FileManager();
-            fm.recieveScoreFromClient(tmp);
-        } catch (Exception e) {
-            //TODO: handle exception
+            FileManager fileManager = new FileManager();
+            fileManager.recieveScoreFromClient(totScore);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        
     }
-
+    /*
+    this method gets the outputstream from the client and then send the textfile with updated highscores so that the client
+    can read the data and overwrite its own highscore file.
+    */
     private void sendData()
     {
         try {
             OutputStream outputStream = clientSocket.getOutputStream();
-            FileManager fm = new FileManager();
-            String tmpHighscore = fm.getHighscores();
+            FileManager fileManager = new FileManager();
+            String tmpHighscore = fileManager.getHighscoreString();
             outputStream.write((tmpHighscore).getBytes());
-        } catch (Exception e) {
-            //TODO: handle exception
-        }
-        
+        } catch (IOException e) {
+            e.printStackTrace();
+        }   
     }
 }
