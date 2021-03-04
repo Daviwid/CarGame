@@ -31,7 +31,7 @@ public class View extends JPanel implements Observer<Model> {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         setBackground(Color.gray);
-        if(m.getState()==STATE.MENU)					//Rita upp OM meny
+        if(m.getState()==STATE.MENU)
         {
         	drawMenu(m.getMenu(),g2d,m.getBorderX(),m.getBorderY());
         	drawMenuText(g2d,m.getMenu(),m.getBorderX(),m.getBorderY());
@@ -42,13 +42,13 @@ public class View extends JPanel implements Observer<Model> {
         	drawMenuText(g2d,m.getMenu(),m.getBorderX(),m.getBorderY());
         }
   
-        if(m.getState()==STATE.CARCONFIG)				//Rita OM game
+        if(m.getState()==STATE.CARCONFIG)				
         {
             drawConfig(m.getMenu(), g2d,m.getBorderX(),m.getBorderY());
             drawMenuText(g2d,m.getMenu(),m.getBorderX(),m.getBorderY());
         }
       
-        if(m.getState()==STATE.GAME)				//Rita OM game
+        if(m.getState()==STATE.GAME)				
         {
             drawGame(g2d,m.getTrack().getMap());
             
@@ -58,7 +58,7 @@ public class View extends JPanel implements Observer<Model> {
         	drawMenuText(g2d,m.getMenu(),m.getBorderX(),m.getBorderY());
         }
      
-        if(m.getState()==STATE.GAMEFINISHED){//m.getGameFinished()== true) {
+        if(m.getState()==STATE.GAMEFINISHED){
         	drawFinished(m.getMenu(),g2d,m.getBorderX(),m.getBorderY());
         	
         } 
@@ -73,7 +73,7 @@ public class View extends JPanel implements Observer<Model> {
      * @see Graphics2D
      * @see menu
      */
-  public void drawConfig(Menu menu, Graphics2D g2d, int x,int y) {
+  private void drawConfig(Menu menu, Graphics2D g2d, int x,int y) {
     	m.getMenu().getImg().paintIcon(this, g2d, 0, 0);
     	
     	//BUTTONS
@@ -98,13 +98,14 @@ public class View extends JPanel implements Observer<Model> {
         g2d.fill(menu.getConfigReturnBtn());				
         g2d.setColor(menu.getBtnOutClr());
         g2d.draw(menu.getConfigReturnBtn());
-        //Slutet av buttons
+        //end of buttons
         
+        //draw image of difffrent cars
         g2d.drawImage(menu.resize(menu.getRedCar(),350,240),(int)menu.getredCarBtn().getX()+10,(int)menu.getredCarBtn().getY()+10,null);
         g2d.drawImage(menu.resize(menu.getGreenCar(),350,240),(int)menu.getgreenCarBtn().getX()+10,(int)menu.getgreenCarBtn().getY()+10,null);
         g2d.drawImage(menu.resize(menu.getBlueCar(),350,240),(int)menu.getblueCarBtn().getX()+10,(int)menu.getblueCarBtn().getY()+10,null);
         
-        //text knappar carconfig
+        //text buttons carconfig
         g2d.setFont(new Font("arial",Font.BOLD,50));											
         g2d.drawString("RED",
                 (int)menu.getredCarBtn().getX()+(int)menu.getredCarBtn().getWidth()/2-50,
@@ -118,8 +119,10 @@ public class View extends JPanel implements Observer<Model> {
         g2d.drawString("RETURN",																	
                 (int)menu.getConfigReturnBtn().getX()+(int)menu.getConfigReturnBtn().getWidth()/2-100,
                 (int)menu.getConfigReturnBtn().getY()+(int)menu.getConfigReturnBtn().getHeight()/2+20);
-        //slut pa text
+        //end of text
    }
+
+
    /**
     * Draws the Map select part of the menu where the user inputs the map they whant to play. This method only gathers information from the menu-class and Track-class instans
     * and draws it to the Graphics2D.
@@ -132,30 +135,32 @@ public class View extends JPanel implements Observer<Model> {
     * @see menu
     * @see Track 
     */
-    public void drawMapSelect(Menu menu, Graphics2D g2d, int x, int y, Track l)
+    private void drawMapSelect(Menu menu, Graphics2D g2d, int x, int y, Track l)
     {
     	m.getMenu().getImg().paintIcon(this, g2d, 0, 0);
     	
-    	
+    	//Draws Return button
         g2d.setColor(menu.getBtnClr());
         g2d.fill(menu.getReturnBtn());				
         g2d.setColor(menu.getBtnOutClr());
         g2d.draw(menu.getReturnBtn());
     	
+        //draws Map button
         g2d.setColor(menu.getBtnClr());
         g2d.fill(menu.getMapBtn());
         g2d.setColor(menu.getBtnOutClr());
         g2d.draw(menu.getMapBtn());
         
-        
+        //fix image overlay of map button
         g2d.drawImage(l.getIcon(250, 200),(int)menu.getMapBtn().getX()+25,(int)menu.getMapBtn().getY()+25,null);
         
+        //draws the name of the track
         g2d.setColor(menu.getTitleClr());
         g2d.setFont(new Font("arial",Font.BOLD,30));
         g2d.drawString("LindholmenDerby", (int)menu.getMapBtn().getX()+25, (int)menu.getMapBtn().getY()+(int)menu.getMapBtn().getHeight()-25);
         
         
-        
+        //sets text on return button
         g2d.setColor(menu.getTitleClr());
         g2d.setFont(new Font("arial",Font.BOLD,50));
         g2d.drawString("RETURN",																	
@@ -171,34 +176,21 @@ public class View extends JPanel implements Observer<Model> {
      * @param map   An bufferimage that is the background an the visible track that the player drivers around
      * @see Graphics2D 
      */
-    public void drawGame(Graphics2D g2d, BufferedImage map)
+    private void drawGame(Graphics2D g2d, BufferedImage map)
     {
-    	 if(m.getMapSelected())						//Rita OM map selected == true. Typ en dubbelkoll. Mest ifall bilden inte laddas in och ger Exceptions
+    	 if(m.getMapSelected())						//checks so the image is loaded in with out exeptions
          {
-             g2d.drawImage(map, 0,0,this);					//Ritar banan
-            
-
-            /* //Debug code. visar sargen.
-             Iterator<Point> it = m.getTrack().getHitbox().iterator();
-             g2d.setColor(Color.red);
-             while(it.hasNext())
-             {
-                 Point p = it.next();
-                 g2d.drawLine(p.x,p.y,p.x,p.y);
-             }
-
-             
-             //End of debug code.
-         }
-             */ //End of debug code.
+             g2d.drawImage(map, 0,0,this);
 
          }
-     	//drawCheckpoints(g2d, m.getTrack().getCheckpointsMap());
+
+         //For loop based on carlist length here if more then 1 Car.
          drawCar(g2d, carList.get(0));
-         drawAI(g2d,  carList.get(1));
+         drawCar(g2d,  carList.get(1)); //draws the AI
          drawTime(g2d);
          
     }
+    
     
     /**
      * Draws diffrent strings to the diffrent menu windows to convey info about the application. X and Y is used to determin for one point where all the strings
@@ -208,7 +200,7 @@ public class View extends JPanel implements Observer<Model> {
      * @param x     X cordinate used to determin where all the text should be rendered
      * @param y     Y cordinate used to determin where all the text should be rendered
      */
-    public void drawMenuText(Graphics2D g2d, Menu menu,int x,int y)
+    private void drawMenuText(Graphics2D g2d, Menu menu,int x,int y)
     {
     	 //TEXT AV MENU
         g2d.setColor(menu.getTitleClr());
@@ -217,9 +209,9 @@ public class View extends JPanel implements Observer<Model> {
         
         g2d.setColor(menu.getTitleClr());
         g2d.setFont(new Font("arial",Font.BOLD,20));
-        g2d.drawString("Team: Ingen Aning", x-200, y-35);										//Gruppnamn
+        g2d.drawString("Team: Ingen Aning", x-200, y-35);										//Group name
         g2d.drawString("Devs: David J, Erik L, Jacob W, Kevin P, Victoria B", x-500, y-10);		//Developers
-        g2d.drawString(m.getBuild(), 10, y-10);											//build
+        g2d.drawString(m.getBuild(), 10, y-10);											        //build
     }
     
     /**
@@ -232,7 +224,7 @@ public class View extends JPanel implements Observer<Model> {
     * @see Graphics2D
     * @see menu
     */
-    public void drawMenu(Menu menu, Graphics2D g2d,int x,int y)
+    private void drawMenu(Menu menu, Graphics2D g2d,int x,int y)
     {
     	setBackground(Color.black);
         
@@ -283,8 +275,14 @@ public class View extends JPanel implements Observer<Model> {
 
         
     }
-
-  public void drawHighscore(Menu menu, Graphics2D g2d,int x,int y) { //målar ut 10 strängar
+    /**
+    * Draws out the top 10 times in the world, gathers all information from menu and draws all the nessesery components of the interface.
+    * @param menu  menu-class instans that the method gathers all information for the graphics
+    * @param g2d   The Graphics2D instans that all component is drawn to
+    * @param x     X cordinate used to draw out the GIF background of the meny
+    * @param y     Y cordinate used to draw out the GIF background of the meny
+    */
+  private void drawHighscore(Menu menu, Graphics2D g2d,int x,int y) {
 	  
 		m.getMenu().getImg().paintIcon(this, g2d, 0, 0);
 	  
@@ -314,13 +312,6 @@ public class View extends JPanel implements Observer<Model> {
     	}
     }
 
-    /**
-     * this is runs the repaint() method of Component-class to update the grafics.
-     * @see Component
-     */
-    public void updateView() {
-        repaint();
-    }
     
     /**
      * Draws the Checkpoint layer of the track, this is to establish where the checkpoints are on the track. Gathering this data (pixel cordinates of the checkpoints)
@@ -332,43 +323,11 @@ public class View extends JPanel implements Observer<Model> {
     public void drawCheckpoints(Graphics2D g2d, BufferedImage checkpoints) {
     	
             g2d.drawImage(checkpoints, 0,0,this);					//Ritar banan
-           
-            //Debug code. visar checkpoints
-          /*  Iterator<Point> it = m.getTrack().getCheckpoints4Hitbox().iterator();
-            g2d.setColor(Color.yellow);
-            while(it.hasNext())
-            {
-                Point p = it.next();
-                g2d.drawLine(p.x,p.y,p.x,p.y);
-            }
-            
-            Iterator<Point> it2 = m.getTrack().getCheckpoints3Hitbox().iterator();
-            g2d.setColor(Color.red);
-            while(it2.hasNext())
-            {
-                Point p = it2.next();
-                g2d.drawLine(p.x,p.y,p.x,p.y);
-            }
-            Iterator<Point> it3 = m.getTrack().getCheckpoints2Hitbox().iterator();
-            g2d.setColor(Color.green);
-            while(it3.hasNext())
-            {
-                Point p = it3.next();
-                g2d.drawLine(p.x,p.y,p.x,p.y);
-            }
-            Iterator<Point> it4 = m.getTrack().getCheckpoints1Hitbox().iterator();
-            g2d.setColor(Color.RED);
-            while(it4.hasNext())
-            {
-                Point p = it4.next();
-                g2d.drawLine(p.x,p.y,p.x,p.y);
-            }*/
-           //End of debug code.
        
     }
 
 
-    public void drawFinished(Menu menu, Graphics2D g2d,int x,int y) {
+    private void drawFinished(Menu menu, Graphics2D g2d,int x,int y) {
     	
     	m.getMenu().getFinishedImg().paintIcon(this, g2d, 0, 0);
     	g2d.setFont(new Font("arial",Font.BOLD,100));
@@ -398,99 +357,27 @@ public class View extends JPanel implements Observer<Model> {
 
 
     /**
-     * Draws the players car, rescales the chosen car color png and rotates the image to desired angle found in the Car-class. Rescaling is done throw the Image method getScaledInstance().
+     * Draws a car based on the Car-class, rescales the chosen car color png and rotates the image to desired angle found in the Car-class. Rescaling is done throw the Image method getScaledInstance().
      * rotateing the image is done throw the Graphics2D method rotate().
      *  
      * @param g2d   The Graphics2D instans that all component is drawn to
      * @param car   Car-class instance to get information on choosen png, cordiantes and desired size
      * @see Image
      * @see Graphics2D
+     * @see Car
      */
     private void drawCar(Graphics2D g2d, Car car) {
-
-	    /*
-        g2d.setColor(Color.green); 
-        double w = car.getWidth();  //Test values of green rectangle under png
-        double h = car.getHeight();
-        Point2D p1 = new Point2D(h/2,-w/2).rotate(car.getAngle());
-        Point2D p2 = new Point2D(h/2,w/2).rotate(car.getAngle());
-        Point2D p3 = new Point2D(-h/2,w/2).rotate(car.getAngle());
-        Point2D p4 = new Point2D(-h/2,-w/2).rotate(car.getAngle());
-        double x = car.getPositionX();
-        double y = car.getPositionY();
-        double[]   dx  = {x+p1.getIntX(),x+p2.getIntX(),x+p3.getIntX(),x+p4.getIntX()};  
-        double[]   dy  = {y+p1.getIntY(),y+p2.getIntY(),y+p3.getIntY(),y+p4.getIntY()};
-        int xPts[]= new int[4];
-        int yPts[]= new int[4];
-        for(int i=0;i<4;i++)
-        {
-             xPts[i]=(int)(dx[i]+.5);
-             yPts[i]=(int)(dy[i]+.5); 
-        }
-        g2d.fillPolygon(xPts,yPts,4);
-        */
-
-        // end debug
-
-        
+       
+        //rescales Car img to prefferd size
         Image resultingImage = car.getCarIMG().getScaledInstance(car.getWidth(), car.getHeight(), Image.SCALE_SMOOTH);
-        
+        //Before changing our Graphic2D we need to make a backup of everything else
+        AffineTransform backup2 = g2d.getTransform(); 
 
-        AffineTransform backup = g2d.getTransform();
-
-        //Set our Graphics2D object to the transform
-       g2d.rotate(car.getAngle() + (3*Math.PI)/2, car.getPositionX(), car.getPositionY());
+       g2d.rotate(car.getAngle() + (3*Math.PI)/2, car.getPositionX(), car.getPositionY()); //rotate the car image
         
         g2d.drawImage(resultingImage, car.getPositionX() - (car.getWidth() / 2) , car.getPositionY() - (car.getHeight() / 2) , null);
-//      g2d.setTransform(a);
-        g2d.setTransform(backup); 
+        g2d.setTransform(backup2);
         
-    }
-    
-    /**
-     * Draws the AI car, rescales the chosen car color png and rotates the image to desired angle found in the Car-class. Rescaling is done throw the Image method getScaledInstance().
-     * rotateing the image is done throw the Graphics2D method rotate().
-     *  
-     * @param g2d   The Graphics2D instans that all component is drawn to
-     * @param car   Car-class instance to get information on choosen png, cordiantes and desired size
-     * @see Image
-     * @see Graphics2D
-     */
-    public void drawAI(Graphics2D g2d, Car car)
-    {
-    	/*
-        g2d.setColor(Color.red); 
-        double w = car.getWidth();  //Test values of green rectangle under png
-        double h = car.getHeight();
-        Point2D p1 = new Point2D(h/2,-w/2).rotate(car.getAngle());
-        Point2D p2 = new Point2D(h/2,w/2).rotate(car.getAngle());
-        Point2D p3 = new Point2D(-h/2,w/2).rotate(car.getAngle());
-        Point2D p4 = new Point2D(-h/2,-w/2).rotate(car.getAngle());
-        double x = car.getPositionX();
-        double y = car.getPositionY();
-        double[]   dx  = {x+p1.getIntX(),x+p2.getIntX(),x+p3.getIntX(),x+p4.getIntX()};  
-        double[]   dy  = {y+p1.getIntY(),y+p2.getIntY(),y+p3.getIntY(),y+p4.getIntY()};
-        int xPts[]= new int[4];
-        int yPts[]= new int[4];
-        for(int i=0;i<4;i++)
-        {
-             xPts[i]=(int)(dx[i]+.5);
-             yPts[i]=(int)(dy[i]+.5); 
-        }
-        g2d.fillPolygon(xPts,yPts,4);
-        */
-        
-        Image resultingImage = car.getCarIMG().getScaledInstance(car.getWidth(), car.getHeight(), Image.SCALE_SMOOTH);
-        
-
-        AffineTransform backup2 = g2d.getTransform();
-
-        //Set our Graphics2D object to the transform
-       g2d.rotate(car.getAngle() + (3*Math.PI)/2, car.getPositionX(), car.getPositionY());
-        
-        g2d.drawImage(resultingImage, car.getPositionX() - (car.getWidth() / 2) , car.getPositionY() - (car.getHeight() / 2) , null);
-//      g2d.setTransform(a);
-        g2d.setTransform(backup2); 
     }
     
     
@@ -500,7 +387,7 @@ public class View extends JPanel implements Observer<Model> {
      * @param scoreString   highscore placement represented as milisecounds as a String 
      * @return              A string that represent a Highscore time in the form min:sec:hundredths
      */
-    public String formatScoreString(String scoreString)
+    private String formatScoreString(String scoreString)
     {
         int highscore = Integer.parseInt(scoreString);
         int minutes = highscore / 6000;
@@ -511,9 +398,9 @@ public class View extends JPanel implements Observer<Model> {
     }
     
     
-    //DRAWS CURRENT TIME AND HIGHSCORE TIME ON SCREEN WHILE PLAYING
+    
     /**
-     * Draws the current time the player has aswell as draws out the current highest highscore. 
+     * Draws the current time the player has aswell as draws out the current highest highscore on screen. 
      * @param g2d   The Graphics2D instans that all component is drawn to
      */
     private void drawTime(Graphics2D g2d){
@@ -527,7 +414,8 @@ public class View extends JPanel implements Observer<Model> {
 
     /**
      * this method is part of the obeserveble pattern that is used between the Model-class and View-class for more info see the Observer interface.
-     * Because View is an observer type class, the Model-class calls this method to notify View of an change.
+     * Because View is an observer type class, the Model-class calls this method to notify View of an change. When View is notifyed repaint() is called,
+     * This causes all grafics to be updated.
      * @see Observable
      * @see Observer
      */
