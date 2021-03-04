@@ -145,7 +145,7 @@ public class Model implements Observable<Model>{
             if(checkpoint4) {  //if car drives past checkpoint 4, close the audio, and call on gamefinished(changes state to FINISHED)
                 mainSound.stopAudio(); //stop the current audio 
          	   mainSound.closeAudio(); //closes the current audio thread
-            	gameFinished();
+            	stateFinished();
             	
                 new Client(gameTimer,positionList,angleList);
             }
@@ -378,7 +378,7 @@ public class Model implements Observable<Model>{
     
     public void saveAI()
     {
-    	fileManager.recieveHighscoreStringFromServer(fileManager.sendScoreToServer(1, positionList, angleList));
+    	fileManager.recieveStringFromServer(fileManager.sendScoreToServer(1, positionList, angleList));
     }
     
     

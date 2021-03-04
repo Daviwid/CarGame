@@ -1,4 +1,4 @@
-package src.GameFiles;
+package GameFiles;
 
 import java.awt.Point;
 import java.io.InputStream;
