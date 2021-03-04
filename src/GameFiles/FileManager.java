@@ -16,7 +16,7 @@ public class FileManager {
     private String configFile = "Config.txt";
 	
     public FileManager(){
-		
+    	createNewFiles();
     }
 	
 	//HELPER METHODS:
