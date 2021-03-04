@@ -5,7 +5,6 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
@@ -47,7 +46,8 @@ public class Menu
 		img.setImage(img.getImage().getScaledInstance(borderX, borderY, Image.SCALE_DEFAULT));		
 		finishedimg.setImage(finishedimg.getImage().getScaledInstance(borderX, borderY, Image.SCALE_DEFAULT));	
     }
-
+    
+    //getters
 	public BufferedImage getRedCar()
     {
     	return redCar;

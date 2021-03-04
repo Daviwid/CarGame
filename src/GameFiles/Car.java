@@ -48,11 +48,13 @@ public class Car {
     }
 
     //getters&setters
+    /*set the current tracks starting position*/
     public void setStartPosition(Track track) 
     {
         positionX = track.getStartPositions().x + xOffset;
         positionY = track.getStartPositions().y + yOffset;
     }
+    /*set the checkpoint position where the car last passed*/
     public void setCheckpointPosition(int x,int y) 
     {
         positionX = x + xOffset;
@@ -87,6 +89,7 @@ public class Car {
             speed-=0.1;
         }
     }
+/*set the current car angle to be +-180 deg taking regard to if the current angle <0 or >360 deg*/
   public void turnDirection() {
 	  angle = (angle) + Math.PI ;
 		if(angle>(2*Math.PI))             //keep interval 0-6
@@ -98,7 +101,7 @@ public class Car {
                   angle+=(2*Math.PI);
               }
 	}
-  
+  /*set the current speed to 0 whenever there is a collision*/
   public void collisionSpeed() {
 	  speed=0;
   }
@@ -161,7 +164,7 @@ public class Car {
 	{
 		return this.speed;
 	}
-
+/*getters which return buffered image of the chosen car*/
 	public BufferedImage getCarIMG() { return this.currentCarIMG; }
 	public BufferedImage getRedCar() { return this.redCar; }
 	public BufferedImage getGreenCar() { return this.greenCar; }
