@@ -10,7 +10,7 @@ import javax.imageio.ImageIO;
 public class Track {
 	private int startPositionX;
 	private int startPositionY;
-	private int startAngle;
+	private double startAngle;
 	private BufferedImage bi, bi2;
 	private BufferedImage checkbi;
 	
@@ -26,19 +26,30 @@ public class Track {
 	
 	
 	//getters&setters
-	public int getStartPositionX()
-	{
-		return startPositionX;
-	}
-	public int getStartPositionY()
-	{
-		return startPositionY;
-	}
-	public int getStartAngle()
+
+	public double getStartAngle()
 	{
 		return startAngle;
 	}
 
+    public void createStartPositions()
+    {
+        int firstX, lastX;
+        firstX = checkpointlist1.get(0).x;
+        lastX = checkpointlist1.get(checkpointlist1.size() - 1).x;
+        startPositionX = ((lastX - firstX) / 2) + firstX;
+    	
+        int firstY, lastY;
+        firstY = checkpointlist1.get(0).y;
+        lastY = checkpointlist1.get(checkpointlist1.size() - 1).y;
+        startPositionY = ((lastY - firstY) / 2) + firstY;
+    }
+	
+    public Point getStartPositions()
+    {
+    	return new Point(startPositionX,startPositionY);
+    }
+	
 	public void setMap(String map_name,String map_name2, String checkpointfile, int x, int y)
 	{
 		 try
@@ -93,6 +104,10 @@ public class Track {
 	{
 		pixels = new getPixel(bi,color,lcolor);
 		this.list = pixels.getList();
+	}
+	public void setStartAngle(double a)
+	{
+		startAngle = a;
 	}
 	
 	public void setCheckpointHitbox(int color1, int color2, int color3, int color4)		//calls on getCheckpointsPixel and retrieves list with the checkpointpixels for each checkpoint 

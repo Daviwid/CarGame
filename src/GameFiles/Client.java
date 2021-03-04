@@ -15,8 +15,8 @@ this class connects to the server with a port and an IP-address
 
 public class Client {
 
-    private static int port = 1767;
-    private static String ip = "localhost";
+    private static int port = 25565;
+    private static String ip = "46.239.99.69";
 
     /*
     the constructor takes the needed variables to send to the server so that the server can check if the time 
