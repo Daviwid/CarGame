@@ -41,7 +41,7 @@ public class ServerWorker extends Thread{
     /*
     this method is used to get data and send data to the client.
     */
-    public void handleClientSocket() throws IOException, InterruptedException{   
+    private void handleClientSocket() throws IOException, InterruptedException{   
         getData();
         sendData();
         System.out.println("Client closed the connection");

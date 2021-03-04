@@ -67,7 +67,7 @@ public class Client {
     /*
     this method sends the score to the server via outputstream
     */
-    public void sendScore(OutputStream outputStream, int time, ArrayList<Point> positionList, ArrayList<Double> angleList) throws IOException, InterruptedException
+    private void sendScore(OutputStream outputStream, int time, ArrayList<Point> positionList, ArrayList<Double> angleList) throws IOException, InterruptedException
     {
         
         FileManager fileManager = new FileManager();

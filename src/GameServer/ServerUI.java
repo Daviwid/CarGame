@@ -16,7 +16,7 @@ application is closed
 
 public class ServerUI extends JFrame implements ActionListener {
     
-    public ServerSocket serverSocket;
+    private ServerSocket serverSocket;
     private static int port = 25565;
     private Server server;
     private UIThread uiThread;
@@ -39,7 +39,7 @@ public class ServerUI extends JFrame implements ActionListener {
     /*
     this method creates the frame with the button that closes the serversocket
     */
-    public void createFrame()
+    private void createFrame()
     {
         GridLayout layout = new GridLayout(4,4,2,2);
         serverWindow = new JPanel(layout);

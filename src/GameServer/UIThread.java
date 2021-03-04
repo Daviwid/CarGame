@@ -13,7 +13,6 @@ public class UIThread extends Thread{
     
     @Override
     public void run(){
-        System.out.println("Server: Server is on a new thread");
         server.runServer();       
     }
 }
