@@ -18,7 +18,16 @@ public class Car {
 	  private int width;
 	  private BufferedImage currentCarIMG,redCar,blueCar,greenCar,aiCar;
 
-    //Konstruktor
+    /**
+     * Constructor 
+     * 
+     * @param color indicate which color the car will have
+     * @param xoffset start x offset for the car 
+     * @param yoffset start y offset for the car 
+     * @param topspeed topspeed of the car 
+     * @param height the height/length of the car
+     * @param width the width of the car
+     */
     public Car(int color, int xOffset, int yOffset, int topspeed, int height, int width)
     {
 
@@ -40,7 +49,9 @@ public class Car {
 	    catch(IOException e){}
 	    setCarIMG(color);
     }
-        
+    /**
+    * method calculates the next x and y position of the car with regard to the cars current angle and speed
+    */  
     public void move() 
     {
         positionX += (Math.cos(angle) * speed); 
@@ -48,33 +59,56 @@ public class Car {
     }
 
     //getters&setters
-    /*set the current tracks starting position*/
+    /**
+     * set the current track starting position for the car
+     * @param track current track
+     */
     public void setStartPosition(Track track) 
     {
         positionX = track.getStartPositions().x + xOffset;
         positionY = track.getStartPositions().y + yOffset;
     }
-    /*set the checkpoint position where the car last passed*/
+    
+    /**
+     * set the position where the car last passed a checkpoint
+     * @param x
+     * @param y
+     */
     public void setCheckpointPosition(int x,int y) 
     {
         positionX = x + xOffset;
         positionY = y + yOffset;
     }
+    
+    /**
+     * set the starting angle for the car
+     * @param track current track
+     */
     public void setStartAngle(Track track)
     {
         angle = track.getStartAngle();
     }
-    
+    /**
+     * set the position for the AI car
+     * @param x  x cordinate
+     * @param y  y cordinate
+     */
     public void setPositionAI(int x, int y) 
     {
         positionX = x;
         positionY = y;
     }
+    /**
+     * set the angle for the AI car
+     * @param a angle 
+     */
     public void setAngleAI(double a) 
     {
         angle = a;
     }
-
+    /**
+     * method accelerate currentspeed if speed is below topspeed
+     */
     public void accelerate()
     {
         if(speed <= topspeed)
@@ -82,6 +116,9 @@ public class Car {
             speed+=0.1; //decimal for smooth acceleration
         }
     }
+    /**
+     * method decelerate currentspeed if car is moving
+     */
     public void decelerate()
     {
         if(speed >= 0)
@@ -89,8 +126,11 @@ public class Car {
             speed-=0.1;
         }
     }
-/*set the current car angle to be +-180 deg taking regard to if the current angle <0 or >360 deg*/
-  public void turnDirection() {
+
+    /**
+    * set the current car angle to be +-180 deg taking regard to if the current angle <0 or >360 deg
+    */
+    public void turnDirection() {
 	  angle = (angle) + Math.PI ;
 		if(angle>(2*Math.PI))             //keep interval 0-6
               {       
@@ -101,11 +141,15 @@ public class Car {
                   angle+=(2*Math.PI);
               }
 	}
-  /*set the current speed to 0 whenever there is a collision*/
+    /**
+    * set the current speed to 0 whenever there is a collision
+    */
   public void collisionSpeed() {
 	  speed=0;
   }
-  
+    /**
+     * set the angle to be -90 degrees depending of the cars current angle
+    */
 	public void turnRight()
 	{
 		angle = angle   +   Math.PI    /   128.0; //increase radian angle
@@ -114,6 +158,9 @@ public class Car {
        angle-=(2*Math.PI);
     }
 	}
+    /**
+    * set the angle to be +90 degrees depending of the cars current angle
+    */
 	public void turnLeft()
 	{
 		  angle = angle   +   -Math.PI    /   128.0;    //decrease radian angle
@@ -122,11 +169,18 @@ public class Car {
           angle+=(2*Math.PI);
       }
 	}
-  
+    /**
+     * set the speed according to s
+     * @param s speed value
+     */
 	public void setSpeed(double s)
 	{
 		this.speed=s;
 	}
+    /**
+     * set which BufferedImage the car should use as visual 
+     * @param c
+     */
 	public void setCarIMG(int c)
 	{
 		if(c==0) {currentCarIMG=redCar;}
@@ -157,14 +211,14 @@ public class Car {
 		return this.height;
 	}
 	public int getWidth()
-  {
+    {
 		return this.width;
-  }
+    }
 	public double getSpeed()
 	{
 		return this.speed;
 	}
-/*getters which return buffered image of the chosen car*/
+//getters which return buffered image of the chosen car
 	public BufferedImage getCarIMG() { return this.currentCarIMG; }
 	public BufferedImage getRedCar() { return this.redCar; }
 	public BufferedImage getGreenCar() { return this.greenCar; }
