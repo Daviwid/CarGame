@@ -14,9 +14,7 @@ private Clip clip;
 		   
 		}
 		public void openAudio() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
-			   /*URL url = new URL(
-		   	            "https://wavlist.com/wav/car-burnout1.wav");*/
-
+			  
 		   	         clip = AudioSystem.getClip();  //Obtains a clip that can be used for playing back an audio file or an audio stream
 		   	        
 		   	        //AudioInputStream ais = AudioSystem.getAudioInputStream( url );
