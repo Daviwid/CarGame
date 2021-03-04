@@ -70,7 +70,7 @@ public class Model implements Observable<Model>{
 
     private MainSoundEffect mainSound;
     private SoundEffectCarCollision s;
-    // private Controller controller;
+    
     public Model()
     {
         this.observers = new HashSet<>();
@@ -90,7 +90,7 @@ public class Model implements Observable<Model>{
     }
     
 
-    public void resetCarFlags()
+    public void resetCarFlags()  //reset all car keys flags
     {
     	pressedUp=false;
     	pressedDown=false;
@@ -98,10 +98,10 @@ public class Model implements Observable<Model>{
     	pressedRight=false;
     }
     
-    public void resetCheckBox() {
+    public void resetCheckBox() {  ///reset checkpoint flags
     	checkpoint1 = false;
     	checkpoint2 = false;
-    	 checkpoint3 = false;
+    	checkpoint3 = false;
     	checkpoint4 = false;
     }
     public void menuInit()			//Skapar meny och state = menu
@@ -113,18 +113,18 @@ public class Model implements Observable<Model>{
     
     public void updateModel()
     {
-        if(state==STATE.GAME)	//Kolla endast om man spelar. Genererar annars exceptions
+        if(state==STATE.GAME)	//only checks if you're in Game mode(playing)
         {
         	
             checkBorder();
-            if(checkpoint4) {
-
-         	   mainSound.closeAudio();
+            if(checkpoint4) {  //if car drives past checkpoint 4, close the audio, and call on gamefinished(changes state to FINISHED)
+                mainSound.stopAudio(); //stop the current audio 
+         	   mainSound.closeAudio(); //closes the current audio thread
             	gameFinished();
-            	mainSound.stopAudio();
+            	
                 new Client(gameTimer,positionList,angleList);
             }
-           if(point1==false) {
+           if(point1==false) {  //for each checkpoint, checks if the car has drove past it
             checkCheckpoint1Hitboxes();
            }
            if(point2==false) {
@@ -136,12 +136,12 @@ public class Model implements Observable<Model>{
            if(point4==false) {
             checkCheckpoint4Hitboxes();
            }
-           checkHitboxes();
+           checkHitboxes();  //checks if the car has collided with track rim
 
            
         	moveCar();
         	moveAI();
-            savePosition(carList.get(0).getPositionX(), carList.get(0).getPositionY());  //for loop if we have more then 1 player
+            savePosition(carList.get(0).getPositionX(), carList.get(0).getPositionY());  //saves the position of current car for AI
             saveAngle(carList.get(0).getAngle());                                           // same here...
         }
 
@@ -178,7 +178,7 @@ public class Model implements Observable<Model>{
         carList.get(0).move();
     }
     
-    public void checkBorder() {
+    public void checkBorder() {  //method checks if the car is outside the screen border, in that case changes the direction of the car for a bounce effect
     	if(carList.get(0).getPositionX() >= borderX || carList.get(0).getPositionX() <= 0 || carList.get(0).getPositionY() >= borderY || carList.get(0).getPositionY() <= 0) { 
     		carList.get(0).turnDirection(); 
     	}
@@ -186,9 +186,8 @@ public class Model implements Observable<Model>{
     }
   
     /* source: https://stackoverflow.com/questions/17136084/checking-if-a-point-is-inside-a-rotated-rectangle/17146376*/
-    public boolean overlapsWith(double px, double py){ //px, py kordinater till checkpoints
-    	/*double width= (double) carList.get(0).getWidth()/2;
-    	double height= (double)carList.get(0).getHeight()/2;*/
+    public boolean overlapsWith(double px, double py){ //px, py cordinates to checkpoints or hitbox
+    	
     	double width= (double) carList.get(0).getWidth()/10;
     	double height= (double)carList.get(0).getHeight()/10;
     	double carx= carList.get(0).getPositionX();
@@ -206,10 +205,10 @@ public class Model implements Observable<Model>{
     	double DPC = Math.abs((px * dy - dx * py) + (cx * py - px * cy) + (dx * cy - cx * dy))/2;
     	double CPB = Math.abs((px * cy - cx * py) + (bx * py - px * by) + (cx * by - bx * cy))/2;  
     	double PBA = Math.abs((bx * py - px * by) + (ax * by - bx * ay) + (px * ay - ax * py))/2;
-    	double sum = APD + DPC + CPB + PBA;
+    	double sum = APD + DPC + CPB + PBA; 
     	
-    	if(sum > rectarea ) return false;
-        return true; 
+    	if(sum > rectarea ) return false;  
+        return true; //returns true if car is on a hitbox or checkpoint cordinate
     	} 
     
     public void gameFinished() {
@@ -223,16 +222,16 @@ public class Model implements Observable<Model>{
 	        Point p = it.next();
 	    	if( overlapsWith(p.x, p.y) )
 	    	{ 
-	    		if(count==0)
+	    		if(count==0) //makes sure that the car won't get trapped if its on a hitbox
 	    		{ 
 	    			carList.get(0).turnDirection(); count++;
 	    		}
 	    		//mainSound.closeAudio();       
-	    		try {
-	    			//s = new SoundEffectCarCollision();
+	    		/*try {
+	    			s = new SoundEffectCarCollision();  //call on new audio when car hit the track rim aka special effect
 	    		} catch (Exception e1) {
 	    			e1.printStackTrace();
-	    		}
+	    		}*/
 	    		Toolkit.getDefaultToolkit().beep();
 	    		if(checkpoint1){
 	    			carList.get(0).setCheckpointPosition(checkpoint1x, checkpoint1y);
@@ -252,9 +251,9 @@ public class Model implements Observable<Model>{
 	    			carList.get(0).collisionSpeed();
 	    			carList.get(0).turnDirection();
 	    		}
-	    		else
+	    		else  //if the car hasn't drove past a checkpoint yet
 	    		{
-	    			carList.get(0).setStartPosition(currentTrack);
+	    			carList.get(0).setStartPosition(currentTrack); 
 	    			carList.get(0).setStartAngle(currentTrack);
 	    		}
 	    		
@@ -262,6 +261,7 @@ public class Model implements Observable<Model>{
     	
     	}
     }
+    /*checks if the car has drove past checkpoint n and notifyes updateModel through checkpoint variables for each checkpoint */
     public void checkCheckpoint1Hitboxes() {  
     	
         Iterator<Point> it = currentTrack.getCheckpoints1Hitbox().iterator();
@@ -336,11 +336,11 @@ public class Model implements Observable<Model>{
         carList.get(0).setStartAngle(currentTrack);
         state = STATE.GAME;
         this.mapSelected=true;
-        resetCheckBox();  //mainly for playagainbutton
+        resetCheckBox();  //mainly for playagainbutton, reset all flags so the game is resetted for next game
         resetCarFlags();
         resetGameTimer();
         try {
-        	mainSound = new MainSoundEffect();  
+        	mainSound = new MainSoundEffect();  //call on new audio thread to play
 		} catch (Exception e) {
 			
 			e.printStackTrace();
@@ -411,7 +411,7 @@ public class Model implements Observable<Model>{
     {
     	return carNumber;
     }
-    public Menu getMenu()		//Returnerar menu. Mest till att rita upp
+    public Menu getMenu()		//Returns Menu,mostly for drawing
     {
         return menu;
     }
