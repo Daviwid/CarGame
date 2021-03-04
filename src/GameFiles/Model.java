@@ -187,7 +187,6 @@ public class Model implements Observable<Model>{
   
     /* source: https://stackoverflow.com/questions/17136084/checking-if-a-point-is-inside-a-rotated-rectangle/17146376*/
     public boolean overlapsWith(double px, double py){ //px, py cordinates to checkpoints or hitbox
-    	
     	double width= (double) carList.get(0).getWidth()/10;
     	double height= (double)carList.get(0).getHeight()/10;
     	double carx= carList.get(0).getPositionX();
