@@ -2,6 +2,11 @@ package GameFiles;
 
 import  java.awt.event.*;   
 
+/**
+ * The MouseInput class handels all mouse inputs from a user when they interact with the application.
+ * @version 2.1.3.0
+ * @since 2021-03-05
+ */
 public class MouseInput implements MouseListener{
     private Model m;
 
@@ -62,7 +67,7 @@ public class MouseInput implements MouseListener{
         {
             if(y >= m.getPlayBtn().getY() && y <= m.getPlayBtn().getY()+m.getPlayBtn().getHeight())
             {
-            	model.stateMap();
+            	  model.stateMap();
             }
         }
       	//Check on ConfigBtn 
@@ -71,7 +76,7 @@ public class MouseInput implements MouseListener{
             if(y >= m.getConfigBtn().getY() && y <= m.getConfigBtn().getY()+m.getConfigBtn().getHeight())
             {
                 model.stateConfig();
-            }
+             }
         }
         //Check on quitBtn
         if(x >= m.getQuitBtn().getX() && x <= m.getQuitBtn().getX()+m.getQuitBtn().getWidth())
