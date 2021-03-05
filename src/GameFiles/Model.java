@@ -209,12 +209,12 @@ public class Model implements Observable<Model>{
     }
   
     /**
-     * Method takes the cordinates of a point p from hitbox, and use the car current position, Calculates the sum of areas
-    △APD, △DPC, △CPB, △PBA which are the triangle area from point A to P to D etc. 
-    If the sum is greater than the area of the rectangle, then point P(x,y) is outside the area of the rectangle.
-    else it is in or on the rectangle
-     * @param px x cordinate to checkpoints or hitbox
-     * @param py y cordinate to checkpoints or hitbox
+    * Method takes the cordinates of a point p from hitbox, and use the car current position, Calculates the sum of areas
+    * △APD, △DPC, △CPB, △PBA which are the triangle area from point A to P to D etc. 
+    * If the sum is greater than the area of the rectangle, then point P(x,y) is outside the area of the rectangle.
+    * else it is in or on the rectangle
+    * @param px x cordinate to checkpoints or hitbox
+    * @param py y cordinate to checkpoints or hitbox
     * @return returns true if car is on a hitbox or checkpoint cordinate, otherwise false
     */
     public boolean overlapsWith(double px, double py){ 

@@ -3,40 +3,59 @@ package GameFiles;
 import  java.awt.event.*;   
 
 public class MouseInput implements MouseListener{
-    private Controller c;
-    public MouseInput(Controller c)
+    private Model m;
+
+    /**
+     * Needs an Model-instans to be able to get the menu-class information aswell as Model acts like a holder for diffrent button information.
+     * Model is also used to see what state the game is in which detarmain how this MouseListener reacts to input.
+     * @param m Model.instans to be able to manipulate flags.
+     */
+    public MouseInput(Model m)
     {
-        this.c=c;
+        this.m = m;
     }
+
+    /**
+     * Takes in the information on where the user has clicked and determin if this is a place of a button or not.
+     */
     public void mouseClicked(MouseEvent e)
     {   
         int x = e.getX();		//The x,y coordinates of the mouseclick
         int y = e.getY();
         
         //Check the current STATE to see what buttons to be "activated" and possible to click on
-        if(c.getModel().getState()==STATE.MENU)		
+        if(m.getState()==STATE.MENU)		
         {           
-        	menuButtons(c.getModel(), c.getModel().getMenu(),x,y);
+        	menuButtons(m, m.getMenu(),x,y);
         }
-        if(c.getModel().getState()==STATE.CARCONFIG) {
-        	carConfigButtons(c.getModel(), c.getModel().getMenu(),x,y);
+        if(m.getState()==STATE.CARCONFIG) {
+        	carConfigButtons(m, m.getMenu(),x,y);
         }  
-        if(c.getModel().getState()==STATE.MAP_SELECTION)	
+        if(m.getState()==STATE.MAP_SELECTION)	
         {           
-        	selectMapButtons(c.getModel(), c.getModel().getMenu(),x,y);
+        	selectMapButtons(m, m.getMenu(),x,y);
         }
-        if(c.getModel().getState()==STATE.GAMEFINISHED) {
+        if(m.getState()==STATE.GAMEFINISHED) {
         	
-        	playagainOptionButtons(c.getModel(), c.getModel().getMenu(),x,y);
+        	playagainOptionButtons(m, m.getMenu(),x,y);
         }
-        if(c.getModel().getState()==STATE.HIGHSCORE)		
+        if(m.getState()==STATE.HIGHSCORE)		
         {           
-        	selectHighscoreButtons(c.getModel(), c.getModel().getMenu(),x,y);
+        	selectHighscoreButtons(m, m.getMenu(),x,y);
         }
         
         
     }
-    public void menuButtons(Model model, Menu m,int x,int y)
+
+    /**
+     * Checks if X and Y cordinates is with in any button if so change STATE. This method do this for the MENU-STATE.
+     * @param model Model-instans used for changing STATE if user has clicked on a button
+     * @param m     Menu-instans to get information on where the button is
+     * @param x     X-Cordinate where user clicked
+     * @param y     Y-cordinate where user clicked
+     * @see STATE
+     */
+    private void menuButtons(Model model, Menu m,int x,int y)
     {
     	//Check on playBtn
         if(x >= m.getPlayBtn().getX() && x <= m.getPlayBtn().getX()+m.getPlayBtn().getWidth())
@@ -72,7 +91,15 @@ public class MouseInput implements MouseListener{
         }  
     }
     
-    public void carConfigButtons(Model model, Menu m, int x, int y)
+    /**
+     * Checks if X and Y cordinates is with in any button if so change STATE. This method do this for the CARCONFIG-STATE.
+     * @param model Model-instans used for changing STATE if user has clicked on a button
+     * @param m     Menu-instans to get information on where the button is
+     * @param x     X-Cordinate where user clicked
+     * @param y     Y-cordinate where user clicked
+     * @see STATE
+     */
+    private void carConfigButtons(Model model, Menu m, int x, int y)
     {
     	//RedcarBtn
     	if(x >= m.getredCarBtn().getX() && x <= m.getredCarBtn().getX()+m.getredCarBtn().getWidth())
@@ -111,7 +138,15 @@ public class MouseInput implements MouseListener{
         }  
     }
     
-    public void selectMapButtons(Model model, Menu m, int x, int y)
+    /**
+     * Checks if X and Y cordinates is with in any button if so change STATE. This method do this for the MAP_SELECT-STATE.
+     * @param model Model-instans used for changing STATE if user has clicked on a button
+     * @param m     Menu-instans to get information on where the button is
+     * @param x     X-Cordinate where user clicked
+     * @param y     Y-cordinate where user clicked
+     * @see STATE
+     */
+    private void selectMapButtons(Model model, Menu m, int x, int y)
     {
         //Check on returnBtn
     	if(x >= m.getReturnBtn().getX() && x <= m.getReturnBtn().getX()+m.getReturnBtn().getWidth())
@@ -131,8 +166,16 @@ public class MouseInput implements MouseListener{
             }
         }
     }
-    
-    public void playagainOptionButtons(Model model, Menu m, int x, int y) 
+
+    /**
+     * Checks if X and Y cordinates is with in any button if so change STATE. This method do this for the GAMEFINISHED-STATE.
+     * @param model Model-instans used for changing STATE if user has clicked on a button
+     * @param m     Menu-instans to get information on where the button is
+     * @param x     X-Cordinate where user clicked
+     * @param y     Y-cordinate where user clicked
+     * @see STATE
+     */
+    private void playagainOptionButtons(Model model, Menu m, int x, int y) 
     {
     	//Check PlayAgainBtn
     	if(x >= m.getPlayAgainBtn().getX() && x <= m.getPlayAgainBtn().getX()+m.getPlayAgainBtn().getWidth())
@@ -152,7 +195,15 @@ public class MouseInput implements MouseListener{
         }
     }
     
-    public void selectHighscoreButtons(Model model, Menu m, int x, int y)
+    /**
+     * Checks if X and Y cordinates is with in any button if so change STATE. This method do this for the HIGHSCORE-STATE.
+     * @param model Model-instans used for changing STATE if user has clicked on a button
+     * @param m     Menu-instans to get information on where the button is
+     * @param x     X-Cordinate where user clicked
+     * @param y     Y-cordinate where user clicked
+     * @see STATE
+     */
+    private void selectHighscoreButtons(Model model, Menu m, int x, int y)
     {
       //Check returnBtn
     	if(x >= m.getReturnBtn().getX() && x <= m.getReturnBtn().getX()+m.getReturnBtn().getWidth())
