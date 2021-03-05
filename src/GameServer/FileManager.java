@@ -264,7 +264,7 @@ public class FileManager {
     
     /**
      * Returns best driver's path from highscore file.
-     * @return ArrayList<Point> of positions during the race.
+     * return ArrayList of positions during the race.
      */
     public ArrayList<Point> getHighscorePositionList()
     {
@@ -282,7 +282,7 @@ public class FileManager {
     
     /**
      * Returns best driver's angles from highscore file.
-     * @return ArrayList<Double> of angles during the race.
+     * return ArrayList of angles during the race.
      */
     public ArrayList<Double> getHighscoreAngleList()
     {
@@ -299,7 +299,7 @@ public class FileManager {
     
     /**
      * Returns car color from config file.
-     * @return
+     * 
      */
     public int configGetCarColor() 
     {

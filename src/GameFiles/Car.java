@@ -26,8 +26,8 @@ public class Car {
      * Constructor 
      * 
      * @param color indicate which color the car will have
-     * @param xoffset start x offset for the car 
-     * @param yoffset start y offset for the car 
+     * @param xOffset start x offset for the car 
+     * @param yOffset start y offset for the car 
      * @param topspeed topspeed of the car 
      * @param height the height/length of the car
      * @param width the width of the car
@@ -75,8 +75,8 @@ public class Car {
     
     /**
      * set the position where the car last passed a checkpoint
-     * @param x
-     * @param y
+     * @param x		x coordinate
+     * @param y		y coordinate
      */
     public void setCheckpointPosition(int x,int y) 
     {
@@ -132,7 +132,7 @@ public class Car {
     }
 
     /**
-    * set the current car angle to be +-180 deg taking regard to if the current angle <0 or >360 deg
+    * set the current car angle to be +-180 deg taking regard to if the current angle less than 0 or bigger than 360 deg
     */
     public void turnDirection() {
 	    angle = (angle) + Math.PI ;
@@ -183,7 +183,7 @@ public class Car {
 	}
     /**
      * set which BufferedImage the car should use as visual 
-     * @param c
+     * @param c		color
      */
 	public void setCarIMG(int c)
 	{

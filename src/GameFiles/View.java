@@ -311,7 +311,7 @@ public class View extends JPanel implements Observer<Model> {
      * is done in the getCheckpointsPixel-class. 
      * @param g2d           The Graphics2D instans that all component is drawn to
      * @param checkpoints   BufferedImage of the checkpoint layer of the track.
-     * @see getCheckpointPixel
+     * see getCheckpointPixel
      */
     public void drawCheckpoints(Graphics2D g2d, BufferedImage checkpoints) {
     	
