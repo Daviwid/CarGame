@@ -43,7 +43,7 @@ public class MouseInput implements MouseListener{
         {
             if(y >= m.getPlayBtn().getY() && y <= m.getPlayBtn().getY()+m.getPlayBtn().getHeight())
             {
-            	  model.stateMap();
+            	model.stateMap();
             }
         }
       	//Check on ConfigBtn 
@@ -52,7 +52,7 @@ public class MouseInput implements MouseListener{
             if(y >= m.getConfigBtn().getY() && y <= m.getConfigBtn().getY()+m.getConfigBtn().getHeight())
             {
                 model.stateConfig();
-             }
+            }
         }
         //Check on quitBtn
         if(x >= m.getQuitBtn().getX() && x <= m.getQuitBtn().getX()+m.getQuitBtn().getWidth())
