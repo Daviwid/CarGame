@@ -247,10 +247,6 @@ public class Model implements Observable<Model>{
 	        Point p = it.next();
 	    	if( overlapsWith(p.x, p.y) )
 	    	{ 
-	    		if(count==0) //count makes sure that the car don't get trapped if its on a hitbox 
-	    		{ 
-	    			carList.get(0).turnDirection(); count++;
-	    		}
 	    		//mainSound.closeAudio();       
 	    		/*try {
 	    			s = new SoundEffectCarCollision();  //call on new audio when car hit the track rim aka special effect
@@ -261,20 +257,17 @@ public class Model implements Observable<Model>{
 	    		if(checkpoint1){
 	    			carList.get(0).setCheckpointPosition(checkpoint1x, checkpoint1y);
 	    			carList.get(0).collisionSpeed();
-	    			carList.get(0).turnDirection();
 	    		}
 	    		else if(checkpoint2)
 	    		{
 	    			carList.get(0).setCheckpointPosition(checkpoint2x , checkpoint2y);
 	    			carList.get(0).collisionSpeed();
-	    			carList.get(0).turnDirection();
 	    		}
 	    		
 	    		else if(checkpoint3)
 	    		{
 	    			carList.get(0).setCheckpointPosition(checkpoint3x , checkpoint3y);
 	    			carList.get(0).collisionSpeed();
-	    			carList.get(0).turnDirection();
 	    		}
 	    		else  //if the car hasn't drove past a checkpoint yet
 	    		{
