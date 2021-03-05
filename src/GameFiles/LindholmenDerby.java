@@ -28,7 +28,6 @@ public class LindholmenDerby extends Track {
 		mapHitbox = "/Resources/s2_pixelerad.png";		//rim of the map
 		map = "/Resources/s1.jpg"; 					  //the jpg to be drawn as map
 		checkpointmap= "/Resources/checkpoints.png";  //png containing the checkpoints
-		
 
 		color = 0xFFed1c24;								//Color of the rim
 		

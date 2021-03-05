@@ -7,12 +7,9 @@ import  java.awt.event.*;
 import  javax.swing.*;
 import java.net.ServerSocket;
 
-/*
-ServerUI manages the visual UI and starts an instance of the server class with the port that the client will connect to
-
-It also has a button that will close the serversocket so that the server will not have an open serversocket while the
-application is closed
-*/
+/**
+ * ServerUI manages the visual UI and starts an instance of the server class with the port that the client will connect to
+ */
 
 public class ServerUI extends JFrame implements ActionListener {
     
@@ -23,6 +20,11 @@ public class ServerUI extends JFrame implements ActionListener {
     private JPanel serverWindow;
     private JButton[] buttons  = new JButton[1];
 
+    /**
+     * Starts the server socket and passes it into server.java
+     * also starts a thread and puts the server on it. 
+     * this is so that the server can wait for connections meanwhile the serverUI can be managed simultanious
+     */
     public ServerUI(){
         try {
             serverSocket = new ServerSocket(port);
@@ -36,14 +38,14 @@ public class ServerUI extends JFrame implements ActionListener {
         uiThread = new UIThread(server);
         uiThread.start();
     }
-    /*
-    this method creates the frame with the button that closes the serversocket
-    */
+
+    /**
+     * this method creates the frame with the button that closes the serversocket
+     */
     private void createFrame()
     {
         GridLayout layout = new GridLayout(4,4,2,2);
         serverWindow = new JPanel(layout);
-        
         
     	serverWindow.setPreferredSize(new Dimension(400,400));
         serverWindow.setBackground(Color.WHITE);
@@ -62,9 +64,10 @@ public class ServerUI extends JFrame implements ActionListener {
         setVisible(true);
          
     }
-    /*
-    checks if the button is pressed, then the serversocket will close - making connection to the server impossible
-    */
+
+    /**
+     * checks if the button is pressed, then the serversocket will close - making connection to the server impossible
+     */
     public void actionPerformed(ActionEvent e){
         Object button = e.getSource();
         if(button == buttons[0]){
