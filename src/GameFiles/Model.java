@@ -144,7 +144,7 @@ public class Model implements Observable<Model>{
             checkBorder();
             if(checkpoint4) {  //if car drives past checkpoint 4, close the audio, and call on gamefinished(changes state to FINISHED)
                 mainSound.stopAudio(); //stop the current audio 
-         	   mainSound.closeAudio(); //closes the current audio thread
+         	    mainSound.closeAudio(); //closes the current audio thread
             	stateFinished();
             	
                 new Client(gameTimer,positionList,angleList);
@@ -210,14 +210,22 @@ public class Model implements Observable<Model>{
     	
     }
   
-    /* source: https://stackoverflow.com/questions/17136084/checking-if-a-point-is-inside-a-rotated-rectangle/17146376*/
-    public boolean overlapsWith(double px, double py){ //px, py cordinates to checkpoints or hitbox
+    /**
+     * Method takes the cordinates of a point p from hitbox, and use the car current position, Calculates the sum of areas
+    △APD, △DPC, △CPB, △PBA which are the triangle area from point A to P to D etc. 
+    If the sum is greater than the area of the rectangle, then point P(x,y) is outside the area of the rectangle.
+    else it is in or on the rectangle
+     * @param px x cordinate to checkpoints or hitbox
+     * @param py y cordinate to checkpoints or hitbox
+    * @return returns true if car is on a hitbox or checkpoint cordinate, otherwise false
+    */
+    public boolean overlapsWith(double px, double py){ 
     	double width= (double) carList.get(0).getWidth()/10;
     	double height= (double)carList.get(0).getHeight()/10;
-    	double carx= carList.get(0).getPositionX();
+    	double carx= carList.get(0).getPositionX(); //car position
     	double cary= carList.get(0).getPositionY();
     	
-    	double rectarea = (2*height)*(2*width);
+    	double rectarea = (2*height)*(2*width); //the area of the car
       //creates  4 triangles
     	double APD = Math.abs((px * (cary - height) - (carx - width) * py) + ((carx + width) * py - px * (cary + height)) + ((carx - width) * (cary + height) - (carx + width) * (cary - height)))/2;
     	double DPC = Math.abs((px * (cary + height) - (carx + width) * py) + ((carx - width) * py - px * (cary + height)) + ((carx + width) * (cary + height) - (carx - width) * (cary + height)))/2;
@@ -226,10 +234,12 @@ public class Model implements Observable<Model>{
     	double sum = APD + DPC + CPB + PBA; // total area sum of all 4 triangles
     	
     	if(sum > rectarea ) return false;  
-        return true; //returns true if car is on a hitbox or checkpoint cordinate
+        return true; 
     	} 
-    
-   public void checkHitboxes() {  //checks if objects position overlaps with one of the tracks
+    /**
+     * checks if objects position overlaps with one of the tracks
+     */
+    public void checkHitboxes() {  
     Iterator<Point> it = currentTrack.getHitbox().iterator();
     int count=0;
         while(it.hasNext())
@@ -237,7 +247,7 @@ public class Model implements Observable<Model>{
 	        Point p = it.next();
 	    	if( overlapsWith(p.x, p.y) )
 	    	{ 
-	    		if(count==0) //makes sure that the car won't get trapped if its on a hitbox
+	    		if(count==0) //count makes sure that the car don't get trapped if its on a hitbox 
 	    		{ 
 	    			carList.get(0).turnDirection(); count++;
 	    		}
@@ -276,7 +286,10 @@ public class Model implements Observable<Model>{
     	
     	}
     }
-    /*checks if the car has drove past checkpoint n and notifyes updateModel through checkpoint variables for each checkpoint */
+    
+    /**
+     * checks if the car has drove past checkpoint n and notifies updateModel through checkpoint variables for each checkpoint 
+     * */
     public void checkCheckpoint1Hitboxes() {  
     	
         Iterator<Point> it = currentTrack.getCheckpoints1Hitbox().iterator();

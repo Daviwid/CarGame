@@ -8,11 +8,17 @@ import javax.swing.*;
 public class MainSoundEffect {
  
 private Clip clip;
-		   
+		//constructor  
 		public MainSoundEffect() throws Exception {
 			   openAudio();
 		   
 		}
+		/**
+		 * method for opening audio file and playing the audio
+		 * @throws LineUnavailableException line cannot be opened because it is unavailable 
+		 * @throws IOException Signals that an I/O exception of some sort has occurred.
+		 * @throws UnsupportedAudioFileException operation failed because a file did not contain valid data of a recognized file type and format
+		 */
 		public void openAudio() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
 			  
 		   	         clip = AudioSystem.getClip();  //Obtains a clip that can be used for playing back an audio file or an audio stream

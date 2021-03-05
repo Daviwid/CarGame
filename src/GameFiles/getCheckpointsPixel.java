@@ -11,7 +11,15 @@ private ArrayList<Point> checklist2;
 private ArrayList<Point> checklist3;
 private ArrayList<Point> checklist4;
 
-   /*constructor receives a bufferedimage with the checkpoints drawn to it, the specific color each checkpoint should have and a checkpointnumber*/ 
+   /**
+    * constructor 
+    * @param bi  bufferedimage with the checkpoints drawn to it
+    * @param checkpointcolor1  the specific color checkpoint1 should have
+    * @param checkpointcolor2  the specific color checkpoint2 should have
+    * @param checkpointcolor3  the specific color checkpoint3 should have
+    * @param checkpointcolor4  the specific color checkpoint4 should have
+    * @param checkpointnr  checkpointnumber
+    */
     public getCheckpointsPixel(BufferedImage bi,int checkpointcolor1, int checkpointcolor2, int checkpointcolor3, int checkpointcolor4, int checkpointnr)
     {
         checklist1 = new ArrayList<Point>();
@@ -48,14 +56,18 @@ private ArrayList<Point> checklist4;
     }
     
     
-    
+    /**
+     * compares color a with b
+     * @param a checkpoint n color
+     * @param b color to be compared with
+     * @param checknr decides the percent of color match to use depending of which checkpoint it is
+     * @return boolean if color a matches color b
+     */
     private boolean clr(int a, int b, int checknr) // A=COLOR B=RGB(X,Y)= each pixels color for the screen
     {
     	double A = (double)a;
-        double B = (double)b;	//Color to be compared with
+        double B = (double)b;	
         double ab = A/B;
-        
-        
         
         if((checknr==2 || checknr==3)&& ab >=0.9 && ab<=1.1)//checks if a certain procent of the color code can be detected from the screen 
         {
