@@ -17,11 +17,13 @@ public class Client {
 
     private static int port = 25565;
     private static String ip = "46.239.99.69";
-
-    /*
-    the constructor takes the needed variables to send to the server so that the server can check if the time 
-    the player got was a new highscore
-    */
+    
+    /**
+     * Constructor that takes variables and sends them to the server.
+     * @param time			Int representing time
+     * @param positionList	Driver's path
+     * @param angleList		Driver's angles
+     */
     public Client(int time, ArrayList<Point> positionList, ArrayList<Double> angleList){
         try{
             Socket socket = new Socket(ip, port);
@@ -44,9 +46,13 @@ public class Client {
         }
         
     }
-    /*
-    this method gets the contents of the servers highscore text file and then overwrites clients highscore file.
-    */
+    
+    /**
+     * Gets the contents of server's highscore file and then overwrites client's highscore file.
+     * @param reader	Reads the inputstream from the server
+     * @throws IOException if the socket is unreachable
+     * @throws InterruptedException if the connection with the socket drops
+     */
     private void getHighscores(BufferedReader reader) throws IOException, InterruptedException{
        
         
@@ -66,6 +72,16 @@ public class Client {
     /*
     this method sends the score to the server via outputstream
     */
+    
+    /**
+     * Sends the score to the server via outputstream.
+     * @param outputStream				Used to send data to the server.
+     * @param time						Int representing time
+     * @param positionList				Driver's path
+     * @param angleList					Driver's angles
+     * @throws IOException if the socket is unreachable
+     * @throws InterruptedException if the connection with the socket drops
+     */
     private void sendScore(OutputStream outputStream, int time, ArrayList<Point> positionList, ArrayList<Double> angleList) throws IOException, InterruptedException
     {
         
