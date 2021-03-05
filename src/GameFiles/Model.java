@@ -73,7 +73,6 @@ public class Model implements Observable<Model>{
     private FileManager fileManager;
 
     private MainSoundEffect mainSound;
-    private SoundEffectCarCollision s;
 
     /**
      * Constructor that initiates the obeserver pattern, it also sets the base color of the car aswell as initate the player Car instans.
@@ -252,12 +251,6 @@ public class Model implements Observable<Model>{
 	        Point p = it.next();
 	    	if( overlapsWith(p.x, p.y) )
 	    	{ 
-	    		//mainSound.closeAudio();       
-	    		/*try {
-	    			s = new SoundEffectCarCollision();  //call on new audio when car hit the track rim aka special effect
-	    		} catch (Exception e1) {
-	    			e1.printStackTrace();
-	    		}*/
 	    		Toolkit.getDefaultToolkit().beep();
 	    		if(checkpoint1){
 	    			carList.get(0).setCheckpointPosition(checkpoint1x, checkpoint1y);

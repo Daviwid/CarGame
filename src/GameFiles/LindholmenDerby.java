@@ -12,6 +12,17 @@ public class LindholmenDerby extends Track {
 	private double angle;
 	
 	//Creates the map LindholmenDerby
+	
+	/**
+	 * Constructor for the map LindholmenDerby.
+	 * Gives local strings the paths to the images that has to be loaded.
+	 * Sets the starting values of the car.
+	 * Sets the colorvalues that will be used to analyse the images.
+	 * Then sends the local variables to the methods inherited from Track that initiates the map rims, checkpoints etc.
+	 * 
+	 * @param x
+	 * @param y
+	 */
 	public LindholmenDerby(int x, int y)
 	{
 		mapHitbox = "/Resources/s2_pixelerad.png";		//rim of the map
