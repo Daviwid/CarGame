@@ -23,7 +23,7 @@ public class View extends JPanel implements Observer<Model> {
     }
     /**
      * extends the paintComponent() method in JComponent. Uses diffrent STATE to determain what should be drawn to the JPanel.
-     * @param g recast this Graphics to Graphics2D to be able to handle the diffrent grafic elements of the application.
+     * @param g recasts this Graphics to Graphics2D to be able to handle the diffrent grafic elements of the application.
      * @see STATE
      * @see JComponent
      */

@@ -5,10 +5,19 @@ import  java.awt.event.*;
 public class MouseInput implements MouseListener{
     private Model m;
 
+    /**
+     * Needs an Model-instans to be able to get the menu-class information aswell as Model acts like a holder for diffrent button information.
+     * Model is also used to see what state the game is in which detarmain how this MouseListener reacts to input.
+     * @param m Model.instans to be able to manipulate flags.
+     */
     public MouseInput(Model m)
     {
         this.m = m;
     }
+
+    /**
+     * Takes in the information on where the user has clicked and determin if this is a place of a button or not.
+     */
     public void mouseClicked(MouseEvent e)
     {   
         int x = e.getX();		//The x,y coordinates of the mouseclick
@@ -37,7 +46,16 @@ public class MouseInput implements MouseListener{
         
         
     }
-    public void menuButtons(Model model, Menu m,int x,int y)
+
+    /**
+     * Checks if X and Y cordinates is with in any button if so change STATE. This method do this for the MENU-STATE.
+     * @param model Model-instans used for changing STATE if user has clicked on a button
+     * @param m     Menu-instans to get information on where the button is
+     * @param x     X-Cordinate where user clicked
+     * @param y     Y-cordinate where user clicked
+     * @see STATE
+     */
+    private void menuButtons(Model model, Menu m,int x,int y)
     {
     	//Check on playBtn
         if(x >= m.getPlayBtn().getX() && x <= m.getPlayBtn().getX()+m.getPlayBtn().getWidth())
@@ -73,7 +91,15 @@ public class MouseInput implements MouseListener{
         }  
     }
     
-    public void carConfigButtons(Model model, Menu m, int x, int y)
+    /**
+     * Checks if X and Y cordinates is with in any button if so change STATE. This method do this for the CARCONFIG-STATE.
+     * @param model Model-instans used for changing STATE if user has clicked on a button
+     * @param m     Menu-instans to get information on where the button is
+     * @param x     X-Cordinate where user clicked
+     * @param y     Y-cordinate where user clicked
+     * @see STATE
+     */
+    private void carConfigButtons(Model model, Menu m, int x, int y)
     {
     	//RedcarBtn
     	if(x >= m.getredCarBtn().getX() && x <= m.getredCarBtn().getX()+m.getredCarBtn().getWidth())
@@ -112,7 +138,15 @@ public class MouseInput implements MouseListener{
         }  
     }
     
-    public void selectMapButtons(Model model, Menu m, int x, int y)
+    /**
+     * Checks if X and Y cordinates is with in any button if so change STATE. This method do this for the MAP_SELECT-STATE.
+     * @param model Model-instans used for changing STATE if user has clicked on a button
+     * @param m     Menu-instans to get information on where the button is
+     * @param x     X-Cordinate where user clicked
+     * @param y     Y-cordinate where user clicked
+     * @see STATE
+     */
+    private void selectMapButtons(Model model, Menu m, int x, int y)
     {
         //Check on returnBtn
     	if(x >= m.getReturnBtn().getX() && x <= m.getReturnBtn().getX()+m.getReturnBtn().getWidth())
@@ -132,8 +166,16 @@ public class MouseInput implements MouseListener{
             }
         }
     }
-    
-    public void playagainOptionButtons(Model model, Menu m, int x, int y) 
+
+    /**
+     * Checks if X and Y cordinates is with in any button if so change STATE. This method do this for the GAMEFINISHED-STATE.
+     * @param model Model-instans used for changing STATE if user has clicked on a button
+     * @param m     Menu-instans to get information on where the button is
+     * @param x     X-Cordinate where user clicked
+     * @param y     Y-cordinate where user clicked
+     * @see STATE
+     */
+    private void playagainOptionButtons(Model model, Menu m, int x, int y) 
     {
     	//Check PlayAgainBtn
     	if(x >= m.getPlayAgainBtn().getX() && x <= m.getPlayAgainBtn().getX()+m.getPlayAgainBtn().getWidth())
@@ -153,7 +195,15 @@ public class MouseInput implements MouseListener{
         }
     }
     
-    public void selectHighscoreButtons(Model model, Menu m, int x, int y)
+    /**
+     * Checks if X and Y cordinates is with in any button if so change STATE. This method do this for the HIGHSCORE-STATE.
+     * @param model Model-instans used for changing STATE if user has clicked on a button
+     * @param m     Menu-instans to get information on where the button is
+     * @param x     X-Cordinate where user clicked
+     * @param y     Y-cordinate where user clicked
+     * @see STATE
+     */
+    private void selectHighscoreButtons(Model model, Menu m, int x, int y)
     {
       //Check returnBtn
     	if(x >= m.getReturnBtn().getX() && x <= m.getReturnBtn().getX()+m.getReturnBtn().getWidth())
