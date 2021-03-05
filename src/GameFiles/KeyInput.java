@@ -9,10 +9,16 @@ public class KeyInput implements KeyListener
     {
         this.c=c;
     }
+
+    /**
+     * Reacts to non-numpad arrows (up,down,right and left) and escape key.
+     * arrows is used to controll the Car in game while escape can be used to return to menu or in some situations colse the application.
+     * all manipulation works by setting diffrent flags in an Model-instans, this allows holding multiple keys at the same time.
+     */
     public void keyPressed(KeyEvent e)
     {   
     	int k = e.getKeyCode(); 
-        if(c.getModel().getState()==STATE.GAME)		//Activate specifik keyinput only if state is game
+        if(c.getModel().getState()==STATE.GAME)		//Activate specific keyinput only if state is game
         {
             if(k == KeyEvent.VK_UP)
             {
@@ -50,6 +56,12 @@ public class KeyInput implements KeyListener
     } 
 
     public void keyTyped(KeyEvent e){}
+
+    /**
+     * Reacts to non-numpad arrows (up,down,right and left).
+     * arrows is used to controll the Car in game.
+     * all manipulation works by setting diffrent flags in an Model-instans, this allows holding multiple keys at the same time.
+     */
     public void keyReleased(KeyEvent e)
     {
         if(c.getModel().getState()==STATE.GAME)
