@@ -41,6 +41,7 @@ public class Track {
 	 * @param checkpointfile png containing the checkpoints
 	 * @param x screensize x axis
 	 * @param y screensize y axis
+	 * @see LindHolmenDerby
 	 */
 	public void setMap(String map_name,String map_name2, String checkpointfile, int x, int y)
 	{
@@ -81,6 +82,7 @@ public class Track {
 	 * @param color2 checkpoint color 2 
 	 * @param color3 checkpoint color 3 
 	 * @param color4 checkpoint color 4 
+	 * @see LindholmenDerby
 	 */
 	public void setCheckpointHitbox(int color1, int color2, int color3, int color4)		//calls on getCheckpointsPixel and retrieves list with the checkpointpixels for each checkpoint 
 	{
@@ -102,6 +104,7 @@ public class Track {
 	 * @param x  screensize in x axis
 	 * @param y  screensize in y axis
 	 * @return a scaled bufferedImage to x,y
+	 * @see setMap
 	 */
 	public BufferedImage scaleIMG(BufferedImage b, int x, int y)
 	{
