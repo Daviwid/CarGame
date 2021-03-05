@@ -2,6 +2,11 @@ package GameFiles;
 
 import  java.awt.event.*;   
 
+/**
+ * The JeyInput class handels all key inputs from a user when they interact with the application.
+ * @version 2.1.3.0
+ * @since 2021-03-05
+ */
 public class KeyInput implements KeyListener
 {
     private Model m;
@@ -42,11 +47,8 @@ public class KeyInput implements KeyListener
                 m.setPressedDown(); 
             }
         }
-        if(k == KeyEvent.VK_ESCAPE)					//Allways activated
-        {
-            if(c.getModel().getState()==STATE.MENU)		//Quit Application
+            if(k == KeyEvent.VK_ESCAPE)					//Allways activated
             {
-
                 if(m.getState()==STATE.MENU)		//Quit Application
                 {
                     System.exit(0);
@@ -59,9 +61,8 @@ public class KeyInput implements KeyListener
                 {
                     m.stateMenu();
                 }
-            }
 
-        }
+            }
     } 
 
     public void keyTyped(KeyEvent e){}

@@ -1,4 +1,4 @@
-package GameFiles;
+package GameServer;
 
 import java.awt.Point;
 import java.io.File;
