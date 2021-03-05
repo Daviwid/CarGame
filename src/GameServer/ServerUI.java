@@ -7,11 +7,9 @@ import  java.awt.event.*;
 import  javax.swing.*;
 import java.net.ServerSocket;
 
-/*
-ServerUI manages the visual UI and starts an instance of the server class with the port that the client will connect to
-
-
-*/
+/**
+ * ServerUI manages the visual UI and starts an instance of the server class with the port that the client will connect to
+ */
 
 public class ServerUI extends JFrame implements ActionListener {
     

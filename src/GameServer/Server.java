@@ -1,9 +1,11 @@
 package GameServer;
 
-
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * this class is using a serversocket to start a connection with a client
+ */
 public class Server{
 
     private ServerSocket serverSocket;

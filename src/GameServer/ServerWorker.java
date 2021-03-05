@@ -8,11 +8,10 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
 
-/*
-The thread that client comminucation is done on. 
-
-The thread gets a connection with a client and does all the handeling
-*/
+/**
+ * The thread that client comminucation is done on. 
+ * The thread gets a connection with a client and does all the handeling
+ */
 
 public class ServerWorker extends Thread{
     private final Socket clientSocket;

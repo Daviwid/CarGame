@@ -1,5 +1,8 @@
 package GameServer;
 
+/**
+ * this class is a thread that takes a server
+ */
 public class UIThread extends Thread{
 
     private Server server;
