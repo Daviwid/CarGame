@@ -31,22 +31,21 @@ public class KeyInput implements KeyListener
                 c.getModel().setPressedDown(); 
             }
         }
-            if(k == KeyEvent.VK_ESCAPE)					//Allways activated
+        if(k == KeyEvent.VK_ESCAPE)					//Allways activated
+        {
+            if(c.getModel().getState()==STATE.MENU)		//Quit Application
             {
-                if(c.getModel().getState()==STATE.MENU)		//Quit Application
-                {
-                    System.exit(0);
-                }
-                
-                //Open menu
-                if(c.getModel().getState()==STATE.GAME || c.getModel().getState()==STATE.MAP_SELECTION ||
-                		c.getModel().getState()==STATE.CARCONFIG || c.getModel().getState()==STATE.HIGHSCORE ||
-                		c.getModel().getState()==STATE.GAMEFINISHED)		
-                {
-                    c.getModel().stateMenu();
-                }
-
+                System.exit(0);
             }
+            //Open menu
+            if(c.getModel().getState()==STATE.GAME || c.getModel().getState()==STATE.MAP_SELECTION ||
+                c.getModel().getState()==STATE.CARCONFIG || c.getModel().getState()==STATE.HIGHSCORE ||
+                c.getModel().getState()==STATE.GAMEFINISHED)		
+            {
+                c.getModel().stateMenu();
+            }
+
+        }
     } 
 
     public void keyTyped(KeyEvent e){}

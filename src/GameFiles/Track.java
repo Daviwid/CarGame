@@ -38,21 +38,21 @@ public class Track {
 	public void setMap(String map_name,String map_name2, String checkpointfile, int x, int y)
 	{
 		//Find the images in resource folder and scale them to the screensize window x,y
-		 try
-	        {
-				tmp= ImageIO.read(getClass().getResource(map_name));								
-				this.bi = scaleIMG(tmp,x,y);																	
-				
-				this.icon= ImageIO.read(getClass().getResource(map_name2));		//Save unscaled image as icon for map-selection					
-				this.bi2 = scaleIMG(icon,x,y);									
-				
-				tmp= ImageIO.read(getClass().getResource(checkpointfile));											
-				this.checkbi = scaleIMG(tmp,x,y);
-	        } 
-	        catch (IOException e)
-	        {
-				System.out.println("Error hittar ej bild");
-	        }
+		try
+	    {
+			tmp= ImageIO.read(getClass().getResource(map_name));								
+			this.bi = scaleIMG(tmp,x,y);																	
+			
+			this.icon= ImageIO.read(getClass().getResource(map_name2));		//Save unscaled image as icon for map-selection					
+			this.bi2 = scaleIMG(icon,x,y);									
+			
+			tmp= ImageIO.read(getClass().getResource(checkpointfile));											
+			this.checkbi = scaleIMG(tmp,x,y);
+	    } 
+	    catch (IOException e)
+	    {
+			System.out.println("Error hittar ej bild");
+	    }
 	}
 	
 	public void setHitbox(int color)		//Set hitbox-list once. 
@@ -134,5 +134,4 @@ public class Track {
 	{
 		return this.checkpointlist4;
 	}
-
 }
