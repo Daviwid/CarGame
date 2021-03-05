@@ -100,7 +100,7 @@ public class Track {
 	}
 	/**
 	 * method scales the images to x,y
-	 * @param b  a bufferedImage
+	 * @param b  bufferedImage to be scaled
 	 * @param x  screensize in x axis
 	 * @param y  screensize in y axis
 	 * @return a scaled bufferedImage to x,y
