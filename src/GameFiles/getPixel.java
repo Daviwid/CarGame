@@ -4,6 +4,11 @@ import java.util.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+/**
+ * getPixel is used to search an image file for pixels of a given color to create an Arraylist of collision points of the rim of the track.
+ * @version 2.1.3.0
+ * @since 2021-03-05 
+ */
 public class getPixel
 {
     private ArrayList<Point> list;

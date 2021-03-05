@@ -1,5 +1,11 @@
 package GameFiles;
 
+/**
+ * Subclass of Track. Holds information for a specifik track.
+ * @version 2.1.3.0
+ * @since 2021-03-05
+ *
+ */
 public class LindholmenDerby extends Track {
 	
 	private String mapHitbox, map, checkpointmap;

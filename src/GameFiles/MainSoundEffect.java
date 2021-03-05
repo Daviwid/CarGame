@@ -2,9 +2,13 @@ package GameFiles;
 
 import javax.sound.sampled.*;
 import java.io.IOException;
-import java.net.URL;
 import javax.swing.*;
-	
+
+/**
+* Handles the music in the application.
+* @version 2.1.3.0
+* @since 2021-03-05
+*/
 public class MainSoundEffect {
  
 	private Clip clip;
@@ -28,18 +32,17 @@ public class MainSoundEffect {
 				
 		clip.open(ais);  //Opens the clip 
 		
-		/*   FloatControl gainControl = 
-		(FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);     
-		gainControl.setValue(-20.0f); // Reduce volume by 20 decibels.*/
+		FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);     
+		gainControl.setValue(-10.0f); // Reduce volume by 10 decibels.
 
 		clip.loop(clip.LOOP_CONTINUOUSLY);
 
-		SwingUtilities.invokeLater(new Runnable() {  //creates new runnable thread for playing the audio
-			public void run() {  //run thread
-				
-			
-				}
-			
+		SwingUtilities.invokeLater(new Runnable()
+		{  //creates new runnable thread for playing the audio
+			public void run()
+			{
+				//run thread
+			}
 		});
 	}
 

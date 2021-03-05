@@ -2,6 +2,11 @@ package GameFiles;
 
 import  java.awt.event.*;   
 
+/**
+ * The MouseInput class handels all mouse inputs from a user when they interact with the application.
+ * @version 2.1.3.0
+ * @since 2021-03-05
+ */
 public class MouseInput implements MouseListener{
     private Model m;
 

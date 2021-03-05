@@ -3,7 +3,7 @@ package GameFiles;
 import  java.awt.event.*;   
 
 /**
- * The JeyInput class handels all key inputs from a user when they interact with the application.
+ * The KeyInput class handles all key inputs from a user when they interact with the application.
  * @version 2.1.3.0
  * @since 2021-03-05
  */

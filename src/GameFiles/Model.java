@@ -9,7 +9,11 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.ArrayList;
-
+/**The model class is responsible for managing the data of the application, 
+ * holds information of user input and flags used in the game.
+ * @version 2.1.3.0
+ * @since 2021-03-05 
+ * */
 public class Model implements Observable<Model>{
     //Instansvariabler:
     private LinkedList<Car> carList = new LinkedList<Car>();

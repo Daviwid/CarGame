@@ -7,6 +7,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
+/**
+ * Track class is responsible for handling the hitboxes and checkboxes , also handles scaling all the images to be used for the track
+ * @version 2.0.3.0
+ * @since 2021-03-05
+ */
 public class Track {
 	private int startPositionX;
 	private int startPositionY;

@@ -4,6 +4,11 @@ import java.util.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+/**
+ * getCheckpointspixel handles retrieving the cordinates for all checkpoints and adds them to seperate checkpointlists
+ * @version 2.0.3.0
+ * @since 2021-03-05
+ */
 public class getCheckpointsPixel {
 /*ArrayLists containing the point cordinates for all checkpoints*/    
 private ArrayList<Point> checklist1;
