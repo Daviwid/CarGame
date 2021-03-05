@@ -10,6 +10,11 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.ArrayList;
 
+/**The model class is responsible for managing the data of the application, 
+ * holds information of user input and flags used in the game.
+ * @version 2.1.3.0
+ * @since 2021-03-05 
+ * */
 public class Model implements Observable<Model>{
     //Instansvariabler:
     private LinkedList<Car> carList = new LinkedList<Car>();
@@ -100,7 +105,7 @@ public class Model implements Observable<Model>{
         }
         carList.add(new Car(3, 0, 0, TOPSPEED, height, width));
     }
-    
+   
     public void makeHighscoreList()
     {
     	for(int i=0;i<10;i++)
@@ -113,28 +118,29 @@ public class Model implements Observable<Model>{
     {
     	return highscoreList;
     }
-
-    public void resetCarFlags()  //reset all car keys flags
+    /**reset all car keys flags */
+    public void resetCarFlags()  
     {
     	pressedUp=false;
     	pressedDown=false;
     	pressedLeft=false;
     	pressedRight=false;
     }
-    
-    public void resetCheckBox() {  ///reset checkpoint flags
+    /**reset checkpoint flags*/
+    public void resetCheckBox() {  
     	checkpoint1 = false;
     	checkpoint2 = false;
     	checkpoint3 = false;
     	checkpoint4 = false;
     }
-    public void menuInit()			//Skapar meny och state = menu
+    /**Skapar meny och state = menu */
+    public void menuInit()			
     {
     	
         menu = new Menu(borderX, borderY);
         state = STATE.MENU;
     }
-    
+    /**updates model with what to do depending of which points the car has passed and to check for hitboxes */
     public void updateModel()
     {
         if(state==STATE.GAME)	//only checks if you're in Game mode(playing)
@@ -170,6 +176,7 @@ public class Model implements Observable<Model>{
         updateObservers();
     }
 
+    /**method set the AI car next position */
     public void moveAI()
     {
     	if(ai_angle.hasNext())
@@ -179,7 +186,7 @@ public class Model implements Observable<Model>{
     		carList.get(1).setAngleAI(ai_angle.next());
     	}
     }
-    
+    /**method check if any key has been pressed and adjust speed or angle accordingly to which key has been pressed */
     private void moveCar()
     {
         if(pressedUp)
@@ -200,8 +207,8 @@ public class Model implements Observable<Model>{
         }
         carList.get(0).move();
     }
-    
-    public void checkBorder() {  //method checks if the car is outside the screen border, in that case changes the direction of the car for a bounce effect
+    /**method checks if the car is outside the screen border, in that case changes the direction of the car for a bounce effect */
+    public void checkBorder() {  
     	if(carList.get(0).getPositionX() >= borderX || carList.get(0).getPositionX() <= 0 || carList.get(0).getPositionY() >= borderY || carList.get(0).getPositionY() <= 0) { 
     		carList.get(0).turnDirection(); 
     	}
@@ -209,13 +216,13 @@ public class Model implements Observable<Model>{
     }
   
     /**
-    * Method takes the cordinates of a point p from hitbox, and use the car current position, Calculates the sum of areas
-    * △APD, △DPC, △CPB, △PBA which are the triangle area from point A to P to D etc. 
-    * If the sum is greater than the area of the rectangle, then point P(x,y) is outside the area of the rectangle.
-    * else it is in or on the rectangle
-    * @param px x cordinate to checkpoints or hitbox
-    * @param py y cordinate to checkpoints or hitbox
-    * @return returns true if car is on a hitbox or checkpoint cordinate, otherwise false
+     * Method takes the cordinates of a point p from hitbox, and use the car current position, Calculates the sum of areas
+    △APD, △DPC, △CPB, △PBA which are the triangle area from point A to P to D etc where P is point to the car. 
+    If the sum is greater than the area of the rectangle, then point P(x,y) is outside the area of the rectangle.
+    else it is in or on the rectangle
+     * @param px x cordinate to checkpoints or hitbox
+     * @param py y cordinate to checkpoints or hitbox
+     * @return returns true if car is on a hitbox or checkpoint cordinate, otherwise false
     */
     public boolean overlapsWith(double px, double py){ 
     	double width= (double) carList.get(0).getWidth()/10;
@@ -225,6 +232,7 @@ public class Model implements Observable<Model>{
     	
     	double rectarea = (2*height)*(2*width); //the area of the car
       //creates  4 triangles
+      //calculate the area for each triangle
     	double APD = Math.abs((px * (cary - height) - (carx - width) * py) + ((carx + width) * py - px * (cary + height)) + ((carx - width) * (cary + height) - (carx + width) * (cary - height)))/2;
     	double DPC = Math.abs((px * (cary + height) - (carx + width) * py) + ((carx - width) * py - px * (cary + height)) + ((carx + width) * (cary + height) - (carx - width) * (cary + height)))/2;
     	double CPB = Math.abs((px * (cary + height) - (carx - width) * py) + ((carx + width) * py - px * (cary - height)) + ((carx - width) * (cary - height) - (carx + width) * (cary + height)))/2;  
@@ -245,10 +253,6 @@ public class Model implements Observable<Model>{
 	        Point p = it.next();
 	    	if( overlapsWith(p.x, p.y) )
 	    	{ 
-	    		if(count==0) //count makes sure that the car don't get trapped if its on a hitbox 
-	    		{ 
-	    			carList.get(0).turnDirection(); count++;
-	    		}
 	    		//mainSound.closeAudio();       
 	    		/*try {
 	    			s = new SoundEffectCarCollision();  //call on new audio when car hit the track rim aka special effect
@@ -259,19 +263,16 @@ public class Model implements Observable<Model>{
 	    		if(checkpoint1){
 	    			carList.get(0).setCheckpointPosition(checkpoint1x, checkpoint1y);
 	    			carList.get(0).collisionSpeed();
-	    			carList.get(0).turnDirection();
 	    		}
 	    		else if(checkpoint2)
 	    		{
 	    			carList.get(0).setCheckpointPosition(checkpoint2x , checkpoint2y);
 	    			carList.get(0).collisionSpeed();
-	    			carList.get(0).turnDirection();
 	    		}
 	    		else if(checkpoint3)
 	    		{
 	    			carList.get(0).setCheckpointPosition(checkpoint3x , checkpoint3y);
 	    			carList.get(0).collisionSpeed();
-	    			carList.get(0).turnDirection();
 	    		}
 	    		else  //if the car hasn't drove past a checkpoint yet
 	    		{
@@ -283,7 +284,7 @@ public class Model implements Observable<Model>{
     }
     
     /**
-     * checks if the car has drove past checkpoint n and notifies updateModel through checkpoint variables for each checkpoint 
+     * checks if the car has drove past checkpoint 1 and notifies updateModel through checkpoint variables for each checkpoint 
      * */
     public void checkCheckpoint1Hitboxes() {  
     	
@@ -298,10 +299,12 @@ public class Model implements Observable<Model>{
             	
         	}
         }
-    }
-    public void checkCheckpoint2Hitboxes() { 
 
-        Iterator<Point> it = currentTrack.getCheckpoints2Hitbox().iterator();
+    /**
+     * checks if the car has drove past checkpoint 2 and notifies updateModel through checkpoint variables for each checkpoint 
+     * */
+    public void checkCheckpoint2Hitboxes() {  
+      Iterator<Point> it = currentTrack.getCheckpoints2Hitbox().iterator();
 
         while(it.hasNext()) {
             Point p = it.next();
@@ -317,9 +320,12 @@ public class Model implements Observable<Model>{
             }
         }
     }
-    public void checkCheckpoint3Hitboxes() {
 
-        Iterator<Point> it = currentTrack.getCheckpoints3Hitbox().iterator();
+    /**
+     * checks if the car has drove past checkpoint 3 and notifies updateModel through checkpoint variables for each checkpoint 
+     * */    
+    public void checkCheckpoint3Hitboxes() {  
+      Iterator<Point> it = currentTrack.getCheckpoints3Hitbox().iterator();
 
         while(it.hasNext()) {
             Point p = it.next();
@@ -334,7 +340,11 @@ public class Model implements Observable<Model>{
             	}
         	}
         }
-    }
+
+    /**
+     * checks if the car has drove past checkpoint 4 and notifies updateModel through checkpoint variables for each checkpoint 
+     * */    
+
     public void checkCheckpoint4Hitboxes() {  
         Iterator<Point> it = currentTrack.getCheckpoints4Hitbox().iterator();
 
@@ -349,13 +359,20 @@ public class Model implements Observable<Model>{
         	}
         }
     }
-    
+    /**method call on methods to reset all flags so the game is resetted for next game */
     private void resetGame(){
-        resetCheckBox();  //mainly for playagainbutton, reset all flags so the game is resetted for next game
+        resetCheckBox();  //mainly for playagainbutton
         resetCarFlags();
         resetGameTimer();
     }
-    
+    /**
+     * set the current track, retrieves all list used for the AI cars position and angles, 
+     * initiate which car to be used, 
+     * retrieves the current highscore,
+     * set the start position and angle according to which track is used,
+     * change the STATE to game mode and reset all flags, and finally start new audio thread
+     * @param t current track
+     */
     public void selectMap(Track t)			
     {
         currentTrack = t;
@@ -381,15 +398,24 @@ public class Model implements Observable<Model>{
     {
     	lindholmen = new LindholmenDerby(borderX,borderY);
     }
-
+    /**
+     * saves the position of the current car playing to a positionList for AI
+     * @param xPosition x cordinate of position
+     * @param yPosition y cordinate of position
+     */
     private void savePosition( int xPosition, int yPosition){
         positionList.add(new Point(xPosition, yPosition));
     }
-    
+    /**
+     * saves all the used angles of the current car playing to a angleList for AI
+     * @param angle angle
+     */
     private void saveAngle(Double angle){
         angleList.add(angle);
     }
-    
+    /**
+     * saves the score of the car and sends it to server, also sends all used positions and angles the car has had
+     */
     public void saveAI()
     {
     	fileManager.recieveStringFromServer(fileManager.sendScoreToServer(1, positionList, angleList));

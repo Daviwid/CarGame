@@ -34,7 +34,15 @@ public class Track {
         lastY = checkpointlist1.get(checkpointlist1.size() - 1).y;
         startPositionY = ((lastY - firstY) / 2) + firstY;
     }
-    
+    /**
+	 * method scale images so they match the size of the game screen
+	 * @param map_name  png containing the rim of the map
+	 * @param map_name2  png containing the visual map we will see in game mode
+	 * @param checkpointfile png containing the checkpoints
+	 * @param x screensize x axis
+	 * @param y screensize y axis
+	 * @see LindHolmenDerby
+	 */
 	public void setMap(String map_name,String map_name2, String checkpointfile, int x, int y)
 	{
 		//Find the images in resource folder and scale them to the screensize window x,y
@@ -54,17 +62,28 @@ public class Track {
 			System.out.println("Error hittar ej bild");
 	    }
 	}
-	
+	/**
+	 * method take the color of the rim and creates list containing the hitbox for the rim
+	 * @param color color of the rim
+	 */
 	public void setHitbox(int color)		//Set hitbox-list once. 
 	{
 		pixels = new getPixel(bi,color);
 		this.list = pixels.getList();
 	}
+	
 	public void setStartAngle(double a)				//Set start-angle
 	{
 		startAngle = a;
 	}
-	
+	/**
+	 * method calls on getCheckpointsPixel to get 4 seperate lists containing the cordinates for each chechpoint
+	 * @param color1 checkpoint color 1 
+	 * @param color2 checkpoint color 2 
+	 * @param color3 checkpoint color 3 
+	 * @param color4 checkpoint color 4 
+	 * @see LindholmenDerby
+	 */
 	public void setCheckpointHitbox(int color1, int color2, int color3, int color4)		//calls on getCheckpointsPixel and retrieves list with the checkpointpixels for each checkpoint 
 	{
 		cpixels = new getCheckpointsPixel(checkbi,color1, color2, color3, color4, 1); 
@@ -79,8 +98,14 @@ public class Track {
 		cpixels = new getCheckpointsPixel(checkbi,color1, color2, color3, color4, 4); 
 		this.checkpointlist4 = cpixels.getCheckpointList4();
 	}
-	
-	//Scales the images to x,y
+	/**
+	 * method scales the images to x,y
+	 * @param b  bufferedImage to be scaled
+	 * @param x  screensize in x axis
+	 * @param y  screensize in y axis
+	 * @return a scaled bufferedImage to x,y
+	 * @see setMap
+	 */
 	public BufferedImage scaleIMG(BufferedImage b, int x, int y)
 	{
 		Image resultingImage = b.getScaledInstance(x, y, Image.SCALE_DEFAULT);					//scale to desired size

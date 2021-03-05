@@ -61,7 +61,7 @@ private ArrayList<Point> checklist4;
      * @param a checkpoint n color
      * @param b color to be compared with
      * @param checknr decides the percent of color match to use depending of which checkpoint it is
-     * @return boolean if color a matches color b
+     * @return Returns a boolean if the color b is acceptable.
      */
     private boolean clr(int a, int b, int checknr) // A=COLOR B=RGB(X,Y)= each pixels color for the screen
     {
