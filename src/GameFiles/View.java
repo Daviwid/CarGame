@@ -6,14 +6,19 @@ import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import javax.swing.*;
 
-
+/**
+ * The View Class is responsible for all grafics in the applications, everything the user sees on screen is what this class handles. 
+ * @version 2.1.3.0
+ * @since 2021-03-05
+ * 
+ */
 public class View extends JPanel implements Observer<Model> {
 
     private Model m;
     private LinkedList<Car> carList;
 
     /**
-     * Constructor for View, needs an instans of the Model-class to function.
+     * Constructor for View, needs an instans of the Model-class to function to gather information on STATE of the game aswell as diffrent values for example a Cars position on screen.
      * @param m Instans of Model-class
      * @see Model
      */
