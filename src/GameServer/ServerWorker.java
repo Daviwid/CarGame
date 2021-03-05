@@ -17,10 +17,17 @@ The thread gets a connection with a client and does all the handeling
 public class ServerWorker extends Thread{
     private final Socket clientSocket;
 
+    /**
+     * Constructor that takes a clientsocket
+     * @param clientSocket is used to managed a specific connection with a client.
+     */
     public ServerWorker(Socket clientSocket){
         this.clientSocket = clientSocket;
     }
 
+    /**
+     * runs the thread and does all the work that the server is supposed to do
+     */
     @Override
     public void run(){
         try {
@@ -38,18 +45,21 @@ public class ServerWorker extends Thread{
         }
     }
 
-    /*
-    this method is used to get data and send data to the client.
-    */
+    /**
+     * This method is used to get data and send data to the client.
+     * @throws IOException
+     * @throws InterruptedException
+     */
     private void handleClientSocket() throws IOException, InterruptedException{   
         getData();
         sendData();
         System.out.println("Client closed the connection");
     }
-    /*
-    this method takes the inputstream from a client and reads it and then checks if the data on the inputstream is a highscore
-    if it is, then the server will update the highscore text file, otherwise nothing will happen
-    */
+
+    /**
+     * this method takes the inputstream from a client and reads it and then checks if the data on the inputstream is a highscore.
+     * if it is, then the server will update the highscore text file, otherwise nothing will happen
+     */
     private void getData(){       
         try {
             InputStream inputStream = clientSocket.getInputStream();
@@ -69,10 +79,12 @@ public class ServerWorker extends Thread{
             e.printStackTrace();
         }
     }
-    /*
-    this method gets the outputstream from the client and then send the textfile with updated highscores so that the client
-    can read the data and overwrite its own highscore file.
-    */
+
+    /**
+     * this method gets the outputstream from the client and then sends the 
+     * textfile with updated highscores so that the client
+     * can read the data and overwrite its own highscore file.
+     */
     private void sendData()
     {
         try {

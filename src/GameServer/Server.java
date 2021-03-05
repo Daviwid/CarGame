@@ -4,17 +4,20 @@ package GameServer;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-/* 
-Checks if the serversocket gets a connection from a client and then puts the client on a separate thread
-*/
 public class Server{
 
     private ServerSocket serverSocket;
 
+    /**
+     * @param serverSocket  server socket is passed from the serverUI class
+     */
     public Server(ServerSocket serverSocket){
         this.serverSocket = serverSocket;   
     }
 
+    /**
+     * Checks if the serversocket gets a connection from a client and then puts the client on a separate thread
+     */
     public void runServer(){
         System.out.println("Server: Starting server..");
         try {  
