@@ -11,7 +11,7 @@ import javax.swing.ImageIcon;
 public class Menu
 {
     private Rectangle playBtn, quitBtn, configBtn,
-    redCarBtn, blueCarBtn, greenCarBtn, returnBtn,mapBtn, configReturnBtn, highscoreStringBtn;
+        redCarBtn, blueCarBtn, greenCarBtn, returnBtn,mapBtn, configReturnBtn, highscoreStringBtn;
     private ImageIcon img, finishedimg;
     private BufferedImage redCar,greenCar,blueCar;
     private Color btnclr, btnoutclr, titleclr;

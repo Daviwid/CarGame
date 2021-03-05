@@ -71,7 +71,6 @@ public class Model implements Observable<Model>{
 	
     private final Collection<Observer<Model>> observers;
     
-    
     private FileManager fileManager;
 
     private MainSoundEffect mainSound;
@@ -155,29 +154,28 @@ public class Model implements Observable<Model>{
             	
                 new Client(gameTimer,positionList,angleList);
             }
-           if(point1==false) {  //for each checkpoint, checks if the car has drove past it
-            checkCheckpoint1Hitboxes();
-           }
-           if(point2==false) {
-            checkCheckpoint2Hitboxes();
-           }
-           if(point3==false) {
-            checkCheckpoint3Hitboxes();
-           }
-           if(point4==false) {
-            checkCheckpoint4Hitboxes();
-           }
-           checkHitboxes();  //checks if the car has collided with track rim
+            if(point1==false) {  //for each checkpoint, checks if the car has drove past it
+                checkCheckpoint1Hitboxes();
+            }
+            if(point2==false) {
+                checkCheckpoint2Hitboxes();
+            }
+            if(point3==false) {
+                checkCheckpoint3Hitboxes();
+            }
+            if(point4==false) {
+                checkCheckpoint4Hitboxes();
+            }
+            checkHitboxes();  //checks if the car has collided with track rim
 
-           
         	moveCar();
         	moveAI();
             savePosition(carList.get(0).getPositionX(), carList.get(0).getPositionY());  //saves the position of current car for AI
             saveAngle(carList.get(0).getAngle());                                           // same here...
         }
-
         updateObservers();
     }
+
     /**method set the AI car next position */
     public void moveAI()
     {
@@ -224,7 +222,7 @@ public class Model implements Observable<Model>{
     else it is in or on the rectangle
      * @param px x cordinate to checkpoints or hitbox
      * @param py y cordinate to checkpoints or hitbox
-    * @return returns true if car is on a hitbox or checkpoint cordinate, otherwise false
+     * @return returns true if car is on a hitbox or checkpoint cordinate, otherwise false
     */
     public boolean overlapsWith(double px, double py){ 
     	double width= (double) carList.get(0).getWidth()/10;
@@ -248,8 +246,8 @@ public class Model implements Observable<Model>{
      * checks if objects position overlaps with one of the tracks
      */
     public void checkHitboxes() {  
-    Iterator<Point> it = currentTrack.getHitbox().iterator();
-    int count=0;
+        Iterator<Point> it = currentTrack.getHitbox().iterator();
+        int count=0;
         while(it.hasNext())
         {   
 	        Point p = it.next();
@@ -271,7 +269,6 @@ public class Model implements Observable<Model>{
 	    			carList.get(0).setCheckpointPosition(checkpoint2x , checkpoint2y);
 	    			carList.get(0).collisionSpeed();
 	    		}
-	    		
 	    		else if(checkpoint3)
 	    		{
 	    			carList.get(0).setCheckpointPosition(checkpoint3x , checkpoint3y);
@@ -282,9 +279,7 @@ public class Model implements Observable<Model>{
 	    			carList.get(0).setStartPosition(currentTrack); 
 	    			carList.get(0).setStartAngle(currentTrack);
 	    		}
-	    		
 	    	}
-    	
     	}
     }
     
@@ -294,42 +289,45 @@ public class Model implements Observable<Model>{
     public void checkCheckpoint1Hitboxes() {  
     	
         Iterator<Point> it = currentTrack.getCheckpoints1Hitbox().iterator();
-            while(it.hasNext()) {
+
+        while(it.hasNext()) {
             Point p = it.next();
-            
-           if( overlapsWith(p.x, p.y)) { 
+            if( overlapsWith(p.x, p.y)) { 
             	checkpoint1= true;
             	checkpoint1x= p.x;
             	checkpoint1y= p.y;
             	
         	}
-        	}
         }
+
     /**
      * checks if the car has drove past checkpoint 2 and notifies updateModel through checkpoint variables for each checkpoint 
      * */
     public void checkCheckpoint2Hitboxes() {  
-        Iterator<Point> it = currentTrack.getCheckpoints2Hitbox().iterator();
-            while(it.hasNext()) {
-	            Point p = it.next();
-	            if( overlapsWith(p.x, p.y) )
-	            { 
-	            	if(checkpoint1)
-	            	{
-	            		checkpoint1=false;
-		        		checkpoint2= true;
-		        		checkpoint2x= p.x;
-		        		checkpoint2y= p.y;
-	            	}
-	            }
-        	}
+      Iterator<Point> it = currentTrack.getCheckpoints2Hitbox().iterator();
+
+        while(it.hasNext()) {
+            Point p = it.next();
+            if( overlapsWith(p.x, p.y) )
+            { 
+                if(checkpoint1)
+                {
+                    checkpoint1=false;
+                    checkpoint2= true;
+                    checkpoint2x= p.x;
+                    checkpoint2y= p.y;
+                }
+            }
         }
+    }
+
     /**
      * checks if the car has drove past checkpoint 3 and notifies updateModel through checkpoint variables for each checkpoint 
      * */    
     public void checkCheckpoint3Hitboxes() {  
-        Iterator<Point> it = currentTrack.getCheckpoints3Hitbox().iterator();
-            while(it.hasNext()) {
+      Iterator<Point> it = currentTrack.getCheckpoints3Hitbox().iterator();
+
+        while(it.hasNext()) {
             Point p = it.next();
             if( overlapsWith(p.x, p.y))
             { 
@@ -341,14 +339,16 @@ public class Model implements Observable<Model>{
 	        		checkpoint3y= p.y;
             	}
         	}
-        	}
         }
+
     /**
      * checks if the car has drove past checkpoint 4 and notifies updateModel through checkpoint variables for each checkpoint 
      * */    
+
     public void checkCheckpoint4Hitboxes() {  
         Iterator<Point> it = currentTrack.getCheckpoints4Hitbox().iterator();
-            while(it.hasNext()) {
+
+        while(it.hasNext()) {
             Point p = it.next();
             if( overlapsWith(p.x, p.y) ) { 
             	if(checkpoint3)
@@ -357,8 +357,8 @@ public class Model implements Observable<Model>{
             		checkpoint4= true;
             	}
         	}
-        	}
         }
+    }
     /**method call on methods to reset all flags so the game is resetted for next game */
     private void resetGame(){
         resetCheckBox();  //mainly for playagainbutton
@@ -397,7 +397,6 @@ public class Model implements Observable<Model>{
     public void mapInit()
     {
     	lindholmen = new LindholmenDerby(borderX,borderY);
-    	
     }
     /**
      * saves the position of the current car playing to a positionList for AI

@@ -4,7 +4,12 @@ import  java.awt.*;
 import  java.awt.event.*;   
 import  javax.swing.*; 
 
-    
+/**
+ * Controller class is responsible for handeling the flow of the application and the start up of the game.
+ * holds information about frame update timer and the size of the application window.
+ * @version 2.1.3.0
+ * @since 2021-03-05
+ */    
 public class Controller extends JFrame implements ActionListener
 {
     private Model m;
@@ -13,18 +18,33 @@ public class Controller extends JFrame implements ActionListener
     private Timer t;
     private GameTimer g;
 
-    public class GameTimer implements ActionListener{   //inner class only for race timer
+    /**
+     * An inner Class of Controller to create a seperate timer to mesure time in the game.
+     * @see Timer
+     */
+    public class GameTimer implements ActionListener{   
         private Timer t;    
 
-        public GameTimer(Model m){
+        /**
+         * Initiate the timer at 10 ms secounds and starts it immiditly.
+         */
+        public GameTimer(){
             t = new Timer(10, this);
             t.start();
         }
+        /**
+         * every 10ms the timer event increments the varible gameTimer in model. remember that this going on from the moment the application starts.
+         */
         public void actionPerformed(ActionEvent e){
             m.setGameTimer();
         }
     }
     
+    /**
+     * This Constructor for Controller generates the Jframe as well as generates desired panels, listeners and timers that is need for the game.
+     * there is two diffrent timers that creates its own thred, this is because the GUI runs on one and the in-game clock runs on its own timer.
+     * @see GameTimer
+     */
     public Controller()
     {
         
@@ -39,8 +59,8 @@ public class Controller extends JFrame implements ActionListener
         v.setPreferredSize(screenSize);
         add(v);
         pack();
-        addKeyListener(new KeyInput(this));										//Connect the keylistener
-        addMouseListener(new MouseInput(this));									//Connect the mouselistener
+        addKeyListener(new KeyInput(m));										//Connect the keylistener
+        addMouseListener(new MouseInput(m));									//Connect the mouselistener
         setFocusable(true);      
         setVisible(true);                                 
         
@@ -51,28 +71,37 @@ public class Controller extends JFrame implements ActionListener
         m.mapInit();				//Initiate the maps
         
         t = new Timer(10,this);		//Timer for GUI
-        g = new GameTimer(m);		//Playtime timer in a match
+        g = new GameTimer();		//Playtime timer in a match
        
         startApp();					//start Timer for GUI
     }
     
-    public Model getModel()		//Usage in listenerclasses
-    {
-        return m;
-    }
-    
+    /**
+     * starts the GUI timer
+     */
     public void startApp()		
     {
         t.start();
     }
     
+
+    /**
+     *  Calls for an update of an Model-instans every time the "GUI" timer generates an ActionEvent.
+     * @see Model
+     */
     public void actionPerformed(ActionEvent e)
     {   
         
         m.updateModel();
     }
 
+    /**
+     * relays the information of the JFrames Y-size to a Model-instans.
+     */
+    public void setScreenY() { m.setBorderY((int)screenSize.getHeight());  }
 
-   public void setScreenY() { m.setBorderY((int)screenSize.getHeight());  }
-   public void setScreenX() { m.setBorderX((int)screenSize.getWidth()); }
+     /**
+     * relays the information of the JFrames X-size to a Model-instans.
+     */
+    public void setScreenX() { m.setBorderX((int)screenSize.getWidth()); }
 }

@@ -4,8 +4,6 @@ import java.util.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-
-
 public class getPixel
 {
     /*ArrayList containing the point cordinates for the hitbox of the rim*/
@@ -23,13 +21,18 @@ public class getPixel
 		// work with the image here ...
         for (int x=0;x<bi.getWidth();x++)//send all pixels colors from the screen to compare with the hitbox pixel color
         {
-                for (int y=0;y<bi.getHeight();y++)
+            for (int y=0;y<bi.getHeight();y++)
+            {
+                if(clr(color,bi.getRGB(x,y)))
                 {
+
                     if(clr(color,bi.getRGB(x,y)))
                     {
                         list.add(new Point(x,y));  //adds the current pixel cordinates to hitboxlist if clr method detects the color of the rim in the BufferedImage
                     }
+
                 }
+            }
         }
     }
     
@@ -56,7 +59,6 @@ public class getPixel
     public ArrayList<Point> getList()
     {
     	return this.list;
-    	
     }
    
 }

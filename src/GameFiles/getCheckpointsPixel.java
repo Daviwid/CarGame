@@ -34,19 +34,19 @@ private ArrayList<Point> checklist4;
             {
                 if(checkpointnr==1 && clr(checkpointcolor1, bi.getRGB(x,y), 1)) //for each checkpoint, adds the current pixel cordinates to checkpointlist if clr method detects the specific color in the BufferedImage
                 {
-                	 checklist1.add(new Point(x,y)); 
+                	checklist1.add(new Point(x,y)); 
                 }
                 if(checkpointnr==2 && clr(checkpointcolor2, bi.getRGB(x,y), 2)) 
                 {
-                	 checklist2.add(new Point(x,y));
+                	checklist2.add(new Point(x,y));
                 }
                 if(checkpointnr==3 && clr(checkpointcolor3, bi.getRGB(x,y), 3)) 
                 {
-                	 checklist3.add(new Point(x,y));
+                	checklist3.add(new Point(x,y));
                 }
                 if(checkpointnr==4 && clr(checkpointcolor4, bi.getRGB(x,y), 4)) 
                 {
-                	 checklist4.add(new Point(x,y));
+                	checklist4.add(new Point(x,y));
                 }
                 
                 
@@ -77,28 +77,23 @@ private ArrayList<Point> checklist4;
         {
             return true;
         }
-        
         return false;
     }
     /*getters returning arrayList containing point cordinates for all checkpoints*/
     public ArrayList<Point> getCheckpointList1()
     {
     	return this.checklist1;
-    	
     }
     public ArrayList<Point> getCheckpointList2()
     {
     	return this.checklist2;
-    	
     }
     public ArrayList<Point> getCheckpointList3()
     {
     	return this.checklist3;
-    	
     }
     public ArrayList<Point> getCheckpointList4()
     {
     	return this.checklist4;
-    	
     }
 }

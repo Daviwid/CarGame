@@ -10,17 +10,17 @@ import javax.imageio.ImageIO;
  * @since 2021-03-05
  */
 public class Car {
-      private double positionX; 
-      private double positionY;
-      private double speed;
-      private double angle;
-      private int color;
-      private int xOffset;		//In case of 2 players
-      private int yOffset;
-      private double topspeed;
-      private int height;
-	  private int width;
-	  private BufferedImage currentCarIMG,redCar,blueCar,greenCar,aiCar;
+    private double positionX; 
+    private double positionY;
+    private double speed;
+    private double angle;
+    private int color;
+    private int xOffset;		//In case of 2 players
+    private int yOffset;
+    private double topspeed;
+    private int height;
+    private int width;
+    private BufferedImage currentCarIMG,redCar,blueCar,greenCar,aiCar;
 
     /**
      * Constructor 
@@ -45,10 +45,10 @@ public class Car {
 		this.width = width;
 
         try {
-            	redCar = ImageIO.read(getClass().getResource("/Resources/REDCAR.png"));
-            	greenCar = ImageIO.read(getClass().getResource("/Resources/GREENCAR.png"));
-            	blueCar =ImageIO.read(getClass().getResource("/Resources/BLUECAR.png"));
-            	aiCar = ImageIO.read(getClass().getResource("/Resources/AICAR.png"));
+            redCar = ImageIO.read(getClass().getResource("/Resources/REDCAR.png"));
+            greenCar = ImageIO.read(getClass().getResource("/Resources/GREENCAR.png"));
+            blueCar =ImageIO.read(getClass().getResource("/Resources/BLUECAR.png"));
+            aiCar = ImageIO.read(getClass().getResource("/Resources/AICAR.png"));
         }
 	    catch(IOException e){}
 	    setCarIMG(color);
@@ -135,22 +135,22 @@ public class Car {
     * set the current car angle to be +-180 deg taking regard to if the current angle <0 or >360 deg
     */
     public void turnDirection() {
-	  angle = (angle) + Math.PI ;
-		if(angle>(2*Math.PI))             //keep interval 0-6
-              {       
-                  angle-=(2*Math.PI);
-              }
-              if(angle<0)                      //keep interval 0-6
-              {
-                  angle+=(2*Math.PI);
-              }
+	    angle = (angle) + Math.PI ;
+        if(angle>(2*Math.PI))             //keep interval 0-6
+        {       
+            angle-=(2*Math.PI);
+        }
+        if(angle<0)                      //keep interval 0-6
+        {
+        angle+=(2*Math.PI);
+        }
 	}
     /**
     * set the current speed to 0 whenever there is a collision
     */
-  public void collisionSpeed() {
-	  speed=0;
-  }
+    public void collisionSpeed() {
+        speed=0;
+    }
     /**
      * set the angle to be -90 degrees depending of the cars current angle
     */
@@ -158,20 +158,20 @@ public class Car {
 	{
 		angle = angle   +   Math.PI    /   128.0; //increase radian angle
 		if(angle>(2*Math.PI))                     //keep interval 0-6
-    {       
-       angle-=(2*Math.PI);
-    }
+        {       
+        angle-=(2*Math.PI);
+        }
 	}
     /**
     * set the angle to be +90 degrees depending of the cars current angle
     */
 	public void turnLeft()
 	{
-		  angle = angle   +   -Math.PI    /   128.0;    //decrease radian angle
-      if(angle<0)                                   //keep interval 0-6
-      {
-          angle+=(2*Math.PI);
-      }
+		angle = angle   +   -Math.PI    /   128.0;    //decrease radian angle
+        if(angle<0)                                   //keep interval 0-6
+        {
+            angle+=(2*Math.PI);
+        }
 	}
     /**
      * set the speed according to s
