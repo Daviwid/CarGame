@@ -4,7 +4,11 @@ package GameFiles;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-
+/**
+ * Car class is responsible of handling the movement and which visual to be used for the car
+ * @version 2.0.3.0
+ * @since 2021-03-05
+ */
 public class Car {
       private double positionX; 
       private double positionY;
