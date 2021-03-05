@@ -54,8 +54,8 @@ public class Controller extends JFrame implements ActionListener
         v.setPreferredSize(screenSize);
         add(v);
         pack();
-        addKeyListener(new KeyInput(this));										//Connect the keylistener
-        addMouseListener(new MouseInput(this));									//Connect the mouselistener
+        addKeyListener(new KeyInput(m));										//Connect the keylistener
+        addMouseListener(new MouseInput(m));									//Connect the mouselistener
         setFocusable(true);      
         setVisible(true);                                 
         
@@ -69,16 +69,6 @@ public class Controller extends JFrame implements ActionListener
         g = new GameTimer();		//Playtime timer in a match
        
         startApp();					//start Timer for GUI
-    }
-    
-    /**
-     * this returns the instans of Model-class that Controller has access to.
-     * this getter is maninly used by MouseInput-Class and Keyinput-class, to be able to manipulate the game with diffrent user inputs.
-     * @return m    An instans of the Model-Class.
-     */
-    public Model getModel()		
-    {
-        return m;
     }
     
     /**

@@ -3,10 +3,11 @@ package GameFiles;
 import  java.awt.event.*;   
 
 public class MouseInput implements MouseListener{
-    private Controller c;
-    public MouseInput(Controller c)
+    private Model m;
+
+    public MouseInput(Model m)
     {
-        this.c=c;
+        this.m = m;
     }
     public void mouseClicked(MouseEvent e)
     {   
@@ -14,24 +15,24 @@ public class MouseInput implements MouseListener{
         int y = e.getY();
         
         //Check the current STATE to see what buttons to be "activated" and possible to click on
-        if(c.getModel().getState()==STATE.MENU)		
+        if(m.getState()==STATE.MENU)		
         {           
-        	menuButtons(c.getModel(), c.getModel().getMenu(),x,y);
+        	menuButtons(m, m.getMenu(),x,y);
         }
-        if(c.getModel().getState()==STATE.CARCONFIG) {
-        	carConfigButtons(c.getModel(), c.getModel().getMenu(),x,y);
+        if(m.getState()==STATE.CARCONFIG) {
+        	carConfigButtons(m, m.getMenu(),x,y);
         }  
-        if(c.getModel().getState()==STATE.MAP_SELECTION)	
+        if(m.getState()==STATE.MAP_SELECTION)	
         {           
-        	selectMapButtons(c.getModel(), c.getModel().getMenu(),x,y);
+        	selectMapButtons(m, m.getMenu(),x,y);
         }
-        if(c.getModel().getState()==STATE.GAMEFINISHED) {
+        if(m.getState()==STATE.GAMEFINISHED) {
         	
-        	playagainOptionButtons(c.getModel(), c.getModel().getMenu(),x,y);
+        	playagainOptionButtons(m, m.getMenu(),x,y);
         }
-        if(c.getModel().getState()==STATE.HIGHSCORE)		
+        if(m.getState()==STATE.HIGHSCORE)		
         {           
-        	selectHighscoreButtons(c.getModel(), c.getModel().getMenu(),x,y);
+        	selectHighscoreButtons(m, m.getMenu(),x,y);
         }
         
         

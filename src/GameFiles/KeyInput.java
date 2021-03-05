@@ -4,10 +4,15 @@ import  java.awt.event.*;
 
 public class KeyInput implements KeyListener
 {
-    private Controller c;
-    public KeyInput(Controller c)
+    private Model m;
+
+    /**
+     * Needs an Model-instans to be able to manipulate diffrent flags for keyinput.
+     * @param m Model.instans to be able to manipulate flags.
+     */
+    public KeyInput(Model m)
     {
-        this.c=c;
+        this.m = m;
     }
 
     /**
@@ -18,38 +23,38 @@ public class KeyInput implements KeyListener
     public void keyPressed(KeyEvent e)
     {   
     	int k = e.getKeyCode(); 
-        if(c.getModel().getState()==STATE.GAME)		//Activate specific keyinput only if state is game
+        if(m.getState()==STATE.GAME)		//Activate specific keyinput only if state is game
         {
             if(k == KeyEvent.VK_UP)
             {
-                c.getModel().setPressedUp();   
+                m.setPressedUp();   
             }
             else if(k == KeyEvent.VK_LEFT)
             {
-                c.getModel().setPressedLeft(); 
+                m.setPressedLeft(); 
             }
             else if(k == KeyEvent.VK_RIGHT)
             {
-                c.getModel().setPressedRight();    
+                m.setPressedRight();    
             }
             else if(k == KeyEvent.VK_DOWN)
             {
-                c.getModel().setPressedDown(); 
+                m.setPressedDown(); 
             }
         }
             if(k == KeyEvent.VK_ESCAPE)					//Allways activated
             {
-                if(c.getModel().getState()==STATE.MENU)		//Quit Application
+                if(m.getState()==STATE.MENU)		//Quit Application
                 {
                     System.exit(0);
                 }
                 
                 //Open menu
-                if(c.getModel().getState()==STATE.GAME || c.getModel().getState()==STATE.MAP_SELECTION ||
-                		c.getModel().getState()==STATE.CARCONFIG || c.getModel().getState()==STATE.HIGHSCORE ||
-                		c.getModel().getState()==STATE.GAMEFINISHED)		
+                if(m.getState()==STATE.GAME || m.getState()==STATE.MAP_SELECTION ||
+                		m.getState()==STATE.CARCONFIG || m.getState()==STATE.HIGHSCORE ||
+                		m.getState()==STATE.GAMEFINISHED)		
                 {
-                    c.getModel().stateMenu();
+                    m.stateMenu();
                 }
 
             }
@@ -64,24 +69,24 @@ public class KeyInput implements KeyListener
      */
     public void keyReleased(KeyEvent e)
     {
-        if(c.getModel().getState()==STATE.GAME)
+        if(m.getState()==STATE.GAME)
         {
             int k = e.getKeyCode(); 
             if(k == KeyEvent.VK_UP)
             {
-                c.getModel().setReleasedUp();  
+                m.setReleasedUp();  
             }
             else if(k == KeyEvent.VK_DOWN)
             {
-                c.getModel().setReleasedDown(); 
+                m.setReleasedDown(); 
             }
             else if(k == KeyEvent.VK_LEFT)
             {
-                c.getModel().setReleasedLeft(); 
+                m.setReleasedLeft(); 
             }
             else if(k == KeyEvent.VK_RIGHT)
             {
-                c.getModel().setReleasedRight();   
+                m.setReleasedRight();   
             }
         }
     }
