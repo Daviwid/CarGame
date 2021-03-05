@@ -5,7 +5,6 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
@@ -17,6 +16,13 @@ public class Menu
     private BufferedImage redCar,greenCar,blueCar;
     private Color btnclr, btnoutclr, titleclr;
     
+    /**
+     * Contructor for Menu, creates rectangles that will be drawn out and function as buttons.
+     * Also loads images and gifs relevant to the menu from the resource folder.
+     * 
+     * @param borderX		width size of the game window
+     * @param borderY		height size of the game window
+     */
     public Menu(int borderX, int borderY)
     {  	
     	playBtn = new Rectangle(30,borderY/2-150,300,100);
@@ -47,7 +53,8 @@ public class Menu
 		img.setImage(img.getImage().getScaledInstance(borderX, borderY, Image.SCALE_DEFAULT));		
 		finishedimg.setImage(finishedimg.getImage().getScaledInstance(borderX, borderY, Image.SCALE_DEFAULT));	
     }
-
+    
+    //getters
 	public BufferedImage getRedCar()
     {
     	return redCar;
@@ -60,7 +67,17 @@ public class Menu
     {
     	return blueCar;
     }
-    //Method to resize images in car config
+    /**
+     * Method to resize images in car config by scaling it to the given parameters.
+     * The method makes use of the Image class's getScaledInstance method and returns a new BufferedImage,
+     * that has been scaled and then redrawn from the given BufferedImage.
+     * 
+     * 
+     * @param bi		image to be resized
+     * @param x			desired width
+     * @param y			desired height
+     * @return			returns the resized image
+     */
     public BufferedImage resize(BufferedImage bi,int x,int y)
     {
     	Image resultingImage = bi.getScaledInstance(x, y, Image.SCALE_DEFAULT);				//scale to desired size

@@ -8,23 +8,23 @@ import java.awt.image.BufferedImage;
 
 public class getPixel
 {
-     private ArrayList<Point> list;
+    private ArrayList<Point> list;
     
     public getPixel(BufferedImage bi,int color)
     {
         list = new ArrayList<Point>();
         
 		// work with the image here ...
-		for (int x=0;x<bi.getWidth();x++)
-		{
-            for (int y=0;y<bi.getHeight();y++)
-            {
-                if(clr(color,bi.getRGB(x,y)))
+        for (int x=0;x<bi.getWidth();x++)
+        {
+                for (int y=0;y<bi.getHeight();y++)
                 {
-                    list.add(new Point(x,y));
+                    if(clr(color,bi.getRGB(x,y)))
+                    {
+                        list.add(new Point(x,y));
+                    }
                 }
-            }
-		}
+        }
     }
     
     

@@ -29,21 +29,24 @@ public class Model implements Observable<Model>{
     private boolean gameFinished=false;
 	private boolean carCrash=false;
 
-	private boolean point1=false;
-	private boolean point2=false;
-	private boolean point3=false;
-	private boolean point4=false;
-	
-	private int checkpoint1x;
-	private int checkpoint1y;
-	private int checkpoint2x;
-	private int checkpoint2y;
-	private int checkpoint3x;
-	private int checkpoint3y;
+    private boolean point1=false;
+    private boolean point2=false;
+    private boolean point3=false;
+    private boolean point4=false;
+
+    private int checkpoint1x;
+    private int checkpoint1y;
+    private int checkpoint2x;
+    private int checkpoint2y;
+    private int checkpoint3x;
+    private int checkpoint3y;
 	
     private static int TOPSPEED = 10;
     private static int height = 50;
     private static int width = 30;
+    
+    private int laps = 0;
+    private static int maxlaps = 3;
     private int carNumber = 1;
     private Track currentTrack,lindholmen;
     private String currentHighscore;
@@ -54,15 +57,15 @@ public class Model implements Observable<Model>{
     private String build = "Build v. 2.1.3.0";
     
     private String[] highscoreList = new String[10];
-
+  
     private ArrayList<Point> positionList = new ArrayList<Point>();
     private ArrayList<Double> angleList = new ArrayList<Double>();
 
-	private Iterator<Point> ai_point;
-	private Iterator<Double> ai_angle;
+    private Iterator<Point> ai_point;
+    private Iterator<Double> ai_angle;
 
-	private ArrayList<Point> aip = new ArrayList<Point>();
-	private ArrayList<Double> aia = new ArrayList<Double>();
+    private ArrayList<Point> aip = new ArrayList<Point>();
+    private ArrayList<Double> aia = new ArrayList<Double>();
 	
     private final Collection<Observer<Model>> observers;
     
@@ -71,14 +74,32 @@ public class Model implements Observable<Model>{
 
     private MainSoundEffect mainSound;
     private SoundEffectCarCollision s;
-    // private Controller controller;
+
+    /**
+     * Constructor that initiates the obeserver pattern, it also sets the base color of the car aswell as initate the player Car instans.
+     */
     public Model()
     {
         this.observers = new HashSet<>();
         fileManager = new FileManager();
         carColor = fileManager.configGetCarColor();
+        try {
+        	mainSound = new MainSoundEffect();  //call on new audio thread to play
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
     }
     
+
+    /**
+     * creates an instans of a Car-class and adds it to a arraylist that holds all the instanses. The parameter carNumber is where in the arraylist the Car-instans is 
+     * added to, so if it is called agian with the same value of carNumber the old instant will be overwriten. The method also adds the "AI Car" to the position after
+     * the Car-instans is added (carNumber + 1). If u add several cars in a row the last index of the arraylist will always be the "AI Car".
+     * 
+     * @param carNumber The index for where the the car will be added to the arraylist of car instanses.
+     * @see Car 
+     */
     public void carsInit(int carNumber)
     {
     	ai_point = aip.iterator();
@@ -103,7 +124,7 @@ public class Model implements Observable<Model>{
     	return highscoreList;
     }
 
-    public void resetCarFlags()
+    public void resetCarFlags()  //reset all car keys flags
     {
     	pressedUp=false;
     	pressedDown=false;
@@ -111,10 +132,10 @@ public class Model implements Observable<Model>{
     	pressedRight=false;
     }
     
-    public void resetCheckBox() {
+    public void resetCheckBox() {  ///reset checkpoint flags
     	checkpoint1 = false;
     	checkpoint2 = false;
-    	 checkpoint3 = false;
+    	checkpoint3 = false;
     	checkpoint4 = false;
     }
     public void menuInit()			//Skapar meny och state = menu
@@ -126,18 +147,15 @@ public class Model implements Observable<Model>{
     
     public void updateModel()
     {
-        if(state==STATE.GAME)	//Kolla endast om man spelar. Genererar annars exceptions
+        if(state==STATE.GAME)	//only checks if you're in Game mode(playing)
         {
         	
             checkBorder();
-            if(checkpoint4) {
-
-         	   mainSound.closeAudio();
-            	gameFinished();
-            	mainSound.stopAudio();
+            if(checkpoint4 && laps==maxlaps) {  //if car drives past checkpoint 4 and has past maxlaps, call on statefinished(changes state to FINISHED)
+            	stateFinished();
                 new Client(gameTimer,positionList,angleList);
             }
-           if(point1==false) {
+           if(point1==false) {  //for each checkpoint, checks if the car has drove past it
             checkCheckpoint1Hitboxes();
            }
            if(point2==false) {
@@ -149,12 +167,12 @@ public class Model implements Observable<Model>{
            if(point4==false) {
             checkCheckpoint4Hitboxes();
            }
-           checkHitboxes();
+           checkHitboxes();  //checks if the car has collided with track rim
 
            
         	moveCar();
         	moveAI();
-            savePosition(carList.get(0).getPositionX(), carList.get(0).getPositionY());  //for loop if we have more then 1 player
+            savePosition(carList.get(0).getPositionX(), carList.get(0).getPositionY());  //saves the position of current car for AI
             saveAngle(carList.get(0).getAngle());                                           // same here...
         }
 
@@ -191,83 +209,74 @@ public class Model implements Observable<Model>{
         carList.get(0).move();
     }
     
-    public void checkBorder() {
+    public void checkBorder() {  //method checks if the car is outside the screen border, in that case changes the direction of the car for a bounce effect
     	if(carList.get(0).getPositionX() >= borderX || carList.get(0).getPositionX() <= 0 || carList.get(0).getPositionY() >= borderY || carList.get(0).getPositionY() <= 0) { 
     		carList.get(0).turnDirection(); 
     	}
     	
     }
   
-    /* source: https://stackoverflow.com/questions/17136084/checking-if-a-point-is-inside-a-rotated-rectangle/17146376*/
-    public boolean overlapsWith(double px, double py){ //px, py kordinater till checkpoints
-    	/*double width= (double) carList.get(0).getWidth()/2;
-    	double height= (double)carList.get(0).getHeight()/2;*/
+    /**
+     * Method takes the cordinates of a point p from hitbox, and use the car current position, Calculates the sum of areas
+    △APD, △DPC, △CPB, △PBA which are the triangle area from point A to P to D etc. 
+    If the sum is greater than the area of the rectangle, then point P(x,y) is outside the area of the rectangle.
+    else it is in or on the rectangle
+     * @param px x cordinate to checkpoints or hitbox
+     * @param py y cordinate to checkpoints or hitbox
+    * @return returns true if car is on a hitbox or checkpoint cordinate, otherwise false
+    */
+    public boolean overlapsWith(double px, double py){ 
     	double width= (double) carList.get(0).getWidth()/10;
     	double height= (double)carList.get(0).getHeight()/10;
-    	double carx= carList.get(0).getPositionX();
+    	double carx= carList.get(0).getPositionX(); //car position
     	double cary= carList.get(0).getPositionY();
-    	double ax= carx - width;
-    	double ay= cary - height;
-    	double bx= carx + width;
-    	double by= cary - height;
-    	double cx= carx - width;  
-    	double cy= cary + height;
-    	double dx= carx + width;
-    	double dy= cary + height;
-    	double rectarea = (2*height)*(2*width);
-    	double APD = Math.abs((px * ay - ax * py) + (dx * py - px * dy) + (ax * dy - dx * ay))/2;
-    	double DPC = Math.abs((px * dy - dx * py) + (cx * py - px * cy) + (dx * cy - cx * dy))/2;
-    	double CPB = Math.abs((px * cy - cx * py) + (bx * py - px * by) + (cx * by - bx * cy))/2;  
-    	double PBA = Math.abs((bx * py - px * by) + (ax * by - bx * ay) + (px * ay - ax * py))/2;
-    	double sum = APD + DPC + CPB + PBA;
     	
-    	if(sum > rectarea ) return false;
+    	double rectarea = (2*height)*(2*width); //the area of the car
+      //creates  4 triangles
+    	double APD = Math.abs((px * (cary - height) - (carx - width) * py) + ((carx + width) * py - px * (cary + height)) + ((carx - width) * (cary + height) - (carx + width) * (cary - height)))/2;
+    	double DPC = Math.abs((px * (cary + height) - (carx + width) * py) + ((carx - width) * py - px * (cary + height)) + ((carx + width) * (cary + height) - (carx - width) * (cary + height)))/2;
+    	double CPB = Math.abs((px * (cary + height) - (carx - width) * py) + ((carx + width) * py - px * (cary - height)) + ((carx - width) * (cary - height) - (carx + width) * (cary + height)))/2;  
+    	double PBA = Math.abs(((carx + width) * py - px * (cary - height)) + ((carx - width) * (cary - height) - (carx + width) * (cary - height)) + (px * (cary - height) - (carx - width) * py))/2;
+    	double sum = APD + DPC + CPB + PBA; // total area sum of all 4 triangles
+    	
+    	if(sum > rectarea ) return false;  
         return true; 
     	} 
-    
-    public void gameFinished() {
-    	state= STATE.GAMEFINISHED;
-    }
-   public void checkHitboxes() {  //checks if objects position overlaps with one of the tracks
+    /**
+     * checks if objects position overlaps with one of the tracks
+     */
+    public void checkHitboxes() {  
     Iterator<Point> it = currentTrack.getHitbox().iterator();
-    int count=0;
         while(it.hasNext())
         {   
 	        Point p = it.next();
 	    	if( overlapsWith(p.x, p.y) )
 	    	{ 
-	    		if(count==0)
-	    		{ 
-	    			carList.get(0).turnDirection(); count++;
-	    		}
 	    		//mainSound.closeAudio();       
-	    		try {
-	    			//s = new SoundEffectCarCollision();
+	    		/*try {
+	    			s = new SoundEffectCarCollision();  //call on new audio when car hit the track rim aka special effect
 	    		} catch (Exception e1) {
 	    			e1.printStackTrace();
-	    		}
+	    		}*/
 	    		Toolkit.getDefaultToolkit().beep();
 	    		if(checkpoint1){
 	    			carList.get(0).setCheckpointPosition(checkpoint1x, checkpoint1y);
 	    			carList.get(0).collisionSpeed();
-	    			carList.get(0).turnDirection();
 	    		}
 	    		else if(checkpoint2)
 	    		{
 	    			carList.get(0).setCheckpointPosition(checkpoint2x , checkpoint2y);
 	    			carList.get(0).collisionSpeed();
-	    			carList.get(0).turnDirection();
 	    		}
 	    		
 	    		else if(checkpoint3)
 	    		{
 	    			carList.get(0).setCheckpointPosition(checkpoint3x , checkpoint3y);
 	    			carList.get(0).collisionSpeed();
-	    			carList.get(0).turnDirection();
 	    		}
-	    		else
+	    		else  //if the car hasn't drove past a checkpoint yet
 	    		{
-	    			carList.get(0).setStartPosition(currentTrack);
+	    			carList.get(0).setStartPosition(currentTrack); 
 	    			carList.get(0).setStartAngle(currentTrack);
 	    		}
 	    		
@@ -275,6 +284,10 @@ public class Model implements Observable<Model>{
     	
     	}
     }
+    
+    /**
+     * checks if the car has drove past checkpoint n and notifies updateModel through checkpoint variables for each checkpoint 
+     * */
     public void checkCheckpoint1Hitboxes() {  
     	
         Iterator<Point> it = currentTrack.getCheckpoints1Hitbox().iterator();
@@ -330,12 +343,17 @@ public class Model implements Observable<Model>{
             	{
             		checkpoint3=false;
             		checkpoint4= true;
+            		laps++;
             	}
         	}
         	}
         }
     
-    
+    private void resetGame(){
+        resetCheckBox();  //mainly for playagainbutton, reset all flags so the game is resetted for next game
+        resetCarFlags();
+        resetGameTimer();
+    }
     
     public void selectMap(Track t)			
     {
@@ -343,21 +361,14 @@ public class Model implements Observable<Model>{
         aip = fileManager.getHighscorePositionList();
         aia = fileManager.getHighscoreAngleList();
         carList.clear();
+        laps=0;
         carsInit(carNumber);
         currentHighscore = fileManager.getHighscoreForPosition(1);
         carList.get(0).setStartPosition(currentTrack);
         carList.get(0).setStartAngle(currentTrack);
         state = STATE.GAME;
         this.mapSelected=true;
-        resetCheckBox();  //mainly for playagainbutton
-        resetCarFlags();
-        resetGameTimer();
-        try {
-        	mainSound = new MainSoundEffect();  
-		} catch (Exception e) {
-			
-			e.printStackTrace();
-		}
+        resetGame();
     }
     
     public void mapInit()
@@ -376,7 +387,7 @@ public class Model implements Observable<Model>{
     
     public void saveAI()
     {
-    	fileManager.recieveHighscoreStringFromServer(fileManager.sendScoreToServer(1, positionList, angleList));
+    	fileManager.recieveStringFromServer(fileManager.sendScoreToServer(1, positionList, angleList));
     }
     
     
@@ -424,7 +435,7 @@ public class Model implements Observable<Model>{
     {
     	return carNumber;
     }
-    public Menu getMenu()		//Returnerar menu. Mest till att rita upp
+    public Menu getMenu()		//Returns Menu,mostly for drawing
     {
         return menu;
     }
@@ -432,7 +443,14 @@ public class Model implements Observable<Model>{
     {
     	return lindholmen;
     }
-
+    public int getLaps()
+    {
+    	return laps;
+    }
+    public int getMaxLaps()
+    {
+    	return maxlaps;
+    }
     
     public boolean getMapSelected()
     {

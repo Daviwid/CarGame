@@ -5,12 +5,21 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class getCheckpointsPixel {
+/*ArrayLists containing the point cordinates for all checkpoints*/    
 private ArrayList<Point> checklist1;
 private ArrayList<Point> checklist2;
 private ArrayList<Point> checklist3;
 private ArrayList<Point> checklist4;
 
-   
+   /**
+    * constructor 
+    * @param bi  bufferedimage with the checkpoints drawn to it
+    * @param checkpointcolor1  the specific color checkpoint1 should have
+    * @param checkpointcolor2  the specific color checkpoint2 should have
+    * @param checkpointcolor3  the specific color checkpoint3 should have
+    * @param checkpointcolor4  the specific color checkpoint4 should have
+    * @param checkpointnr  checkpointnumber
+    */
     public getCheckpointsPixel(BufferedImage bi,int checkpointcolor1, int checkpointcolor2, int checkpointcolor3, int checkpointcolor4, int checkpointnr)
     {
         checklist1 = new ArrayList<Point>();
@@ -21,21 +30,21 @@ private ArrayList<Point> checklist4;
 		// work with the image here ...
 		for (int x=0;x<bi.getWidth();x++)
 		{
-            for (int y=0;y<bi.getHeight();y++)
+            for (int y=0;y<bi.getHeight();y++)   //send all pixels colors from the screen to compare with the designated checkpoints pixel color
             {
-                if(checkpointnr==1 && clr(checkpointcolor1, bi.getRGB(x,y), 1)) //send all pixels colors from the screen to compare with the designated checkpoints pixel color
+                if(checkpointnr==1 && clr(checkpointcolor1, bi.getRGB(x,y), 1)) //for each checkpoint, adds the current pixel cordinates to checkpointlist if clr method detects the specific color in the BufferedImage
                 {
                 	 checklist1.add(new Point(x,y)); 
                 }
-                if(checkpointnr==2 && clr(checkpointcolor2, bi.getRGB(x,y), 2)) //send all pixels colors from the screen to compare with the designated checkpoints pixel color
+                if(checkpointnr==2 && clr(checkpointcolor2, bi.getRGB(x,y), 2)) 
                 {
                 	 checklist2.add(new Point(x,y));
                 }
-                if(checkpointnr==3 && clr(checkpointcolor3, bi.getRGB(x,y), 3)) //send all pixels colors from the screen to compare with the designated checkpoints pixel color
+                if(checkpointnr==3 && clr(checkpointcolor3, bi.getRGB(x,y), 3)) 
                 {
                 	 checklist3.add(new Point(x,y));
                 }
-                if(checkpointnr==4 && clr(checkpointcolor4, bi.getRGB(x,y), 4)) //send all pixels colors from the screen to compare with the designated checkpoints pixel color
+                if(checkpointnr==4 && clr(checkpointcolor4, bi.getRGB(x,y), 4)) 
                 {
                 	 checklist4.add(new Point(x,y));
                 }
@@ -47,34 +56,31 @@ private ArrayList<Point> checklist4;
     }
     
     
-    
-    public boolean clr(int a, int c, int checknr) // A=COLOR B=LCOLOR C=RGB(X,Y)=VARJE FÄRGPIXEL FÖR SKÄRMEN
+    /**
+     * compares color a with b
+     * @param a checkpoint n color
+     * @param b color to be compared with
+     * @param checknr decides the percent of color match to use depending of which checkpoint it is
+     * @return boolean if color a matches color b
+     */
+    private boolean clr(int a, int b, int checknr) // A=COLOR B=RGB(X,Y)= each pixels color for the screen
     {
     	double A = (double)a;
-        double C = (double)c;	//Color to be compared with
-        double ac = A/C;
+        double B = (double)b;	
+        double ab = A/B;
         
-        
-        if((checknr==3) && ac >=0.9 && ac <= 1.1)
+        if((checknr==2 || checknr==3)&& ab >=0.9 && ab<=1.1)//checks if a certain procent of the color code can be detected from the screen 
         {
             return true;
         }
-        if((checknr==2 )&& ac >=0.9 && ac<=1.1)
-        {
-            return true;
-        }
-        if((checknr==1 )&& ac >=1 && ac<=1.0)
-        {
-            return true;
-        }
-        if((checknr==4 )&& ac >=1 && ac<=1.0)
+        if((checknr==1 || checknr==4)&& ab >=1 && ab<=1.0)
         {
             return true;
         }
         
         return false;
     }
-    
+    /*getters returning arrayList containing point cordinates for all checkpoints*/
     public ArrayList<Point> getCheckpointList1()
     {
     	return this.checklist1;
