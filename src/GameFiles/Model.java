@@ -22,12 +22,12 @@ public class Model implements Observable<Model>{
     private boolean pressedLeft = false;
     
     private boolean checkpoint1 = false;
-	  private boolean checkpoint2 = false;
-	  private boolean checkpoint3 = false;
-	  private boolean checkpoint4 = false;
+	private boolean checkpoint2 = false;
+	private boolean checkpoint3 = false;
+	private boolean checkpoint4 = false;
 	
     private boolean gameFinished=false;
-	  private boolean carCrash=false;
+	private boolean carCrash=false;
 
     private boolean point1=false;
     private boolean point2=false;
@@ -65,7 +65,6 @@ public class Model implements Observable<Model>{
     private ArrayList<Double> aia = new ArrayList<Double>();
 	
     private final Collection<Observer<Model>> observers;
-    
     
     private FileManager fileManager;
 
@@ -149,29 +148,28 @@ public class Model implements Observable<Model>{
             	
                 new Client(gameTimer,positionList,angleList);
             }
-           if(point1==false) {  //for each checkpoint, checks if the car has drove past it
-            checkCheckpoint1Hitboxes();
-           }
-           if(point2==false) {
-            checkCheckpoint2Hitboxes();
-           }
-           if(point3==false) {
-            checkCheckpoint3Hitboxes();
-           }
-           if(point4==false) {
-            checkCheckpoint4Hitboxes();
-           }
-           checkHitboxes();  //checks if the car has collided with track rim
+            if(point1==false) {  //for each checkpoint, checks if the car has drove past it
+                checkCheckpoint1Hitboxes();
+            }
+            if(point2==false) {
+                checkCheckpoint2Hitboxes();
+            }
+            if(point3==false) {
+                checkCheckpoint3Hitboxes();
+            }
+            if(point4==false) {
+                checkCheckpoint4Hitboxes();
+            }
+            checkHitboxes();  //checks if the car has collided with track rim
 
-           
         	moveCar();
         	moveAI();
             savePosition(carList.get(0).getPositionX(), carList.get(0).getPositionY());  //saves the position of current car for AI
             saveAngle(carList.get(0).getAngle());                                           // same here...
         }
-
         updateObservers();
     }
+
     public void moveAI()
     {
     	if(ai_angle.hasNext())
@@ -240,8 +238,8 @@ public class Model implements Observable<Model>{
      * checks if objects position overlaps with one of the tracks
      */
     public void checkHitboxes() {  
-    Iterator<Point> it = currentTrack.getHitbox().iterator();
-    int count=0;
+        Iterator<Point> it = currentTrack.getHitbox().iterator();
+        int count=0;
         while(it.hasNext())
         {   
 	        Point p = it.next();
@@ -269,7 +267,6 @@ public class Model implements Observable<Model>{
 	    			carList.get(0).collisionSpeed();
 	    			carList.get(0).turnDirection();
 	    		}
-	    		
 	    		else if(checkpoint3)
 	    		{
 	    			carList.get(0).setCheckpointPosition(checkpoint3x , checkpoint3y);
@@ -281,9 +278,7 @@ public class Model implements Observable<Model>{
 	    			carList.get(0).setStartPosition(currentTrack); 
 	    			carList.get(0).setStartAngle(currentTrack);
 	    		}
-	    		
 	    	}
-    	
     	}
     }
     
@@ -293,36 +288,40 @@ public class Model implements Observable<Model>{
     public void checkCheckpoint1Hitboxes() {  
     	
         Iterator<Point> it = currentTrack.getCheckpoints1Hitbox().iterator();
-            while(it.hasNext()) {
+
+        while(it.hasNext()) {
             Point p = it.next();
-            
-           if( overlapsWith(p.x, p.y)) { 
+            if( overlapsWith(p.x, p.y)) { 
             	checkpoint1= true;
             	checkpoint1x= p.x;
             	checkpoint1y= p.y;
             	
         	}
-        	}
         }
-    public void checkCheckpoint2Hitboxes() {  
+    }
+    public void checkCheckpoint2Hitboxes() { 
+
         Iterator<Point> it = currentTrack.getCheckpoints2Hitbox().iterator();
-            while(it.hasNext()) {
-	            Point p = it.next();
-	            if( overlapsWith(p.x, p.y) )
-	            { 
-	            	if(checkpoint1)
-	            	{
-	            		checkpoint1=false;
-		        		checkpoint2= true;
-		        		checkpoint2x= p.x;
-		        		checkpoint2y= p.y;
-	            	}
-	            }
-        	}
+
+        while(it.hasNext()) {
+            Point p = it.next();
+            if( overlapsWith(p.x, p.y) )
+            { 
+                if(checkpoint1)
+                {
+                    checkpoint1=false;
+                    checkpoint2= true;
+                    checkpoint2x= p.x;
+                    checkpoint2y= p.y;
+                }
+            }
         }
-    public void checkCheckpoint3Hitboxes() {  
+    }
+    public void checkCheckpoint3Hitboxes() {
+
         Iterator<Point> it = currentTrack.getCheckpoints3Hitbox().iterator();
-            while(it.hasNext()) {
+
+        while(it.hasNext()) {
             Point p = it.next();
             if( overlapsWith(p.x, p.y))
             { 
@@ -334,11 +333,12 @@ public class Model implements Observable<Model>{
 	        		checkpoint3y= p.y;
             	}
         	}
-        	}
         }
+    }
     public void checkCheckpoint4Hitboxes() {  
         Iterator<Point> it = currentTrack.getCheckpoints4Hitbox().iterator();
-            while(it.hasNext()) {
+
+        while(it.hasNext()) {
             Point p = it.next();
             if( overlapsWith(p.x, p.y) ) { 
             	if(checkpoint3)
@@ -347,8 +347,8 @@ public class Model implements Observable<Model>{
             		checkpoint4= true;
             	}
         	}
-        	}
         }
+    }
     
     private void resetGame(){
         resetCheckBox();  //mainly for playagainbutton, reset all flags so the game is resetted for next game
@@ -380,7 +380,6 @@ public class Model implements Observable<Model>{
     public void mapInit()
     {
     	lindholmen = new LindholmenDerby(borderX,borderY);
-    	
     }
 
     private void savePosition( int xPosition, int yPosition){

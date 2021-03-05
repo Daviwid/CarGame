@@ -42,8 +42,11 @@ public class KeyInput implements KeyListener
                 m.setPressedDown(); 
             }
         }
-            if(k == KeyEvent.VK_ESCAPE)					//Allways activated
+        if(k == KeyEvent.VK_ESCAPE)					//Allways activated
+        {
+            if(c.getModel().getState()==STATE.MENU)		//Quit Application
             {
+
                 if(m.getState()==STATE.MENU)		//Quit Application
                 {
                     System.exit(0);
@@ -56,8 +59,9 @@ public class KeyInput implements KeyListener
                 {
                     m.stateMenu();
                 }
-
             }
+
+        }
     } 
 
     public void keyTyped(KeyEvent e){}

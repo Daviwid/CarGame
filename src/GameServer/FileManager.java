@@ -1,4 +1,4 @@
-package GameServer;
+package GameFiles;
 
 import java.awt.Point;
 import java.io.File;
@@ -8,6 +8,9 @@ import java.util.Scanner;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 
+/**
+ * FileManager provides helpful methods concerning handling the highscore and config files of CarGame. 
+ */
 public class FileManager {
 	
     private int nbHighscores = 10;
@@ -21,9 +24,11 @@ public class FileManager {
 	
 	//HELPER METHODS:
     
-    //SORTS AN INT INTO AN ARRAY OF INTS, IN TERMS OF VALUE
-    // The largest value is discarded at the end
-    // int[] scores should already be sorted from lowest to highest number
+    /**
+     * Sorts player's time into an int array of highscores. The largest value is discarded. 
+     * @param playerScore	Player's time
+     * @param scores		Array of highscore times
+     */
     private void sortHighscores(int playerScore, int[] scores)
     {
     	int oldscore;
@@ -36,7 +41,13 @@ public class FileManager {
         }
     }
     
-    //WRITES SORTED HIGHSCORE TIMES AND BEST DRIVER POSITION + ANGLE STRINGS, INTO TXT DOCUMENT
+    /**
+     * Writes sorted highscore times and car position + angle strings, into highscore document.
+     * @param file						The file you are writing to
+     * @param scores					int[] of highscore times
+     * @param highscorePositionString	String representing the ArrayList<Point> of car positions
+     * @param highscoreAngleString		String representing the ArrayList<Double> of car angles
+     */
     private void writeFinishedStrings(File file, int[] scores, String highscorePositionString, String highscoreAngleString)
     {
     	try{
@@ -55,7 +66,9 @@ public class FileManager {
         }
     }
     
-    //IF NO HIGHSCORE FILE EXISTS, THIS METHOD CREATES ONE AND FILLS IT WITH FACTORY PRESET SCORES
+    /**
+     * Creates a new highscore file and fills it with factory preset scores, if and only if no highscore file exists.
+     */
     private void createNewHighscoreFile()
     {
     	try {
@@ -78,7 +91,9 @@ public class FileManager {
     	}
     }
     
-    //IF NO CONFIG FILE EXISTS, CREATE ONE
+    /**
+     * Creates a new config file and writes a 1 into it, if and only if no config file exists.
+     */
     private void createNewConfigFile()
     {
     	try {
@@ -101,7 +116,9 @@ public class FileManager {
     // PRIVATE METHODS
     //--------------------
     
-    // CREATES NEW CONFIG AND HIGHSCORE FILES IF THEY DO NOT ALREADY EXIST
+    /**
+     * Creates new highscore and config files, if and only if they do not already exist.
+     */
     private void createNewFiles()
     {
     	createNewHighscoreFile();
@@ -110,13 +127,12 @@ public class FileManager {
     
     //--------------------
     // PUBLIC METHODS
-    //--------------------
-    
+    //--------------------    
 
-    // RETURNS A STRING CONTAINING THE CONTENTS OF THE ENTIRE HIGHSCORE-FILE
-    // Ten rows of best times
-    // One row of position x and y-values in  x,y-x,y-x,y-... format
-    // One row of angles in angle-angle-angle-... format
+    /**
+     * Returns a String containing the entire highscore file. 
+     * @return Highscore String with ten lines of best times, two lines of car positions and angles 
+     */
     public String getHighscoreString()
     {
     	String highscoreString = "";
@@ -140,18 +156,21 @@ public class FileManager {
     	return highscoreString;
     }
     
-    // RETURNS A STRING-ARRAY OF HIGHSCORE.TXT WHERE:
-    // Element 0-9 is top 10 times
-    // Element 10 is the position-string
-    // Element 11 is the angle-string
+    /**
+     * Returns a String[] of the Highscore file.
+     * @return Highscore String[], element 0-9 are top 10 times, element 10 and 11 are car positions and angles.
+     */
     public String[] getHighscoreStringArray()
     {
     	String[] splitString = getHighscoreString().split("\n");
     	return splitString;
     }
     
-    // RETURNS HIGHSCORE FOR POSITION int placement AS A STRING
-    // Placement is 1-10
+    /**
+     * Returns the time for the specific highscore specified in the argument.
+     * @param placement		The position in the highscore list
+     * @return Highscore String
+     */
     public String getHighscoreForPosition(int placement)
     {
     	String[] highscoreStringArray = getHighscoreStringArray();
@@ -159,10 +178,13 @@ public class FileManager {
     	return score;
     }
     
-    // CONVERTS FINISHED RACE TIME AND DRIVING PATH TO STRING FORM
-    // One row with time
-    // One row of position x and y-values in  x,y-x,y-x,y-... format
-    // One row of angles in angle-angle-angle-... format
+    /**
+     * Converts finished race time and driving path to String form.
+     * @param time			Player's time
+     * @param positions		List of car positions during the race
+     * @param angles		List of car angles during the race
+     * @return String with one line of time, one line of car positions and one line of angles.
+     */
     public String sendScoreToServer(int time, ArrayList<Point> positions, ArrayList<Double> angles)
     {
         String positionString = "";
@@ -180,14 +202,13 @@ public class FileManager {
         return time + "\n" + positionString + "\n"  + angleString;
     }
     
-    // CONVERTS STRING ARGUMENT INTO TIME AND DRIVER'S PATH,
-    // THEN COMPARES PLAYER TIME TO SERVER'S HIGHSCORE LIST AND UPDATES THE HIGHSCORE LIST ACCORDINGLY
-    // One row with time
-    // One row of position x and y-values in  x,y-x,y-x,y-... format
-    // One row of angles in angle-angle-angle-... format
+    /**
+     * Compares incoming player score with server's highscore list and updates highscore list accordingly.
+     * @param clientScoreString		Player's score in String format
+     */
     public void recieveScoreFromClient(String clientScoreString) {
     	try {
-    		// TEMP VALUES
+    		// Temp values
     		File file = new File(highscoreFile);
             String[] clientScoreArray = clientScoreString.split("\n");
             String[] serverScoreArray = getHighscoreStringArray();
@@ -196,14 +217,14 @@ public class FileManager {
             int playerScore = Integer.parseInt(clientScoreArray[0]);
             int[] scores = new int[nbHighscores];
     		
-            // COLLECT TOP TEN TIMES FROM SERVER HIGHSCORES
+            // Collect top ten times from server highscores
             for(int i = 0; i < nbHighscores; i++)
             {
             	scores[i] = Integer.parseInt(serverScoreArray[i]);
             }
             
-            // IF PLAYER TIME IS NEW BEST TIME, SAVE PLAYER'S DRIVING PATH
-            // ELSE KEEP OLD DRIVING PATH
+            // If player time is new best time, save player's driving path
+            // Else, keep old driving path
             if(playerScore < scores[0])
             {
             	highscorePositionString = clientScoreArray[1];
@@ -213,10 +234,10 @@ public class FileManager {
             	highscoreAngleString = serverScoreArray[nbHighscores + 1];
             }
             
-            // SORT SUBMITTED TIME INTO HIGHSCORE ARRAY
+            // Sort submitted time into highscore array
             sortHighscores(playerScore, scores);
             
-            // UPDATE HIGHSCORE-FILE WITH SORTED TIMES AND BEST DRIVER POSITION + ANGLE STRINGS
+            // Update highscore file with sorted times and best driver position + angle strings
             writeFinishedStrings(file, scores, highscorePositionString, highscoreAngleString);
             
         } catch (Exception e) {
@@ -225,11 +246,10 @@ public class FileManager {
         }
     }
     
-    // CLIENT RECIEVES A STRING FROM SERVER CONTAINING THE SERVER'S HIGHSCORE FILE
-    // USES THIS TO OVERWRITE PLAYER'S HIGHSCORE FILE FOR AN UPDATED VERSION
-    // Ten rows of best times
-    // One row of position x and y-values in  x,y-x,y-x,y-... format
-    // One row of angles in angle-angle-angle-... format
+    /**
+     * Replaces contents of Highscore file with incoming String of new highscores.
+     * @param highscoreString	Server's highscores in String format
+     */
     public void recieveStringFromServer(String highscoreString)
     {
             try{
@@ -242,7 +262,10 @@ public class FileManager {
             }
     }
     
-    // RETURNS BEST DRIVER'S PATH FROM HIGHSCORE FILE AS AN ArrayList<Point>
+    /**
+     * Returns best driver's path from highscore file.
+     * @return ArrayList<Point> of positions during the race.
+     */
     public ArrayList<Point> getHighscorePositionList()
     {
     	String[] highscoreStringArray = getHighscoreStringArray();
@@ -257,7 +280,10 @@ public class FileManager {
     	return posList;
     }
     
-    // RETURNS BEST DRIVER'S ANGLES FROM HIGHSCORE FILE AS AN ArrayList<Double>
+    /**
+     * Returns best driver's angles from highscore file.
+     * @return ArrayList<Double> of angles during the race.
+     */
     public ArrayList<Double> getHighscoreAngleList()
     {
     	String[] highscoreStringArray= getHighscoreStringArray();
@@ -271,7 +297,10 @@ public class FileManager {
     	return list;
     }
     
-    // RETURNS CAR COLOR FROM CONFIG FILE
+    /**
+     * Returns car color from config file.
+     * @return
+     */
     public int configGetCarColor() 
     {
     	int carColor = 0;
@@ -287,7 +316,10 @@ public class FileManager {
     	
     }
     
-    // SAVES CAR COLOR IN CONFIG FILE
+    /**
+     * Saves car color into config file.
+     * @param carColor	An integer of 1, 2 or 3 to represent different colors.
+     */
     public void configSetCarColor(int carColor) 
     {
     	try{
