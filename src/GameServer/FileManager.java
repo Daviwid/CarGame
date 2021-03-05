@@ -8,6 +8,9 @@ import java.util.Scanner;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 
+/**
+ * FileManager provides helpful methods concerning handling the highscore and config files of CarGame. 
+ */
 public class FileManager {
 	
     private int nbHighscores = 10;
