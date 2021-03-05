@@ -9,10 +9,9 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 
-/*
-this class connects to the server with a port and an IP-address
-*/
-
+/**
+ * A class that connects to the server using a port and an IP-address.
+ */
 public class Client {
 
     private static int port = 25565;
