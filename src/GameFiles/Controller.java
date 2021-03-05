@@ -13,6 +13,9 @@ public class Controller extends JFrame implements ActionListener
     private Timer t;
     private GameTimer g;
 
+    /**
+     * 
+     */
     public class GameTimer implements ActionListener{   //inner class only for race timer
         private Timer t;    
 
