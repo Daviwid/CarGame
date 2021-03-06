@@ -6,7 +6,8 @@ import java.awt.image.BufferedImage;
 
 /**
  * getCheckpointspixel handles retrieving the cordinates for all checkpoints and adds them to seperate checkpointlists
- * @version 2.0.3.0
+ * @author Victoria
+ * @version 2.1.3.0
  * @since 2021-03-05
  */
 public class getCheckpointsPixel {
@@ -85,18 +86,35 @@ private ArrayList<Point> checklist4;
         return false;
     }
     /*getters returning arrayList containing point cordinates for all checkpoints*/
+    
+    /**
+     * Method to return the generated list of found matching colors of checkpoint1
+     * @return list of points
+     */
     public ArrayList<Point> getCheckpointList1()
     {
     	return this.checklist1;
     }
+    /**
+     * Method to return the generated list of found matching colors of checkpoint2
+     * @return list of points
+     */
     public ArrayList<Point> getCheckpointList2()
     {
     	return this.checklist2;
     }
+    /**
+     * Method to return the generated list of found matching colors of checkpoint3
+     * @return list of points
+     */
     public ArrayList<Point> getCheckpointList3()
     {
     	return this.checklist3;
     }
+    /**
+     * Method to return the generated list of found matching colors of checkpoint4
+     * @return list of points
+     */
     public ArrayList<Point> getCheckpointList4()
     {
     	return this.checklist4;

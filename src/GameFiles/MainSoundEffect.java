@@ -5,14 +5,19 @@ import java.io.IOException;
 import javax.swing.*;
 
 /**
-* Handles the music in the application.
-* @version 2.1.3.0
-* @since 2021-03-05
-*/
+ * Handles the music in the application.
+ * @author Victoria
+ * @version 2.1.3.0
+ * @since 2021-03-05
+ */
 public class MainSoundEffect {
  
 	private Clip clip;
-		//constructor  
+	
+	/**
+	 * Constructor calling on method openAudio.
+	 * @throws Exception	if file not found
+	 */
 	public MainSoundEffect() throws Exception {
 			openAudio();  
 	}
@@ -45,15 +50,24 @@ public class MainSoundEffect {
 			}
 		});
 	}
-
+	
+	/**
+	 * Closing the audioclip
+	 */
 	public void closeAudio() {  //closes the audio
 		clip.close();
 	}
+	/**
+	 * Starts the audioclip and resets its timelime
+	 */
 	public void startAudio()
 	{
 		clip.setMicrosecondPosition(0);
 		clip.start();
 	}
+	/**
+	 * Stops the audioclip
+	 */
 	public void stopAudio()  //stop the audio
 	{
 		clip.stop();

@@ -5,8 +5,9 @@ import  java.awt.event.*;
 import  javax.swing.*; 
 
 /**
- * Controller class is responsible for handeling the flow of the application and the start up of the game.
+ * Controller class is responsible for handling the flow of the application and the start up of the game.
  * holds information about frame update timer and the size of the application window.
+ * @author Jacob
  * @version 2.1.3.0
  * @since 2021-03-05
  */    

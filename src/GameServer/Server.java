@@ -5,6 +5,9 @@ import java.net.Socket;
 
 /**
  * this class is using a serversocket to start a connection with a client
+ * @author David
+ * @version 2.1.3.0
+ * @since 2021-03-05
  */
 public class Server{
 

@@ -6,7 +6,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 /**
  * Car class is responsible of handling the movement and which visual to be used for the car
- * @version 2.0.3.0
+ * @author Victoria
+ * @version 2.1.3.0
  * @since 2021-03-05
  */
 public class Car {
@@ -195,36 +196,80 @@ public class Car {
 	
 	
 	//getters
+	/**
+	 * Method to get car's x position
+	 * @return integer
+	 */
 	public int getPositionX()
 	{
 		return (int)positionX;
 	}
+	/**
+	 * Method to get car's y position
+	 * @return integer
+	 */
 	public int getPositionY()
 	{
 		return (int)positionY;
 	}
+	/**
+	 * Method to get car's angle
+	 * @return double
+	 */
 	public double getAngle()
 	{
 		return angle;
 	}
+	/**
+	 * Method to get car's color
+	 * @return integer
+	 */
 	public int getColor()
 	{
 		return color;
 	}
+	/**
+	 * Method to get car's height
+	 * @return integer
+	 */
 	public int getHeight(){
 		return this.height;
 	}
+	/**
+	 * Method to get car's width
+	 * @return integer
+	 */
 	public int getWidth()
     {
 		return this.width;
     }
+	/**
+	 * Method to get car's current speed
+	 * @return double
+	 */
 	public double getSpeed()
 	{
 		return this.speed;
 	}
 //getters which return buffered image of the chosen car
+	/**
+	 * Method to get the current carimage in use
+	 * @return BufferedImage
+	 */
 	public BufferedImage getCarIMG() { return this.currentCarIMG; }
+	/**
+	 * Method to get the red carimage
+	 * @return BufferedImage
+	 */
 	public BufferedImage getRedCar() { return this.redCar; }
+	/**
+	 * Method to get the green carimage
+	 * @return BufferedImage
+	 */
 	public BufferedImage getGreenCar() { return this.greenCar; }
+	/**
+	 * Method to get the blue carimage
+	 * @return BufferedImage
+	 */
 	public BufferedImage getBlueCar() { return this.blueCar; }
 }

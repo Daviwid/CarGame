@@ -6,13 +6,19 @@ import java.awt.image.BufferedImage;
 
 /**
  * getPixel is used to search an image file for pixels of a given color to create an Arraylist of collision points of the rim of the track.
+ * @author Victoria
  * @version 2.1.3.0
  * @since 2021-03-05 
  */
 public class getPixel
 {
     private ArrayList<Point> list;
-    
+    /**
+     * Loops through all pixels on image and compares them to the color.
+     * Adds the pixelpoint to the list if color matches
+     * @param bi	
+     * @param color
+     */
     public getPixel(BufferedImage bi,int color)
     {
         list = new ArrayList<Point>();
@@ -34,8 +40,12 @@ public class getPixel
     }
     
     
-    //Comparison method. Compares color c with a.
-    //Returns a boolean if the color c is acceptable.
+    /**
+     * Comparison method. Compares color c with a with tolerance of 50 procent.
+     * @param a			The desired color code
+     * @param c			The pixel color code to be compared with
+     * @return boolean	Returns boolean true if color matches and false if not.
+     **/
     public boolean clr(int a, int c)
     {
         double A = (double)a;
@@ -48,6 +58,10 @@ public class getPixel
         return false;
     }
     
+    /**
+     * Method to return the generated list of found matching colors
+     * @return list of points
+     */
     public ArrayList<Point> getList()
     {
     	return this.list;

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 /**
  * A class that connects to the server using a port and an IP-address.
+ * @author David
  */
 public class Client {
 

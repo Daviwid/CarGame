@@ -11,6 +11,7 @@ import java.util.Iterator;
 import java.util.ArrayList;
 /**The model class is responsible for managing the data of the application, 
  * holds information of user input and flags used in the game.
+ * @author Victoria
  * @version 2.1.3.0
  * @since 2021-03-05 
  * */
@@ -112,7 +113,10 @@ public class Model implements Observable<Model>{
         }
         carList.add(new Car(3, 0, 0, TOPSPEED, height, width));
     }
-    
+    /**
+     * Method to load the Highscore file and save the highscores in a local string array.
+     * Reduces workload compared to loading the file for use every time.
+     */
     public void makeHighscoreList()
     {
     	for(int i=0;i<10;i++)
@@ -120,12 +124,9 @@ public class Model implements Observable<Model>{
     		highscoreList[i] = fileManager.getHighscoreForPosition(i+1);
     	}
     }
-    
-    public String[] getHighscoreList()
-    {
-    	return highscoreList;
-    }
-
+    /**
+     * Method to reset the carFlags when starting a new match.
+     */
     public void resetCarFlags()  //reset all car keys flags
     {
     	pressedUp=false;
@@ -133,52 +134,63 @@ public class Model implements Observable<Model>{
     	pressedLeft=false;
     	pressedRight=false;
     }
-    
+    /**
+     * Method to reset the checkpoints when starting a new match.
+     */
     public void resetCheckBox() {  ///reset checkpoint flags
     	checkpoint1 = false;
     	checkpoint2 = false;
     	checkpoint3 = false;
     	checkpoint4 = false;
     }
+    /**
+     * Creates a new instance of menu and switches to state Menu.
+     * Gets called on once when starting the application.
+     */
     public void menuInit()			//Skapar meny och state = menu
-    {
-    	
+    {	
         menu = new Menu(borderX, borderY);
-        state = STATE.MENU;
+        stateMenu();
     }
-    
+    /**
+     * Method that oversees the update process of the application.
+     * Mostly checks gamerules.
+     */
     public void updateModel()
     {
         if(state==STATE.GAME)	//only checks if you're in Game mode(playing)
         {
-        	
-        checkBorder();
-        if(checkpoint4 && laps==maxlaps) {  //if car drives past checkpoint 4 and has past maxlaps, call on statefinished(changes state to FINISHED)
-            stateFinished();
-            new Client(gameTimer,positionList,angleList);
-        }
-        if(point1==false) {  //for each checkpoint, checks if the car has drove past it
-        checkCheckpoint1Hitboxes();
-        }
-        if(point2==false) {
-        checkCheckpoint2Hitboxes();
-        }
-        if(point3==false) {
-        checkCheckpoint3Hitboxes();
-        }
-        if(point4==false) {
-        checkCheckpoint4Hitboxes();
-        }
-        checkHitboxes();  //checks if the car has collided with track rim
-
-        moveCar();
-        moveAI();
-        savePosition(carList.get(0).getPositionX(), carList.get(0).getPositionY());  //saves the position of current car for AI
-        saveAngle(carList.get(0).getAngle());                                           // same here...
+	        checkBorder();
+	        if(checkpoint4 && laps==maxlaps)	 //if car drives past checkpoint 4 and has past maxlaps, call on statefinished(changes state to FINISHED)
+	        { 
+	            stateFinished();
+	            new Client(gameTimer,positionList,angleList);
+	        }
+	        if(point1==false) {  //for each checkpoint, checks if the car has drove past it
+	        	checkCheckpoint1Hitboxes();
+	        }
+	        if(point2==false) {
+	        	checkCheckpoint2Hitboxes();
+	        }
+	        if(point3==false) {
+	        	checkCheckpoint3Hitboxes();
+	        }
+	        if(point4==false) {
+	        	checkCheckpoint4Hitboxes();
+	        }
+	        checkHitboxes();  //checks if the car has collided with track rim
+	
+	        moveCar();
+	        moveAI();
+	        savePosition(carList.get(0).getPositionX(), carList.get(0).getPositionY());  //saves the position of current car for AI
+	        saveAngle(carList.get(0).getAngle());                                           // same here...
         }
         updateObservers();
     }
-
+    
+    /**
+     * Method that updates the movement of the AI.
+     */
     public void moveAI()
     {
     	if(ai_angle.hasNext())
@@ -189,6 +201,9 @@ public class Model implements Observable<Model>{
     	}
     }
     
+    /**
+     * Method that checks the flags of keyinput to move the playercar.
+     */
     private void moveCar()
     {
         if(pressedUp)
@@ -210,6 +225,9 @@ public class Model implements Observable<Model>{
         carList.get(0).move();
     }
     
+    /**
+     * Method that checks if the player has driven outside the gameborders.
+     */
     public void checkBorder() {  //method checks if the car is outside the screen border, in that case changes the direction of the car for a bounce effect
     	if(carList.get(0).getPositionX() >= borderX || carList.get(0).getPositionX() <= 0 || carList.get(0).getPositionY() >= borderY || carList.get(0).getPositionY() <= 0) { 
     		carList.get(0).turnDirection(); 
@@ -278,8 +296,8 @@ public class Model implements Observable<Model>{
     }
     
     /**
-     * checks if the car has drove past checkpoint n and notifies updateModel through checkpoint variables for each checkpoint 
-     * */
+     * checks if the car has drove past checkpoint 1 and notifies updateModel through checkpoint variables for each checkpoint 
+     **/
     public void checkCheckpoint1Hitboxes() {  
     	
         Iterator<Point> it = currentTrack.getCheckpoints1Hitbox().iterator();
@@ -294,6 +312,9 @@ public class Model implements Observable<Model>{
         	}
         }
     }
+    /**
+     * checks if the car has drove past checkpoint 2 and notifies updateModel through checkpoint variables for each checkpoint 
+     **/
     public void checkCheckpoint2Hitboxes() { 
 
         Iterator<Point> it = currentTrack.getCheckpoints2Hitbox().iterator();
@@ -312,6 +333,9 @@ public class Model implements Observable<Model>{
             }
         }
     }
+    /**
+     * checks if the car has drove past checkpoint 3 and notifies updateModel through checkpoint variables for each checkpoint 
+     **/
     public void checkCheckpoint3Hitboxes() {
 
         Iterator<Point> it = currentTrack.getCheckpoints3Hitbox().iterator();
@@ -330,6 +354,9 @@ public class Model implements Observable<Model>{
         	}
         }
     }
+    /**
+     * checks if the car has drove past checkpoint 4 and notifies updateModel through checkpoint variables for each checkpoint 
+     **/
     public void checkCheckpoint4Hitboxes() {  
         Iterator<Point> it = currentTrack.getCheckpoints4Hitbox().iterator();
 
@@ -345,7 +372,9 @@ public class Model implements Observable<Model>{
         	}
         }
     }
-    
+    /**
+     * Mainmethod of reseting the game. Uses helpermethods to reset flags to create a new race.
+     */
     private void resetGame(){
         resetCheckBox();  //mainly for playagainbutton, reset all flags so the game is resetted for next game
         resetCarFlags();
@@ -356,6 +385,10 @@ public class Model implements Observable<Model>{
         angleList.clear();
     }
     
+    /**
+     * Method that prepare and start a new game/race.
+     * @param t		Specifik Track to play on
+     */
     public void selectMap(Track t)			
     {
         currentTrack = t;
@@ -366,24 +399,35 @@ public class Model implements Observable<Model>{
         currentHighscore = fileManager.getHighscoreForPosition(1);
         carList.get(0).setStartPosition(currentTrack);
         carList.get(0).setStartAngle(currentTrack);
-        state = STATE.GAME;
+        stateGame();
         this.mapSelected=true;
 
     }
-    
+    /**
+     * initiates the maps.
+     */
     public void mapInit()
     {
     	lindholmen = new LindholmenDerby(borderX,borderY);
     }
-
+    /**
+     * Saves the playerposition. Mostly for potential AI.
+     * @param xPosition		current player x position
+     * @param yPosition		current player y position
+     */
     private void savePosition( int xPosition, int yPosition){
         positionList.add(new Point(xPosition, yPosition));
     }
-    
+    /**
+     * Saves the playerangle. Mostly for potential AI.
+     * @param angle		current player angle
+     */
     private void saveAngle(Double angle){
         angleList.add(angle);
     }
-    
+    /**
+     * Debug method to force-save the playerpath as Highscore.
+     */
     public void saveAI()
     {
     	fileManager.recieveStringFromServer(fileManager.sendScoreToServer(1, positionList, angleList));
@@ -393,145 +437,274 @@ public class Model implements Observable<Model>{
     
     
     //getters
+    /**
+     * Method that sends the car list
+     * @return LinkedList
+     */
     public LinkedList<Car> getCarList()
     {
         return carList;
     }
+    /**
+     * Method that sends the chosen track to be played on
+     * @return Track
+     */
     public Track getTrack()
     {
        return currentTrack;
     }
+    /**
+     * Method that sends the highscore
+     * @return String
+     */
     public String getCurrentHighscore()
     {
     	return currentHighscore;
     }
+    /**
+     * Method that sends the Filemanager
+     * @return FileManager
+     */
     public FileManager getFileManager(){
         return fileManager;
     }
+    /**
+     * Method that sends the current state
+     * @return STATE
+     */
     public STATE getState()
     {
         return this.state;
     }
-    public boolean getCarCrash() {
-    	return carCrash;
-    }
-    public boolean getGameFinished() {
+    /**
+     * Method that sends the flag game is finished
+     * @return boolean
+     */
+    public boolean getGameFinished()
+    {
     	return gameFinished;
     }
+    /**
+     * Method that sends the window widthsize
+     * @return integer
+     */
     public int getBorderX()
     {
     	return borderX;
     }
+    /**
+     * Method that sends the window heightsize
+     * @return integer
+     */
     public int getBorderY()
     {
     	return borderY;
     }
+    /**
+     * Method that sends the current build, game version.
+     * @return String
+     */
     public String getBuild()
     {
     	return build;
     }
+    /**
+     * Method that sends the number of cars
+     * @return integer
+     */
     public int getCarnmbr()
     {
     	return carNumber;
     }
+    /**
+     * Method that sends the menu
+     * @return Menu
+     */
     public Menu getMenu()		//Returns Menu,mostly for drawing
     {
         return menu;
     }
+    /**
+     * Method that sends the track lindholmen
+     * @return Track
+     */
     public Track getLindholmen()
     {
     	return lindholmen;
     }
+    /**
+     * Method that sends the laps count
+     * @return integer
+     */
     public int getLaps()
     {
     	return laps;
     }
+    /**
+     * Method that sends the max count for laps
+     * @return integer
+     */
     public int getMaxLaps()
     {
     	return maxlaps;
     }
-    
+    /**
+     * Method that sends the flag if map is selected
+     * @return boolean
+     */
     public boolean getMapSelected()
     {
     	return mapSelected;
     }
+    /**
+     * Method that sends the game timer
+     * @return int
+     */
     public int getGameTimer(){
         return gameTimer;
     }
+    /**
+     * Method that sends the highscore string array
+     * @return String[]
+     */
+    public String[] getHighscoreList()
+    {
+    	return highscoreList;
+    }
+    
     //setters
+    /**
+     * Flag keyinput pressed up
+     */
     public void setPressedUp()
     {
         pressedUp = true;
     }
+    /**
+     * Flag keyinput pressed down
+     */
     public void setPressedDown()
     {
         pressedDown = true;
     }
+    /**
+     * Flag keyinput pressed right
+     */
     public void setPressedRight()
     {
         pressedRight = true;
     }
+    /**
+     * Flag keyinput pressed left
+     */
     public void setPressedLeft()
     {
         pressedLeft = true;
     }
+    /**
+     * Flag keyinput released up
+     */
     public void setReleasedUp()
     {
         pressedUp = false;
     }
+    /**
+     * Flag keyinput released down
+     */
     public void setReleasedDown()
     {
         pressedDown = false;
     }
+    /**
+     * Flag keyinput released right
+     */
     public void setReleasedRight()
     {
         pressedRight = false;
     }
+    /**
+     * Flag keyinput released left
+     */
     public void setReleasedLeft()
     {
         pressedLeft = false;
     }
+    /**
+     * Sets the window width
+     * @param x
+     */
     public void setBorderX(int x) {
         borderX = x;
     }
+    /**
+     * Sets the window height
+     * @param y
+     */
     public void setBorderY(int y) { 
         borderY = y;
     }
+    /**
+     * Changes the carcolor and stores it in config file. 
+     * @param c
+     */
     public void setCarColor(int c)
     {
     	fileManager.configSetCarColor(c);
     	carColor=c;
-    	carList.clear();
     }
+    /**
+     * Set state to game
+     */
     public void stateGame()
     {
             state=STATE.GAME;
     }
+    /**
+     * Set state to menu
+     */
     public void stateMenu()
     {
             state=STATE.MENU;
-    }  
+    }
+    /**
+     * Set state to map selection
+     */
     public void stateMap()
     {
     		state=STATE.MAP_SELECTION;
     }
+    /**
+     * Set state to car config
+     */
     public void stateConfig()
     {
             state=STATE.CARCONFIG;
             
     }
+    /**
+     * Set state to highscore and reload the highscore list
+     */
     public void stateHighscore()
     {
     		makeHighscoreList();
             state=STATE.HIGHSCORE;
     }
+    /**
+     * Set state to game finished
+     */
     public void stateFinished()
     {
             state=STATE.GAMEFINISHED;
     }
+    /**
+     * Resets the game timer
+     */
     public void resetGameTimer(){
         gameTimer = 0;
     }
+    /**
+     * Increments the game timer
+     */
     public void setGameTimer()
     {
         gameTimer++;
@@ -546,7 +719,9 @@ public class Model implements Observable<Model>{
     public void removeObserver(Observer<Model> o){
         this.observers.remove(o);
     }
-    
+    /**
+     * Updates the observers.
+     */
     public void updateObservers(){
         for(Observer<Model> o : this.observers) {
             o.update(this);

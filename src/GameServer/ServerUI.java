@@ -9,16 +9,18 @@ import java.net.ServerSocket;
 
 /**
  * ServerUI manages the visual UI and starts an instance of the server class with the port that the client will connect to
+ * @author David
+ * @version 2.1.3.0
+ * @since 2021-03-05
  */
-
 public class ServerUI extends JFrame implements ActionListener {
     
-    private ServerSocket serverSocket;
-    private static int port = 25565;
-    private Server server;
-    private UIThread uiThread;
-    private JPanel serverWindow;
-    private JButton[] buttons  = new JButton[1];
+    private ServerSocket serverSocket;					//
+    private static int port = 25565;					//portforwarded to 25565
+    private Server server;								//
+    private UIThread uiThread;							//	
+    private JPanel serverWindow;						//Panel for button
+    private JButton[] buttons  = new JButton[1];		//Button to close socket
 
     /**
      * Starts the server socket and passes it into server.java

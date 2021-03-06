@@ -4,6 +4,7 @@ import  java.awt.event.*;
 
 /**
  * The MouseInput class handels all mouse inputs from a user when they interact with the application.
+ * @author Jacob
  * @version 2.1.3.0
  * @since 2021-03-05
  */
@@ -11,9 +12,9 @@ public class MouseInput implements MouseListener{
     private Model m;
 
     /**
-     * Needs an Model-instans to be able to get the menu-class information aswell as Model acts like a holder for diffrent button information.
-     * Model is also used to see what state the game is in which detarmain how this MouseListener reacts to input.
-     * @param m Model.instans to be able to manipulate flags.
+     * Needs a Model-instance to be able to get the menu-class information aswell as Model acts like a holder for diffrent button information.
+     * Model is also used to see what state the game is in which determine how this MouseListener reacts to input.
+     * @param m Model.instance to be able to manipulate flags.
      */
     public MouseInput(Model m)
     {

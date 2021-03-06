@@ -10,6 +10,9 @@ import java.io.FileWriter;
 
 /**
  * FileManager provides helpful methods concerning handling the highscore and config files of CarGame. 
+ * @author Erik
+ * @version 2.1.3.0
+ * @since 2021-03-05
  */
 public class FileManager {
 	
@@ -264,7 +267,7 @@ public class FileManager {
     
     /**
      * Returns best driver's path from highscore file.
-     * return ArrayList of positions during the race.
+     * @return ArrayList of positions during the race.
      */
     public ArrayList<Point> getHighscorePositionList()
     {
@@ -282,7 +285,7 @@ public class FileManager {
     
     /**
      * Returns best driver's angles from highscore file.
-     * return ArrayList of angles during the race.
+     * @return ArrayList of angles during the race.
      */
     public ArrayList<Double> getHighscoreAngleList()
     {
@@ -299,7 +302,7 @@ public class FileManager {
     
     /**
      * Returns car color from config file.
-     * 
+     * @return integer
      */
     public int configGetCarColor() 
     {

@@ -2,6 +2,7 @@ package GameFiles;
 
 /**
  * Subclass of Track. Holds information for a specifik track.
+ * @author Kevin
  * @version 2.1.3.0
  * @since 2021-03-05
  *
@@ -26,8 +27,8 @@ public class LindholmenDerby extends Track {
 	 * Sets the colorvalues that will be used to analyse the images.
 	 * Then sends the local variables to the methods inherited from Track that initiates the map rims, checkpoints etc.
 	 * 
-	 * @param x
-	 * @param y
+	 * @param x		width of the gamewindow
+	 * @param y		height of the gamewindow
 	 */
 	public LindholmenDerby(int x, int y)
 	{

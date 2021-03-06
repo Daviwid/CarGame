@@ -9,7 +9,9 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 /**
  * Oversees the components of the menu UI that is going to be drawn.
- * 
+ * @author Kevin
+ * @version 2.1.3.0
+ * @since 2021-03-05 
  */
 public class Menu
 {
@@ -58,14 +60,27 @@ public class Menu
     }
     
     //getters
+    
+    /**
+     * Method sends the image of red car
+     * @return BufferedImage
+     */
 	public BufferedImage getRedCar()
     {
     	return redCar;
     }
+    /**
+     * Method sends the image of green car
+     * @return BufferedImage
+     */
     public BufferedImage getGreenCar()
     {
     	return greenCar;
     }
+    /**
+     * Method sends the image of blue car
+     * @return BufferedImage
+     */
     public BufferedImage getBlueCar()
     {
     	return blueCar;
@@ -88,69 +103,135 @@ public class Menu
 		outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
 		return outputImage;
     }
+    /**
+     * Method sends the rectangle of highscore button
+     * @return rectangle
+     */
     public Rectangle getHighscoreBtn() {
     	return highscoreStringBtn;
     }
+    /**
+     * Method sends the rectangle of play again button
+     * @return rectangle
+     */
     public Rectangle getPlayAgainBtn() {
     	return playBtn;
     }
+    /**
+     * Method sends the rectangle of end game button
+     * @return rectangle
+     */
     public Rectangle getEndGameBtn() {
     	return quitBtn;
     }
+    /**
+     * Method sends the rectangle of play button
+     * @return rectangle
+     */
     public Rectangle getPlayBtn()
     {
         return playBtn;
     }
+    /**
+     * Method sends the rectangle of config button
+     * @return rectangle
+     */
     public Rectangle getConfigBtn()
     {
         return configBtn;
     }
+    /**
+     * Method sends the rectangle of map button
+     * @return rectangle
+     */
     public Rectangle getMapBtn()
     {
     	return mapBtn;
     }
+    /**
+     * Method sends the rectangle of quit button
+     * @return rectangle
+     */
     public Rectangle getQuitBtn()
     {
         return quitBtn;
     }
-
+    /**
+     * Method sends the rectangle of return button
+     * @return rectangle
+     */
     public Rectangle getReturnBtn()
     {
         return returnBtn;
     }
+    /**
+     * Method sends the rectangle of config return button
+     * @return rectangle
+     */
     public Rectangle getConfigReturnBtn()
     {
         return configReturnBtn;
     }
+    /**
+     * Method sends the rectangle of red car button
+     * @return rectangle
+     */
     public Rectangle getredCarBtn()
     {
         return redCarBtn;
     }
+    /**
+     * Method sends the rectangle of blue car button
+     * @return rectangle
+     */
     public Rectangle getblueCarBtn()
     {
         return blueCarBtn;
     }
+    /**
+     * Method sends the rectangle of green car button
+     * @return rectangle
+     */
     public Rectangle getgreenCarBtn()
     {
         return greenCarBtn;
     }
-
+    /**
+     * Method sends the gif of menu
+     * @return ImageIcon
+     */
     public ImageIcon getImg()
     {
     	return img;
     }
+    /**
+     * Method sends the gif of finished game menu
+     * @return ImageIcon
+     */
     public ImageIcon getFinishedImg()
     {
     	return finishedimg;
     }
+    /**
+     * Method sends the color of all button
+     * @return Color
+     */
     public Color getBtnClr()
     {
     	return btnclr;
     }
+    /**
+     * Method sends the color of the outline on all button
+     * @return Color
+     */
     public Color getBtnOutClr()
     {
     	return btnoutclr;
     }
+    /**
+     * Method sends the color of the title
+     * @return Color
+     */
     public Color getTitleClr()
     {
     	return titleclr;

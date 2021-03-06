@@ -4,6 +4,7 @@ import  java.awt.event.*;
 
 /**
  * The KeyInput class handles all key inputs from a user when they interact with the application.
+ * @author Jacob
  * @version 2.1.3.0
  * @since 2021-03-05
  */
@@ -12,8 +13,8 @@ public class KeyInput implements KeyListener
     private Model m;
 
     /**
-     * Needs an Model-instans to be able to manipulate diffrent flags for keyinput.
-     * @param m Model.instans to be able to manipulate flags.
+     * Needs a Model-instance to be able to manipulate diffrent flags for keyinput.
+     * @param m Model.instance to be able to manipulate flags.
      */
     public KeyInput(Model m)
     {
@@ -23,7 +24,7 @@ public class KeyInput implements KeyListener
     /**
      * Reacts to non-numpad arrows (up,down,right and left) and escape key.
      * arrows is used to controll the Car in game while escape can be used to return to menu or in some situations colse the application.
-     * all manipulation works by setting diffrent flags in an Model-instans, this allows holding multiple keys at the same time.
+     * all manipulation works by setting diffrent flags in an Model-instance, this allows holding multiple keys at the same time.
      */
     public void keyPressed(KeyEvent e)
     {   

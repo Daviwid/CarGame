@@ -11,6 +11,9 @@ import java.net.Socket;
 /**
  * The thread that client comminucation is done on. 
  * The thread gets a connection with a client and does all the handeling
+ * @author David
+ * @version 2.1.3.0
+ * @since 2021-03-05
  */
 
 public class ServerWorker extends Thread{
