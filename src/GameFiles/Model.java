@@ -350,6 +350,10 @@ public class Model implements Observable<Model>{
         resetCheckBox();  //mainly for playagainbutton, reset all flags so the game is resetted for next game
         resetCarFlags();
         resetGameTimer();
+        laps=0;
+        carList.clear();
+        positionList.clear();
+        angleList.clear();
     }
     
     public void selectMap(Track t)			
@@ -357,15 +361,14 @@ public class Model implements Observable<Model>{
         currentTrack = t;
         aip = fileManager.getHighscorePositionList();
         aia = fileManager.getHighscoreAngleList();
-        carList.clear();
-        laps=0;
+        resetGame();
         carsInit(carNumber);
         currentHighscore = fileManager.getHighscoreForPosition(1);
         carList.get(0).setStartPosition(currentTrack);
         carList.get(0).setStartAngle(currentTrack);
         state = STATE.GAME;
         this.mapSelected=true;
-        resetGame();
+
     }
     
     public void mapInit()
