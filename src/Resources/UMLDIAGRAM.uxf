@@ -1,0 +1,318 @@
+<diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>1450</x><y>220</y><w>150</w><h>90</h></coordinates><panel_attributes>&lt;&lt;Java Class&gt;&gt;
+Main
+GameFiles
+--
+
+Main(String args[]):void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>720</x><y>270</y><w>220</w><h>120</h></coordinates><panel_attributes>&lt;&lt;Java Class&gt;&gt;
+KeyInput
+GameFiles
+--
+KeyInput(Model)
+keyPressed(KeyEvent):void
+keyTyped(KeyEvent):void
+keyReleased(KeyEvent):void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>440</x><y>270</y><w>250</w><h>120</h></coordinates><panel_attributes>&lt;&lt;Java Class&gt;&gt;
+MouseInput
+GameFiles
+--
+MouseInput(Model)
+
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1090</x><y>220</y><w>220</w><h>290</h></coordinates><panel_attributes>&lt;&lt;Java Class&gt;&gt;
+Controller
+GameFiles
+{innerclass
+
+{innerclass
+GameTimer
+--
+t: Timer
+GameTimer()
+actionPreformed(ActionEvent):void
+
+innerclass}
+--
+screenSize: Dimension
+t: Timer
+--
+Contrller()
+startApp():void
+actionPreformed(ActionEvent):void
+setScreenY():void
+setScreenX():void
+
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>750</x><y>90</y><w>170</w><h>100</h></coordinates><panel_attributes>&lt;&lt;Java InterFace&gt;&gt;
+KeyListener
+--
+keyPressed(KeyEvent):void
+keyTyped(KeyEvent):void
+keyReleased(KeyEvent):void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>470</x><y>60</y><w>200</w><h>130</h></coordinates><panel_attributes>&lt;&lt;Java InterFace&gt;&gt;
+MouseListener
+--
+mouseClicked(MouseEvent):void
+mousePressed(MouseEvent):void
+mouseEntered(MouseEvent):void
+mouseExited(MouseEvent):void
+mouseReleased(MouseEvent):void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>557</x><y>180</y><w>30</w><h>110</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;10;90</additional_attributes></element><element><id>Relation</id><coordinates><x>817</x><y>180</y><w>30</w><h>110</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;10;90</additional_attributes></element><element><id>Relation</id><coordinates><x>1297</x><y>220</y><w>170</w><h>40</h></coordinates><panel_attributes>lt=&lt;.
+&lt;&lt;create&gt;&gt;</panel_attributes><additional_attributes>10;20;150;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1457</x><y>680</y><w>260</w><h>770</h></coordinates><panel_attributes>&lt;&lt;Java Class&gt;&gt;
+Model
+GameFiles
+--
+carList: LinkedList&lt;Car&gt;
+BorderX,Y: int
+mapSelected: boolean
+pressedUp: boolean
+pressedDown: boolean
+pressedRight: boolean
+pressedLeft: boolean
+checkpointx, y: int
+checkpoint1,2,3,4: boolean
+TOPSPEED: int
+height: int
+width: int
+laps: int
+maxlaps: int
+carNumber: int
+currentTrack: Track
+lindholmen: Track
+currentHighscore: String
+gameTimer: int
+menu: Menu
+state: STATE
+carColor: int
+build: string
+highscoreList: String[]
+positionList, aip: ArrayList&lt;point&gt;
+angleList, aia: ArrayList&lt;Double&gt;
+ai_point: Iterator&lt;Point&gt;
+ai_angle: Iterator&lt;Double&gt;
+observers: Collection&lt;Observer&lt;Model&gt;&gt;
+--
+Model()
+carsInit(int):void
+makeHighscoreList():void
+resetCarFlags():void
+resetCheckbox():void
+menuInit()
+updateModel():void
+moveAI():void
+MoveCar():void
+checkBorder():void
+overlapsWith(double, double):boolean
+checkHitboxes():void
+checkCheckpoint(int): void
+resetGame():void
+selectMap(Track):void
+mapInit()void
+saveAI()
+Getters and Setter exist for neceserry varibles
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2090</x><y>480</y><w>260</w><h>170</h></coordinates><panel_attributes>&lt;&lt;Java Enumeration&gt;&gt;
+STATE
+GameFiles
+--
+MENU: STATE
+GAME: STATE
+CARCONFIG: STATE
+MAP_SELECTION: STATE
+HIGHSCORE: STATE
+GAMEFINISHED: STATE
+--
+STATE()</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>530</x><y>380</y><w>1580</w><h>250</h></coordinates><panel_attributes>lt=&lt;.
+&lt;&lt;use&gt;&gt;</panel_attributes><additional_attributes>1560;230;10;230;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>570</x><y>220</y><w>540</w><h>70</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>520;10;10;10;10;50</additional_attributes></element><element><id>Relation</id><coordinates><x>840</x><y>240</y><w>270</w><h>50</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>250;10;10;10;10;30</additional_attributes></element><element><id>Relation</id><coordinates><x>1301</x><y>450</y><w>320</w><h>250</h></coordinates><panel_attributes>lt=&lt;-
+m1=-m </panel_attributes><additional_attributes>280;230;280;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>821</x><y>380</y><w>660</w><h>340</h></coordinates><panel_attributes>lt=&lt;-
+m1=-m </panel_attributes><additional_attributes>640;310;10;310;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>561</x><y>380</y><w>920</w><h>360</h></coordinates><panel_attributes>lt=&lt;-
+m1=-m </panel_attributes><additional_attributes>900;330;10;330;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>2651</x><y>690</y><w>290</w><h>260</h></coordinates><panel_attributes>&lt;&lt;Java Class&gt;&gt;
+View
+GameFiles
+--
+--
+View(model)
+paintComponent(Graphics): void
+drawConfig(Menu,Graphics2D,int,int): void
+drawMapSelect(Menu,Graphics2D,int,int,Track): void
+drawGame(Graphics2D,Bufferdimage): void
+drawMenuText(Graphics2D,Menu,int,int): void
+drawMenu(Graphics2D,Menu,int,int): void
+drawHighscore(Menu, Graphics2D,int,int,String[]): void
+drawCheckpoints(Graphics2D,Bufferdimage): void
+drawFinished(Graphics2D,Menu,int,int): void
+drawCar(Graphics2D, Car): void
+formatScoreString(String): String
+drawTime(Graphics2D): void
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2181</x><y>220</y><w>100</w><h>130</h></coordinates><panel_attributes>&lt;&lt;Java Interface&gt;&gt;
+Observer&lt;T&gt;
+GameFiles
+--
+--
+update(T): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1681</x><y>220</y><w>210</w><h>130</h></coordinates><panel_attributes>&lt;&lt;Java Interface&gt;&gt;
+Observeble&lt;T&gt;
+GameFiles
+--
+--
+addObserver(Observer&lt;T&gt;): void
+removeObserver(Observer&lt;T&gt;): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2090</x><y>1080</y><w>260</w><h>410</h></coordinates><panel_attributes>&lt;&lt;Java Class&gt;&gt;
+Car
+Gamefiles
+--
+positionX, Y: double
+speed: double
+angle: double
+color: int
+xOffset: int
+yOffset: int
+topspeed: double
+height: int
+width: int
+currentCarIMG: BufferdImage
+redCar: BufferdImage
+blueCar: BufferdImage
+greenCar: BufferdImage
+aiCar: BufferdImage
+--
+Car(int, int, int, int, int, int)
+move(): void
+accelerate(): void
+decelerate(): void
+turnDirection(): void
+collisionSpeed(): void
+turnRight(): void
+turnLeft(): void
+Getters and Setter exist for neceserry varibles</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2090</x><y>680</y><w>260</w><h>380</h></coordinates><panel_attributes>&lt;&lt;Java Class&gt;&gt;
+Menu
+GameFiles
+--
+playBtn: Rectanlge
+quitBtn: Rectanlge
+configBtn: Rectanlge
+redCarBtn: Rectanlge
+blueCarBtn: Rectanlge
+greenCarBtn: Rectanlge
+returnBtn: Rectanlge
+mapBtn: Rectanlge
+ConfigReturnBtn: Rectanlge
+highscoreStringBtn: Rectanlge
+img: ImageIcon
+redCar: BufferdImage
+greenCar: BufferdImage
+blueCar: BufferdImage
+btnclr: Color
+btnoutclr: Color
+titleclr: Color
+--
+Menu(int,int)
+resize(BufferdImage, int, int): BufferdImage
+getFinishedImg(): ImageIcon
+there is getters for all instans varibles
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>600</x><y>970</y><w>400</w><h>150</h></coordinates><panel_attributes>&lt;&lt;java Class&gt;&gt;
+Client
+Gamefiles
+--
+port: int
+ip: String
+--
+Client(int, ArrayList&lt;Point&gt;, ArrayList&lt;Double&gt;, String)
+getHighscores(BufferdReader): void
+sendScore(OutputStream, int, ArrayList&lt;Point&gt;, ArrayList&lt;Double&gt;): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>600</x><y>1200</y><w>400</w><h>470</h></coordinates><panel_attributes>&lt;&lt;java Class&gt;&gt;
+FileManager
+GameFiles
+--
+nbHighscores: int
+factoryPresetScores: int[]
+highscoreFile: String
+configFile:string
+--
+FileManager()
+sortHighscores(int, int[]): void
+writeFinishedStrings(File, int[], String, String): void
+createNewHighscoreFile(): void
+createNewConfigFile(): void
+createNewIPFile(): void
+createNewFiles(): void
+getHighscoreString(): String
+getHighscoreStringArray(): String[]
+getHighscoreForPosition(int): String
+sendScoreToServer(int, ArrayList&lt;Point&gt;, ArrayList&lt;Double&gt;): String
+recieveScoreFromClient(String): void
+recieveStringFromServer(String): void
+getHighscorePositionList(): ArrayList&lt;Point&gt;
+getHighscoreAngleList(): ArrayList&lt;Double&gt;
+configGetCarColor(): int
+configSetCarColor(int): void
+getIP(): String</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1170</x><y>1300</y><w>170</w><h>150</h></coordinates><panel_attributes>&lt;&lt;Java Class&gt;&gt;
+MainSoundEffect
+GameFiles
+--
+clip: Clip
+--
+mainSoundEffect()
+openAudio(): void
+closeAudio(): void
+startAudio(): void
+stopAudio(): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2490</x><y>1680</y><w>170</w><h>180</h></coordinates><panel_attributes>&lt;&lt;java Class&gt;&gt;
+LindholmenDerby
+GameFiles
+--
+mapHitbox: String
+map: String
+checkpointmap String
+color: int
+checkpointcolor1,2,3,4: int
+angle: double
+--
+LindholmenDerby(int, int)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1648</x><y>1690</y><w>160</w><h>130</h></coordinates><panel_attributes>&lt;&lt;Java Class&gt;&gt;
+getPixel
+GameFiles
+--
+list: ArrayList&lt;Point&gt;
+--
+getPixel(BufferdImage, int)
+clr(int, int): boolean
+getList(): ArrayList&lt;Point&gt;</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2090</x><y>1610</y><w>270</w><h>390</h></coordinates><panel_attributes>&lt;&lt;Java Class&gt;&gt;
+Track
+Gamefiles
+--
+startPositionX, Y: int
+startAngle: double
+bi: BufferdImage
+bi2: BufferdImage
+checkbi: BufferdImage
+tmp: BufferdImage
+icon: BufferdImage
+list: ArrayList&lt;Point&gt;
+checkpointlist1,2,3,4: ArrayList&lt;Point&gt;
+firstX, Y: int
+lastX, Y: int
+--
+Track()
+createStartPositions(): void
+setMap(String,String, String, int, int): void
+setHitbox(int): void
+setStartAngle(double): void
+setCheckpointHitbox(int, int, int, int): void
+scaleIMG(BufferedImage, int, int): BufferedImage
+Getters and Setters exist for varibles</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1570</x><y>1840</y><w>310</w><h>130</h></coordinates><panel_attributes>&lt;&lt;Java Class&gt;&gt;
+getCheckpointsPixel
+GameFiles
+--
+checklist1,2,3,4: ArrayList&lt;Point&gt;
+--
+GetCheckpointsPixel(BufferedImage, int, int, int, int, int)
+clr(int, int, int): boolean
+getCheckpointList1,2,3,4(): ArrayList&lt;Point&gt;</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1800</x><y>1740</y><w>310</w><h>40</h></coordinates><panel_attributes>lt=&lt;-
+m1=-pixels</panel_attributes><additional_attributes>10;10;290;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1870</x><y>1890</y><w>240</w><h>40</h></coordinates><panel_attributes>lt=&lt;-
+m1=-cpixels</panel_attributes><additional_attributes>10;10;220;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1670</x><y>1440</y><w>910</w><h>260</h></coordinates><panel_attributes>lt=&lt;.</panel_attributes><additional_attributes>890;240;890;120;10;120;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>2350</x><y>1730</y><w>160</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;140;10</additional_attributes></element><element><id>Relation</id><coordinates><x>790</x><y>380</y><w>1320</w><h>220</h></coordinates><panel_attributes>lt=&lt;.
+&lt;&lt;use&gt;&gt;</panel_attributes><additional_attributes>1300;200;10;200;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>2267</x><y>300</y><w>550</w><h>410</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;530;10;530;390</additional_attributes></element><element><id>Relation</id><coordinates><x>1880</x><y>290</y><w>320</w><h>40</h></coordinates><panel_attributes>lt=&lt;.
+-observers</panel_attributes><additional_attributes>10;20;300;20</additional_attributes></element><element><id>Relation</id><coordinates><x>1330</x><y>1370</y><w>150</w><h>40</h></coordinates><panel_attributes>lt=&lt;-
+m1=-mainSound</panel_attributes><additional_attributes>10;10;130;10</additional_attributes></element><element><id>Relation</id><coordinates><x>992</x><y>1000</y><w>480</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;460;10</additional_attributes></element><element><id>Relation</id><coordinates><x>792</x><y>1104</y><w>30</w><h>120</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;100;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>992</x><y>1224</y><w>490</w><h>40</h></coordinates><panel_attributes>lt=&lt;-
+m1=-fileManeger</panel_attributes><additional_attributes>10;10;470;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1625</x><y>1438</y><w>490</w><h>220</h></coordinates><panel_attributes>lt=&lt;-
+m1=-currentTrack</panel_attributes><additional_attributes>470;190;10;190;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1605</x><y>1438</y><w>510</w><h>240</h></coordinates><panel_attributes>lt=&lt;-
+m1=-lindholmen</panel_attributes><additional_attributes>490;210;10;210;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>2170</x><y>1480</y><w>30</w><h>150</h></coordinates><panel_attributes>lt=&lt;.</panel_attributes><additional_attributes>10;130;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1705</x><y>1238</y><w>410</w><h>40</h></coordinates><panel_attributes>lt=&lt;-
+m1=-carList</panel_attributes><additional_attributes>10;10;390;10</additional_attributes></element><element><id>Relation</id><coordinates><x>2298</x><y>928</y><w>380</w><h>700</h></coordinates><panel_attributes>lt=&lt;.
+&lt;&lt;use&gt;&gt;</panel_attributes><additional_attributes>10;680;10;620;360;620;360;10</additional_attributes></element><element><id>Relation</id><coordinates><x>2338</x><y>918</y><w>330</w><h>260</h></coordinates><panel_attributes>lt=&lt;-
+m1=-carList</panel_attributes><additional_attributes>10;230;250;230;250;10;310;10</additional_attributes></element><element><id>Relation</id><coordinates><x>2340</x><y>570</y><w>330</w><h>160</h></coordinates><panel_attributes>lt=&lt;.
+&lt;&lt;use&gt;&gt;
+</panel_attributes><additional_attributes>10;10;230;10;230;140;310;140</additional_attributes></element><element><id>Relation</id><coordinates><x>1298</x><y>410</y><w>1480</w><h>300</h></coordinates><panel_attributes>lt=&lt;-
+m1=-v </panel_attributes><additional_attributes>1450;280;1450;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1670</x><y>340</y><w>130</w><h>360</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>110;10;110;130;10;130;10;340</additional_attributes></element><element><id>Relation</id><coordinates><x>1638</x><y>438</y><w>1090</w><h>270</h></coordinates><panel_attributes>lt=&lt;-
+m1=-m </panel_attributes><additional_attributes>10;240;10;10;1070;10;1070;250</additional_attributes></element><element><id>Relation</id><coordinates><x>2340</x><y>810</y><w>330</w><h>30</h></coordinates><panel_attributes>lt=&lt;.</panel_attributes><additional_attributes>10;10;310;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1708</x><y>538</y><w>400</w><h>300</h></coordinates><panel_attributes>lt=&lt;-
+m1=-state</panel_attributes><additional_attributes>380;10;70;10;70;280;10;280</additional_attributes></element><element><id>Relation</id><coordinates><x>1290</x><y>340</y><w>280</w><h>360</h></coordinates><panel_attributes>lt=&lt;.</panel_attributes><additional_attributes>260;340;260;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1705</x><y>870</y><w>410</w><h>40</h></coordinates><panel_attributes>lt=&lt;-
+m1=-menu</panel_attributes><additional_attributes>390;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>490</x><y>380</y><w>1620</w><h>330</h></coordinates><panel_attributes>lt=&lt;.</panel_attributes><additional_attributes>1600;310;1550;310;1550;250;10;250;10;10</additional_attributes></element></diagram>
